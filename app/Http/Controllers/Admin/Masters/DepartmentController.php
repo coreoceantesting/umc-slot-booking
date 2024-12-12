@@ -3,29 +3,22 @@
 namespace App\Http\Controllers\Admin\Masters;
 
 use App\Http\Controllers\Admin\Controller;
-use App\Http\Requests\Admin\Masters\StoreWardRequest;
-use App\Http\Requests\Admin\Masters\UpdateWardRequest;
-use App\Models\Ward;
+use App\Http\Requests\Admin\Masters\StoreDepartmentRequest;
+use App\Http\Requests\Admin\Masters\UpdateDepartmentRequest;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-
-class WardController extends Controller
+class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $wards = Ward::latest()->get();
+        $departments = Department::latest()->get();
 
-        return view('admin.masters.wards')->with(['wards'=> $wards]);
+        return view('admin.masters.department')->with(['departments'=> $departments]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
@@ -34,20 +27,20 @@ class WardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreWardRequest $request)
+    public function store(StoreDepartmentRequest $request)
     {
         try
         {
             DB::beginTransaction();
             $input = $request->validated();
-            Ward::create( Arr::only( $input, Ward::getFillables() ) );
+            Department::create($input);
             DB::commit();
 
-            return response()->json(['success'=> 'Ward created successfully!']);
+            return response()->json(['success'=> 'Department created successfully!']);
         }
         catch(\Exception $e)
         {
-            return $this->respondWithAjax($e, 'creating', 'Ward');
+            return $this->respondWithAjax($e, 'creating', 'Department');
         }
     }
 
@@ -62,13 +55,13 @@ class WardController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ward $ward)
+    public function edit(Department $department)
     {
-        if ($ward)
+        if ($department)
         {
             $response = [
                 'result' => 1,
-                'ward' => $ward,
+                'department' => $department,
             ];
         }
         else
@@ -81,39 +74,39 @@ class WardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateWardRequest $request, Ward $ward)
+    public function update(UpdateDepartmentRequest $request, Department $department)
     {
         try
         {
             DB::beginTransaction();
             $input = $request->validated();
-            $ward->update( Arr::only( $input, Ward::getFillables() ) );
+            $department->update($input);
             DB::commit();
 
-            return response()->json(['success'=> 'Ward updated successfully!']);
+            return response()->json(['success'=> 'Department updated successfully!']);
         }
         catch(\Exception $e)
         {
-            return $this->respondWithAjax($e, 'updating', 'Ward');
+            return $this->respondWithAjax($e, 'updating', 'Department');
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ward $ward)
+    public function destroy(Department $department)
     {
         try
         {
             DB::beginTransaction();
-            $ward->delete();
+            $department->delete();
             DB::commit();
 
-            return response()->json(['success'=> 'Ward deleted successfully!']);
+            return response()->json(['success'=> 'Department deleted successfully!']);
         }
         catch(\Exception $e)
         {
-            return $this->respondWithAjax($e, 'deleting', 'Ward');
+            return $this->respondWithAjax($e, 'deleting', 'Department');
         }
     }
 }

@@ -46,6 +46,11 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
 
     // Masters
     Route::resource('wards', App\Http\Controllers\Admin\Masters\WardController::class);
+    Route::resource('propertytype', App\Http\Controllers\Admin\Masters\PropertyTypeController::class);
+    Route::resource('property', App\Http\Controllers\Admin\Masters\PropertyController::class);
+    Route::resource('department', App\Http\Controllers\Admin\Masters\DepartmentController::class);
+    Route::resource('slot', App\Http\Controllers\Admin\Masters\SlotController::class);
+    Route::resource('propertydetails',App\Http\Controllers\Admin\Masters\PropertyDetailsController::class);
 
 
 

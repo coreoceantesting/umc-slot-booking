@@ -1,6 +1,6 @@
 <x-admin.layout>
-    <x-slot name="title">Wards</x-slot>
-    <x-slot name="heading">Wards</x-slot>
+    <x-slot name="title">Slots</x-slot>
+    <x-slot name="heading">Slots</x-slot>
     {{-- <x-slot name="subheading">Test</x-slot> --}}
 
 
@@ -12,19 +12,24 @@
                         @csrf
 
                         <div class="card-header">
-                            <h4 class="card-title">Add Ward</h4>
+                            <h4 class="card-title">Add Slots</h4>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="name">Ward Name <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="name" name="name" type="text" pattern="[A-Za-z\s]+" placeholder="Enter Ward Name">
+                                    <label class="col-form-label" for="name">Slots Name <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="name" name="name" type="text" pattern="[A-Za-z\s]+" placeholder="Enter Slot Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="initial" name="initial" pattern="[A-Za-z]+" type="text" placeholder="Enter Ward Initial">
+                                    <input class="form-control" id="initial" name="initial" type="text" pattern="[A-Za-z]+" placeholder="Enter Slot Initial">
                                     <span class="text-danger is-invalid initial_err"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="hours">Hours <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="hours" name="hours" type="number" placeholder="Enter hours ">
+                                    <span class="text-danger is-invalid hours_err"></span>
                                 </div>
                             </div>
 
@@ -47,20 +52,25 @@
                     @csrf
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Edit Ward</h4>
+                            <h4 class="card-title">Edit Slots</h4>
                         </div>
                         <div class="card-body py-2">
                             <input type="hidden" id="edit_model_id" name="edit_model_id" value="">
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="name">Ward Name <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="name" name="name" pattern="[A-Za-z\s]+" type="text" placeholder="Ward Name">
+                                    <label class="col-form-label" for="name">Slots Name <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="name" name="name" type="text" pattern="[A-Za-z\s]+" placeholder="Slot Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="initial" name="initial" pattern="[A-Za-z]+" type="text" placeholder="Enter Ward Initial">
+                                    <input class="form-control" id="initial" name="initial" type="text" pattern="[A-Za-z]+" placeholder="Enter Slots Initial">
                                     <span class="text-danger is-invalid initial_err"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="hours">Hours <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="hours" name="hours" type="number" placeholder="Enter hours ">
+                                    <span class="text-danger is-invalid hours_err"></span>
                                 </div>
                             </div>
 
@@ -94,18 +104,20 @@
                                 <thead>
                                     <tr>
                                         <th>Sr.No</th>
-                                        <th>Ward Name</th>
+                                        <th>Slots Name</th>
+                                        <th>Slots Hours</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($wards as $index => $ward)
+                                    @foreach ($slots as $index => $slot)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $ward->name }}</td>
+                                            <td>{{ $slot->name }}</td>
+                                            <td>{{ $slot->hours }}</td>
                                             <td>
-                                                <button class="edit-element btn text-secondary px-2 py-1" title="Edit ward" data-id="{{ $ward->id }}"><i data-feather="edit"></i></button>
-                                                <button class="btn text-danger rem-element px-2 py-1" title="Delete ward" data-id="{{ $ward->id }}"><i data-feather="trash-2"></i> </button>
+                                                <button class="edit-element btn text-secondary px-2 py-1" title="Edit slot" data-id="{{ $slot->id }}"><i data-feather="edit"></i></button>
+                                                <button class="btn text-danger rem-element px-2 py-1" title="Delete slot" data-id="{{ $slot->id }}"><i data-feather="trash-2"></i> </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -130,7 +142,7 @@
 
         var formdata = new FormData(this);
         $.ajax({
-            url: '{{ route('wards.store') }}',
+            url: '{{ route('slot.store') }}',
             type: 'POST',
             data: formdata,
             contentType: false,
@@ -141,7 +153,7 @@
                 if (!data.error2)
                     swal("Successful!", data.success, "success")
                         .then((action) => {
-                            window.location.href = '{{ route('wards.index') }}';
+                            window.location.href = '{{ route('slot.index') }}';
                         });
                 else
                     swal("Error!", data.error2, "error");
@@ -168,7 +180,7 @@
     $("#buttons-datatables").on("click", ".edit-element", function(e) {
         e.preventDefault();
         var model_id = $(this).attr("data-id");
-        var url = "{{ route('wards.edit', ":model_id") }}";
+        var url = "{{ route('slot.edit', ":model_id") }}";
 
         $.ajax({
             url: url.replace(':model_id', model_id),
@@ -180,9 +192,10 @@
                 editFormBehaviour();
                 if (!data.error)
                 {
-                    $("#editForm input[name='edit_model_id']").val(data.ward.id);
-                    $("#editForm input[name='name']").val(data.ward.name);
-                    $("#editForm input[name='initial']").val(data.ward.initial);
+                    $("#editForm input[name='edit_model_id']").val(data.slot.id);
+                    $("#editForm input[name='name']").val(data.slot.name);
+                    $("#editForm input[name='initial']").val(data.slot.initial);
+                    $("#editForm input[name='hours']").val(data.slot.hours);
                 }
                 else
                 {
@@ -206,7 +219,7 @@
             var formdata = new FormData(this);
             formdata.append('_method', 'PUT');
             var model_id = $('#edit_model_id').val();
-            var url = "{{ route('wards.update', ":model_id") }}";
+            var url = "{{ route('slot.update', ":model_id") }}";
             //
             $.ajax({
                 url: url.replace(':model_id', model_id),
@@ -220,7 +233,7 @@
                     if (!data.error2)
                         swal("Successful!", data.success, "success")
                             .then((action) => {
-                                window.location.href = '{{ route('wards.index') }}';
+                                window.location.href = '{{ route('slot.index') }}';
                             });
                     else
                         swal("Error!", data.error2, "error");
@@ -248,7 +261,7 @@
     $("#buttons-datatables").on("click", ".rem-element", function(e) {
         e.preventDefault();
         swal({
-            title: "Are you sure to delete this ward?",
+            title: "Are you sure to delete this slot?",
             // text: "Make sure if you have filled Vendor details before proceeding further",
             icon: "info",
             buttons: ["Cancel", "Confirm"]
@@ -258,7 +271,7 @@
             if (justTransfer)
             {
                 var model_id = $(this).attr("data-id");
-                var url = "{{ route('wards.destroy', ":model_id") }}";
+                var url = "{{ route('slot.destroy', ":model_id") }}";
 
                 $.ajax({
                     url: url.replace(':model_id', model_id),
