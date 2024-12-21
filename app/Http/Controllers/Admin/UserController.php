@@ -24,9 +24,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::whereNot('id', Auth::user()->id)->latest()->get();
+        $users = User::leftjoin('department', 'department.id', '=', 'users.departmentid')  
+        ->select('users.*', 'department.name as department_name')
+        ->latest()  
+        ->get();
         $roles = Role::orderBy('id', 'DESC')->whereNot('name', 'like', '%super%')->get();
-
         return view('admin.users')->with(['users'=> $users, 'roles'=> $roles]);
     }
 
@@ -229,4 +231,12 @@ class UserController extends Controller
             return $this->respondWithAjax($e, 'changing', 'User\'s role');
         }
     }
+
+    public function departmentfetch()
+    {
+        
+        $departmentid = Department::all(); 
+        return response()->json($departmentid);
+    }
+    
 }

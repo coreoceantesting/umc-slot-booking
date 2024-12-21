@@ -24,8 +24,16 @@
                                     </select>
                                     <span class="text-danger is-invalid propertytypename_err"></span>
                                 </div>
-                    
+
                                 <div class="col-md-4">
+                                    <label class="col-form-label" for="propertyname">Property Name</label>
+                                    <select class="form-control" name="propertyname" id="propertyname" required disabled>
+                                        <option value="">--Select Property--</option>
+                                    </select>
+                                    <span class="text-danger is-invalid propertyname_err"></span>
+                                </div>
+                    
+                                {{-- <div class="col-md-4">
                                     <label class="col-form-label" for="propertyname">Select Property Name <span class="text-danger">*</span></label>
                                     <select class="form-control" name="propertyname" id="propertyname" required>
                                         <option value="">--Select Property Name --</option>
@@ -34,7 +42,7 @@
                                         @endforeach
                                     </select>
                                     <span class="text-danger is-invalid propertynames_err"></span>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="slot">Select Slot Name <span class="text-danger">*</span></label>
@@ -48,22 +56,22 @@
                                 </div>
                     
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="gamount">General Amount <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="gamount">General Booking Amount <span class="text-danger">*</span></label>
                                     <input class="form-control" id="gamount" name="gamount" type="text" placeholder="Enter General Amount" required>
                                     <span class="text-danger is-invalid gamount_err"></span>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="sdamount">General(SD) Amount <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="sdamount">General(Security Deposit) Amount <span class="text-danger">*</span></label>
                                     <input class="form-control" id="sdamount" name="sdamount" type="text" placeholder="Enter General(SD) Amount" required>
                                     <span class="text-danger is-invalid sdamount_err"></span>
                                 </div>
                                  <div class="col-md-4">
-                                    <label class="col-form-label" for="citizenamount">Citizen Amount <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="citizenamount">Senior Citizen Booking Amount <span class="text-danger">*</span></label>
                                     <input class="form-control" id="citizenamount" name="citizenamount" type="text" placeholder="Enter Citizen Amount" required>
                                     <span class="text-danger is-invalid citizenamount_err"></span>
                                 </div>
                                   <div class="col-md-4">
-                                    <label class="col-form-label" for="citizensdamount">Citizen(SD) Amount <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="citizensdamount">Senior Citizen(Security Deposit) Amount <span class="text-danger">*</span></label>
                                     <input class="form-control" id="citizensdamount" name="citizensdamount" type="text" placeholder="Enter Citizen(SD) Amount" required>
                                     <span class="text-danger is-invalid citizensdamount_err"></span>
                                 </div>
@@ -135,7 +143,7 @@
                                 </div>
         
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="sdamount">General(SD) Amount <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="sdamount">General(Security Deposit) Amount <span class="text-danger">*</span></label>
                                     <input class="form-control" id="sdamount" name="sdamount" type="text" placeholder="Enter General(SD) Amount" required>
                                     <span class="text-danger is-invalid sdamount_err"></span>
                                 </div>
@@ -149,7 +157,7 @@
         
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="citizensdamount">Citizen(SD) Amount <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="citizensdamount">Citizen(Security Deposit) Amount <span class="text-danger">*</span></label>
                                     <input class="form-control" id="citizensdamount" name="citizensdamount" type="text" placeholder="Enter Citizen(SD) Amount" required>
                                     <span class="text-danger is-invalid citizensdamount_err"></span>
                                 </div>
@@ -261,38 +269,77 @@
 
 <!-- Edit -->
 <script>
-    $("#buttons-datatables").on("click", ".edit-element", function(e) {
-        e.preventDefault();
-        var model_id = $(this).attr("data-id");
-        var url = "{{ route('propertydetails.edit', ':model_id') }}";
+  $("#buttons-datatables").on("click", ".edit-element", function(e) {
+    e.preventDefault();
+    var model_id = $(this).attr("data-id");
+    var url = "{{ route('propertydetails.edit', ':model_id') }}".replace(':model_id', model_id);
 
-        $.ajax({
-            url: url.replace(':model_id', model_id),
-            type: 'GET',
-            data: {
-                '_token': "{{ csrf_token() }}"
-            },
-            success: function(data, textStatus, jqXHR) {
-                editFormBehaviour(); 
-                if (!data.error) {
-                    $("#editForm input[name='edit_model_id']").val(data.propertydetail.id);
-                    $("#editForm select[name='propertytypename']").val(data.propertydetail.propertytypename);
-                    $("#editForm select[name='propertyname']").val(data.propertydetail.propertyname);
-                    $("#editForm select[name='slot']").val(data.propertydetail.slot);
-                    $("#editForm input[name='gamount']").val(data.propertydetail.gamount);
-                    $("#editForm input[name='sdamount']").val(data.propertydetail.sdamount);
-                    $("#editForm input[name='citizenamount']").val(data.propertydetail.citizenamount);
-                    $("#editForm input[name='citizensdamount']").val(data.propertydetail.citizensdamount);
-                    $('#editContainer').show(); 
-                } else {
-                    alert(data.error);
-                }
-            },
-            error: function(error, jqXHR, textStatus, errorThrown) {
-                alert("Something went wrong!");
-            },
-        });
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: {
+            '_token': "{{ csrf_token() }}"
+        },
+        success: function(data, textStatus, jqXHR) {
+            editFormBehaviour(); 
+            if (!data.error) {
+                $("#editForm input[name='edit_model_id']").val(data.propertydetail.id);
+                $("#editForm select[name='propertytypename']").val(data.propertydetail.propertytypename);  
+                $("#editForm select[name='propertyname']").val(data.propertydetail.propertyname);
+                $("#editForm select[name='slot']").val(data.propertydetail.slot);
+                $("#editForm input[name='gamount']").val(data.propertydetail.gamount);
+                $("#editForm input[name='sdamount']").val(data.propertydetail.sdamount);
+                $("#editForm input[name='citizenamount']").val(data.propertydetail.citizenamount);
+                $("#editForm input[name='citizensdamount']").val(data.propertydetail.citizensdamount);
+                $('#editContainer').show(); 
+
+                $('#editForm select[name="propertytypename"]').trigger('change');
+            } else {
+                alert(data.error);
+            }
+        },
+        error: function(error, jqXHR, textStatus, errorThrown) {
+            alert("Something went wrong!");
+        },
     });
+
+    $('#editForm select[name="propertytypename"]').change(function() {
+        var propertyTypeId = $(this).val(); 
+        if (propertyTypeId) {
+            $.ajax({
+                url: '{{ route("fetchproperty") }}',
+                type: 'GET',
+                data: {
+                    propertytypename: propertyTypeId
+                },
+                success: function(response) {
+                    $('#editForm select[name="propertyname"]').prop('disabled', false);
+                    $('#editForm select[name="propertyname"]').empty(); 
+
+                    if (response.properties && response.properties.length > 0) {
+                        $.each(response.properties, function(index, property) {
+                            $('#editForm select[name="propertyname"]').append('<option value="'+property.id+'">'+property.name+'</option>');
+                        });
+                    } else {
+                        $('#editForm select[name="propertyname"]').append('<option value="">No properties available</option>');
+                    }
+                    var propertyname = $("#editForm select[name='propertyname']").val();
+                    if (propertyname) {
+                        $('#editForm select[name="propertyname"]').trigger('change');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error fetching properties.');
+                }
+            });
+        } else {
+            $('#editForm select[name="propertyname"]').prop('disabled', true);
+            $('#editForm select[name="propertyname"]').empty();
+            $('#editForm select[name="propertyname"]').append('<option value="">--Select Property--</option>');
+        }
+    });
+});
+
 </script>
 
 
@@ -383,6 +430,39 @@
                         swal("Error!", "Something went wrong", "error");
                     },
                 });
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#propertytypename').change(function() {
+            var propertyTypeId = $(this).val(); 
+            
+            if (propertyTypeId) {
+                $.ajax({
+                    url: '{{ route("fetchproperty") }}',  
+                    type: 'GET',
+                    data: {
+                        propertytypename: propertyTypeId 
+                    },
+                    success: function(response) {
+                        $('#propertyname').prop('disabled', false);
+                        $('#propertyname').empty(); 
+                        $('#propertyname').append('<option value="">--Select Property--</option>');  
+
+                        $.each(response.properties, function(index, property) {
+                            $('#propertyname').append('<option value="'+property.id+'">'+property.name+'</option>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error fetching properties.');
+                    }
+                });
+            } else {
+                $('#propertyname').prop('disabled', true);
+                $('#propertyname').empty();
+                $('#propertyname').append('<option value="">--Select Property--</option>');
             }
         });
     });

@@ -24,7 +24,8 @@ class StoreSlotRequest extends FormRequest
         return [
            'name' => 'required|unique:slot,name',
             'initial' => 'required',
-            'hours' =>'required',
+            'totime' => 'required',
+            'fromtime' => 'required',
         ];
     }
 }

@@ -24,7 +24,8 @@ class UpdateSlotRequest extends FormRequest
         return [
             'name' => 'required',
             'initial' => 'required',
-            'hours' => 'required',
+            'totime'=> 'required',
+            'fromtime'=> 'required'
         ];
     }
 }

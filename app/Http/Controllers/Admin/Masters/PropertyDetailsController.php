@@ -24,7 +24,7 @@ class PropertyDetailsController extends Controller
         $data = DB::table('propertydetails')
         ->join('propertytype', 'propertytype.id', '=', 'propertydetails.propertytypename') 
         ->join('property', 'property.id', '=', 'propertydetails.propertyname') 
-        ->join('slot', 'slot.id', '=', 'propertydetails.slot') 
+        ->leftjoin('slot', 'slot.id', '=', 'propertydetails.slot') 
         ->select(
             'propertydetails.*', 
             'propertytype.name as Pname', 
@@ -33,6 +33,7 @@ class PropertyDetailsController extends Controller
         )
         ->latest() 
         ->get();
+   
     return view('admin.masters.propertydetails', compact('propertytype','propertytypename','slots','data'));
    }
 

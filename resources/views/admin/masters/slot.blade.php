@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 <x-admin.layout>
     <x-slot name="title">Slots</x-slot>
     <x-slot name="heading">Slots</x-slot>
@@ -10,29 +12,36 @@
                 <div class="card">
                     <form class="theme-form" name="addForm" id="addForm" enctype="multipart/form-data">
                         @csrf
-
+        
                         <div class="card-header">
                             <h4 class="card-title">Add Slots</h4>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="col-form-label" for="name">Slots Name <span class="text-danger">*</span></label>
                                     <input class="form-control" id="name" name="name" type="text" pattern="[A-Za-z\s]+" placeholder="Enter Slot Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
                                     <input class="form-control" id="initial" name="initial" type="text" pattern="[A-Za-z]+" placeholder="Enter Slot Initial">
                                     <span class="text-danger is-invalid initial_err"></span>
                                 </div>
-                                <div class="col-md-4">
-                                    <label class="col-form-label" for="hours">Hours <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="hours" name="hours" type="number" placeholder="Enter hours ">
-                                    <span class="text-danger is-invalid hours_err"></span>
+                                <!-- Replace the Hours field with Time Picker -->
+                                <div class="col-md-3">
+                                    <label class="col-form-label" for="fromtime">From Time <span class="text-danger">*</span></label>
+                                    <input class="form-control" id=fromtime name="fromtime" type="text" placeholder="Select Time">
+                                    <span class="text-danger is-invalid fromtime_err"></span>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label" for="totime">To Time <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="totime" name="totime" type="text" placeholder="Select Time">
+                                    <span class="text-danger is-invalid totime_err"></span>
                                 </div>
                             </div>
-
+        
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary" id="addSubmit">Submit</button>
@@ -42,6 +51,7 @@
                 </div>
             </div>
         </div>
+         
 
 
 
@@ -57,21 +67,32 @@
                         <div class="card-body py-2">
                             <input type="hidden" id="edit_model_id" name="edit_model_id" value="">
                             <div class="mb-3 row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="col-form-label" for="name">Slots Name <span class="text-danger">*</span></label>
                                     <input class="form-control" id="name" name="name" type="text" pattern="[A-Za-z\s]+" placeholder="Slot Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
                                     <input class="form-control" id="initial" name="initial" type="text" pattern="[A-Za-z]+" placeholder="Enter Slots Initial">
                                     <span class="text-danger is-invalid initial_err"></span>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <label class="col-form-label" for="fromtime">From Time <span class="text-danger">*</span></label>
+                                    <input class="form-control" id=fromtime name="fromtime" type="text" placeholder="Select Time">
+                                    <span class="text-danger is-invalid fromtime_err"></span>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label" for="totime">To Time <span class="text-danger">*</span></label>
+                                    <input class="form-control" id="totime" name="totime" type="text" placeholder="Select Time">
+                                    <span class="text-danger is-invalid totime_err"></span>
+                                </div>
+                                {{-- <div class="col-md-4">
                                     <label class="col-form-label" for="hours">Hours <span class="text-danger">*</span></label>
                                     <input class="form-control" id="hours" name="hours" type="number" placeholder="Enter hours ">
                                     <span class="text-danger is-invalid hours_err"></span>
-                                </div>
+                                </div> --}}
                             </div>
 
                         </div>
@@ -105,7 +126,8 @@
                                     <tr>
                                         <th>Sr.No</th>
                                         <th>Slots Name</th>
-                                        <th>Slots Hours</th>
+                                        <th>Slots From Time</th>
+                                        <th>Slots To Time</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -114,7 +136,8 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $slot->name }}</td>
-                                            <td>{{ $slot->hours }}</td>
+                                            <td>{{ $slot->fromtime }}</td>
+                                            <td>{{ $slot->totime }}</td>
                                             <td>
                                                 <button class="edit-element btn text-secondary px-2 py-1" title="Edit slot" data-id="{{ $slot->id }}"><i data-feather="edit"></i></button>
                                                 <button class="btn text-danger rem-element px-2 py-1" title="Delete slot" data-id="{{ $slot->id }}"><i data-feather="trash-2"></i> </button>
@@ -132,7 +155,7 @@
 
 
 </x-admin.layout>
-
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 {{-- Add --}}
 <script>
@@ -195,7 +218,8 @@
                     $("#editForm input[name='edit_model_id']").val(data.slot.id);
                     $("#editForm input[name='name']").val(data.slot.name);
                     $("#editForm input[name='initial']").val(data.slot.initial);
-                    $("#editForm input[name='hours']").val(data.slot.hours);
+                    $("#editForm input[name='fromtime']").val(data.slot.fromtime);
+                    $("#editForm input[name='totime']").val(data.slot.totime);
                 }
                 else
                 {
@@ -302,3 +326,19 @@
         });
     });
 </script>
+<script>
+   flatpickr("#fromtime", {
+        enableTime: true,        
+        noCalendar: true,      
+        dateFormat: "h:i K",    
+        time_24hr: false,         
+    });
+
+    flatpickr("#totime", {
+        enableTime: true,        
+        noCalendar: true,         
+        dateFormat: "h:i K",     
+        time_24hr: false,        
+    });
+</script>
+

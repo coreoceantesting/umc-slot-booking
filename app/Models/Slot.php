@@ -13,7 +13,7 @@ class Slot extends Model
 
     protected $table = "Slot";
 
-    protected $fillable = ['name', 'initial','hours'];
+    protected $fillable = ['name', 'initial','fromtime','totime'];
 
 
     public static function booted()

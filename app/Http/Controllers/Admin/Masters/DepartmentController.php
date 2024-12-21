@@ -14,7 +14,7 @@ class DepartmentController extends Controller
 {
     public function index()
     {
-        $departments = Department::latest()->get();
+        $departments = Department::latest()->whereNull('deleted_at')->get();
 
         return view('admin.masters.department')->with(['departments'=> $departments]);
     }

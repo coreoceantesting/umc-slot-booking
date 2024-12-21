@@ -42,10 +42,18 @@
                                 <select class="js-example-basic-single col-sm-12" id="role" name="role">
                                     <option value="">--Select Role--</option>
                                     @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        <option value="{{ $role->id }}" {{ old('role') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger is-invalid role_err"></span>
+                            </div>
+
+                            <div class="col-md-4 mt-3" id="department-container">
+                                <label class="col-form-label" for="departmentid">Select Department <span class="text-danger">*</span></label>
+                                <select class="form-control col-sm-12" id="departmentid" name="departmentid">
+                                    <option value="">--Select Department--</option>
+                                </select>
+                                <span class="text-danger is-invalid department_err"></span>
                             </div>
 
                             <div class="col-md-4 mt-3">
@@ -155,6 +163,7 @@
                                     <th>Mobile</th>
                                     {{-- <th style="min-width: 100px;">Status</th> --}}
                                     <th>Registered On</th>
+                                    <th>Department</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -165,6 +174,8 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->mobile }}</td>
+                                       
+
                                         {{-- <td>
                                             <div class="media-body text-end icon-state">
                                                 <label class="switch">
@@ -175,6 +186,7 @@
                                         <td>
                                             {{ \Carbon\Carbon::parse($user->created_at)->format('d M, y h:i:s') }}
                                         </td>
+                                        <td>{{ $user->department_name ?? 'NA' }}</td>
                                         <td>
                                             <button class="edit-element btn text-primary px-2 py-1" title="Edit User" data-id="{{ $user->id }}"><i data-feather="edit"></i></button>
                                             <button class="btn text-primary change-password px-2 py-1" title="Change Password" data-id="{{ $user->id }}"><i data-feather="lock"></i></button>
@@ -449,6 +461,7 @@
                     $("#editForm input[name='dob']").val(data.user.dob);
                     data.user.gender == 'm' ? $("#editForm input[name='gender'][value='m']").prop("checked", true) : $("#editForm input[name='gender'][value='f']").prop("checked", true);
                     $("#editForm select[name='role']").html(data.roleHtml);
+                    console.log(data.roleHtml);
                     $("#editForm input[name='name']").val(data.user.name);
                     $("#editForm input[name='email']").val(data.user.email);
                     $("#editForm input[name='mobile']").val(data.user.mobile);
@@ -601,5 +614,39 @@
             });
         }
 
+    });
+
+    $(document).ready(function() {
+        $('#department-container').hide();
+
+        $('#role').change(function() {
+            var roleId = $(this).val();
+            var roleName = $("option:selected", this).text();
+
+            if (roleId == 9 && roleName == 'Department Clerk') {
+                $('#department-container').show();
+
+                $.ajax({
+                    url: "{{ route('fetchdepartment') }}",
+                    method: "GET",
+                    success: function(response) {
+                        var departmentSelect = $('#departmentid');
+                        departmentSelect.empty(); 
+                        departmentSelect.append('<option value="">--Select Department--</option>');
+
+                        $.each(response, function(index, departmentid) {
+                            departmentSelect.append('<option value="' + departmentid.id + '">' + departmentid.name + '</option>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching departments: ' + error);
+                    }
+                });
+            } else {
+                $('#department-container').hide();
+                $('#deparetment').empty();
+                $('#deparetment').append('<option value="">--Select Department--</option>');
+            }
+        });
     });
 </script>

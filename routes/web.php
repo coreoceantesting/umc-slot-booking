@@ -52,6 +52,20 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::resource('slot', App\Http\Controllers\Admin\Masters\SlotController::class);
     Route::resource('propertydetails',App\Http\Controllers\Admin\Masters\PropertyDetailsController::class);
 
+    // Slot Booking
+    Route::resource('slotbooking', App\Http\Controllers\Admin\SlotBookingController::class);
+    Route::get('fetchproperty', [App\Http\Controllers\Admin\SlotBookingController::class, 'propertynamefetch'])->name('fetchproperty');
+    Route::get('fetchamount', [App\Http\Controllers\Admin\SlotBookingController::class, 'amount_fetch'])->name('fetchamount');
+    Route::get('fetchaddress', [App\Http\Controllers\Admin\SlotBookingController::class, 'fetch_address'])->name('fetchaddress');
+
+    //Ward login clerk and Department clerk
+    Route::get('pendinglist', [App\Http\Controllers\Admin\ListingController::class, 'pending_list'])->name('pendinglist');
+    Route::get('approvelist', [App\Http\Controllers\Admin\ListingController::class, 'approve_list'])->name('approvelist');
+    Route::get('returnlist', [App\Http\Controllers\Admin\ListingController::class, 'return_list'])->name('returnlist');
+
+    Route::post('approvedslot', [App\Http\Controllers\Admin\ListingController::class, 'approved_slot'])->name('approvedslot');
+    Route::post('returnslot', [App\Http\Controllers\Admin\ListingController::class, 'return_slot'])->name('returnslot');
+
 
 
 
@@ -62,6 +76,7 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::put('users/{user}/change-password', [App\Http\Controllers\Admin\UserController::class, 'changePassword'])->name('users.change-password');
     Route::get('users/{user}/get-role', [App\Http\Controllers\Admin\UserController::class, 'getRole'])->name('users.get-role');
     Route::put('users/{user}/assign-role', [App\Http\Controllers\Admin\UserController::class, 'assignRole'])->name('users.assign-role');
+    Route::get('fetchdepartment', [App\Http\Controllers\Admin\UserController::class, 'departmentfetch'])->name('fetchdepartment');
     Route::resource('roles', App\Http\Controllers\Admin\RoleController::class);
 });
 
