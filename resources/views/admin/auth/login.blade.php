@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PMC-Disaster | Sign In</title>
+        <title>UMC-SlotBooking | Sign In</title>
         <link rel="shortcut icon" href="{{ asset('admin/images/Panvel_Municipal_Corporation.ico') }}">
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
