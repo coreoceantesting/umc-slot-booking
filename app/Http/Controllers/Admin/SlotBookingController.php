@@ -34,13 +34,15 @@ class SlotBookingController extends Controller
             ->whereNull('deleted_at')
             ->get();
 
-        $data = DB::table('slotbookings')
+            $data = DB::table('slotbookings')
             ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
             ->join('slot', 'slot.id', '=', 'slotbookings.slot')
             ->select(
                 'slotbookings.*',
                 'propertytype.name as Pname',
-                'slot.name as SlotName'
+                'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime'  
             )
             ->whereNull('slotbookings.deleted_at')
             ->where('slotbookings.fullname', '=', $user->name)
@@ -50,6 +52,7 @@ class SlotBookingController extends Controller
             })
             ->latest()
             ->get();
+        
             
         return view('admin.slotbooking', compact('propertytypes', 'slots', 'user' ,'data'));
     }

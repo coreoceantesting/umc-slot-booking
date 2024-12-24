@@ -88,7 +88,7 @@
                                     <select class="form-control" name="slot" id="slot" required>
                                         <option value="">--Select slot --</option>
                                         @foreach ($slots as $slot)
-                                            <option value="{{ $slot->id }}">{{ $slot->name }}</option>
+                                            <option value="{{ $slot->id }}">{{ $slot->name }}[{{ $slot->fromtime }}-{{$slot->totime}}]</option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger is-invalid slot_err"></span>
@@ -214,7 +214,7 @@
                                     <select class="form-control" name="slot" id="edit_slot" required>
                                         <option value="">--Select slot --</option>
                                         @foreach ($slots as $slot)
-                                            <option value="{{ $slot->id }}">{{ $slot->name }}</option>
+                                            <option value="{{ $slot->id }}">{{ $slot->name }}[{{$slot->fromtime}}-{{$slot->totime}}]</option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger is-invalid slot_err"></span>
@@ -283,6 +283,7 @@
                                         <th>Mobile</th>
                                         <th>Citizentype</th>
                                         <th>Slot</th>
+                                        <th>Time</th>
                                         <th>ActiveStatus</th>
                                         <th>Action</th>
                                     </tr>
@@ -305,6 +306,7 @@
                                             </td>
                                             
                                             <td>{{$pro->SlotName }}</td>
+                                            <td>{{$pro->fromtime }}-{{$pro->totime }}</td>
                                             <td>
                                                 @if ($pro->activestatus == 'return')
                                                     <span class="badge bg-secondary">{{ $pro->activestatus }}</span>
