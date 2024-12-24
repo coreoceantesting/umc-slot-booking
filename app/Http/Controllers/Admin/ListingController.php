@@ -60,9 +60,8 @@ class ListingController extends Controller
             )
             ->whereNull('slotbookings.deleted_at')
             ->where('slotbookings.activestatus', '=', 'pending') 
-
             ->where('propertytype.name', '!=', 'Samaj Mandir') 
-            ->orwhere('dataapprove.officerstatus', '=', 'approve')
+            ->where('dataapprove.clerkstatus', '=', 'pending')
             ->latest();
 
 // Execute the query or return the results as needed
@@ -102,6 +101,7 @@ class ListingController extends Controller
                 ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
+                 ->where('propertytype.name', '!=', 'Samaj Mandir')
                 ->where('dataapprove.hodstatus', '=', 'pending')
                 ->latest();
         } elseif ($userRole == 'Assistant Commissioner') {
@@ -112,6 +112,7 @@ class ListingController extends Controller
                 ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
+                ->where('propertytype.name', '!=', 'Samaj Mandir')
                 ->where('dataapprove.assstatus', '=', 'pending')
                 ->latest();
         } elseif ($userRole == 'Additional  Commissioner') {
@@ -122,6 +123,7 @@ class ListingController extends Controller
                 ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
+                ->where('propertytype.name', '!=', 'Samaj Mandir')
                 ->where('dataapprove.addstatus', '=', 'pending')
                 ->latest();
                
@@ -169,6 +171,7 @@ class ListingController extends Controller
                 'slot.name as SlotName'
             )
             ->whereNull('slotbookings.deleted_at')
+            ->where('propertytype.name', '!=', 'Samaj Mandir')
             ->where('dataapprove.clerkstatus', '=', 'approve')
             ->latest();
         } elseif ($userRole == 'Ward Officer') {
@@ -190,6 +193,7 @@ class ListingController extends Controller
                 ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
+                ->where('propertytype.name', '!=', 'Samaj Mandir')
                 ->where('dataapprove.hodstatus', '=', 'approve')
                 ->latest();
         } elseif ($userRole == 'Assistant Commissioner') {
@@ -200,6 +204,7 @@ class ListingController extends Controller
                 ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
+                ->where('propertytype.name', '!=', 'Samaj Mandir')
                 ->where('dataapprove.assstatus', '=', 'approve')
                 ->latest();
         } elseif ($userRole == 'Additional  Commissioner') {
@@ -210,6 +215,7 @@ class ListingController extends Controller
                 ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
+                ->where('propertytype.name', '!=', 'Samaj Mandir')
                 ->where('dataapprove.addstatus', '=', 'approve')
                 ->latest();
         } else {
