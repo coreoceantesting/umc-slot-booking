@@ -61,10 +61,15 @@
             </tr>
             <tr>
                 <th>Files</th>
-                <td>{{ $booking->files }}</td>
+                <td>
+                    <a href="{{ asset('storage/registration_certificates/' . $booking->files) }}" target="_blank">
+                        <img src="{{ asset('storage/registration_certificates/' . $booking->files) }}" 
+                             alt="Certificate Image" 
+                             style="width: 100px; height: auto; border: 1px solid #ccc; padding: 5px;">
+                    </a>
+                </td>
+                
             </tr>
-           
-            
     
 </div>
 </div>
