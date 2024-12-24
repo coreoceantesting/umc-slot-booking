@@ -63,9 +63,7 @@
                 <th>Files</th>
                 <td>
                     <a href="{{ asset('storage/registration_certificates/' . $booking->files) }}" target="_blank">
-                        <img src="{{ asset('storage/registration_certificates/' . $booking->files) }}" 
-                             alt="Certificate Image" 
-                             style="width: 100px; height: auto; border: 1px solid #ccc; padding: 5px;">
+                        view document
                     </a>
                 </td>
                 
