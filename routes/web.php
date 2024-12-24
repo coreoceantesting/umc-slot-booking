@@ -62,9 +62,12 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::get('pendinglist', [App\Http\Controllers\Admin\ListingController::class, 'pending_list'])->name('pendinglist');
     Route::get('approvelist', [App\Http\Controllers\Admin\ListingController::class, 'approve_list'])->name('approvelist');
     Route::get('returnlist', [App\Http\Controllers\Admin\ListingController::class, 'return_list'])->name('returnlist');
+    Route::get('get-slot-details/{id}', [App\Http\Controllers\Admin\ListingController::class, 'getSlotDetails']);
 
-    Route::post('approvedslot', [App\Http\Controllers\Admin\ListingController::class, 'approved_slot'])->name('approvedslot');
-    Route::post('returnslot', [App\Http\Controllers\Admin\ListingController::class, 'return_slot'])->name('returnslot');
+
+
+    Route::post('/approvedslot', [App\Http\Controllers\Admin\ListingController::class, 'approved_slot'])->name('approvedslot');
+    Route::post('/returnslot', [App\Http\Controllers\Admin\ListingController::class, 'return_slot'])->name('returnslot');
 
 
 

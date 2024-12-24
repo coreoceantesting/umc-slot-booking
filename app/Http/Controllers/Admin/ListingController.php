@@ -333,12 +333,6 @@ class ListingController extends Controller
     
         return response()->json(['success' => true, 'message' => $statusMessage]);
     }
-    
-    
-
-
-
-    
 
 
     public function return_slot(Request $request)
@@ -391,6 +385,16 @@ class ListingController extends Controller
 
         return view('admin.returnslot',compact('data'));
     }
+
+    public function getSlotDetails($id)
+    {
+        $booking = SlotBooking::findOrFail($id); 
+
+        return response()->json([
+            'details' => view('admin.booking-details', compact('booking'))->render()
+        ]);
+    }
+
 
     /**
      * Show the form for creating a new resource.

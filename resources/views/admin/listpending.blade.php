@@ -51,8 +51,9 @@
                                             <td>{{$pro->SlotName }}</td>
                                             <td><span class="badge bg-danger activestatus">{{$pro->activestatus}}</span></td>
                                             <td>
-                                                <button type="button" class="btn btn-primary approve-btn" value="{{ $pro->id }}">Approve</button>
-                                                <button type="button" class="btn btn-danger return-btn" value="{{ $pro->id }}">Return</button>
+                                                <button type="button" class="btn btn-primary view-btn" value="{{ $pro->id }}">View</button>
+                                                {{-- <button type="button" class="btn btn-primary approve-btn" value="{{ $pro->id }}">Approve</button>
+                                                <button type="button" class="btn btn-danger return-btn" value="{{ $pro->id }}">Return</button> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -65,16 +66,71 @@
             </div>
         </div>
 
+        <div class="modal fade" id="viewDetailsModal" tabindex="-1" role="dialog" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewDetailsModalLabel">Slot Booking Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="view-details-content">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="approveBtn">Approve</button>
+                        <button type="button" class="btn btn-danger" id="returnBtn">Return</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
 </x-admin.layout>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.15/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.15/dist/sweetalert2.min.js"></script>
 
 <script>
-$('.approve-btn').click(function(e) {
+// When the 'View' button is clicked
+$('.view-btn').click(function(e) {
     e.preventDefault(); 
-    var row = $(this).closest('tr'); 
-    var bookingId = row.data('id'); 
-    console.log(bookingId); 
+
+    var bookingId = $(this).val(); // Get booking ID from the clicked button
+    console.log("Booking ID:", bookingId);
+
+    $.ajax({
+        url: '/get-slot-details/' + bookingId,  // Assuming this route is working fine
+        method: 'GET',
+        success: function(response) {
+            if (response.details) {
+                // Inject the details into the modal
+                $('#view-details-content').html(response.details);
+                
+                // Open the modal
+                $('#viewDetailsModal').modal('show');
+                
+                // Store the bookingId in approve and return buttons
+                $('#approveBtn').data('booking-id', bookingId);  
+                $('#returnBtn').data('booking-id', bookingId);  
+
+                console.log("Booking ID set for Approve: ", bookingId);
+                console.log("Booking ID set for Return: ", bookingId);
+            } else {
+                alert('Error: Unable to fetch details.');
+            }
+        },
+        error: function(xhr, status, error) {
+            alert("Error fetching details: " + error);
+        }
+    });
+});
+
+// Approve Slot
+$('#approveBtn').click(function(e) {
+    e.preventDefault(); 
+    var bookingId = $(this).data('booking-id'); 
+    console.log("Booking ID for approve:", bookingId);
 
     $.ajax({
         url: '{{ route('approvedslot') }}', 
@@ -85,6 +141,7 @@ $('.approve-btn').click(function(e) {
         },
         success: function(response) {
             if (response.success) {
+                var row = $('tr[data-id="' + bookingId + '"]');
                 row.find('.activestatus').text('approved');
                 row.find('.badge').removeClass('bg-danger').addClass('bg-success');
                 
@@ -95,61 +152,8 @@ $('.approve-btn').click(function(e) {
                     showConfirmButton: false,
                     timer: 3000
                 });
-            } else if (response.error) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: response.message,
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            }
-        },
-        error: function(xhr, status, error) {
-            let errorMessage = 'An error occurred: ' + error;
-            if (xhr.status == 422) {
-                errorMessage = 'Validation error occurred.';
-            } else if (xhr.status == 500) {
-                errorMessage = 'Internal server error.';
-            }
 
-            Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: errorMessage,
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
-    });
-});
-
-
-$('.return-btn').click(function(e) {
-    e.preventDefault(); 
-    var row = $(this).closest('tr'); 
-    var bookingId = $(this).val(); 
-    console.log(bookingId); 
-
-    $.ajax({
-        url: '{{ route('returnslot') }}', 
-        method: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}', 
-            booking_id: bookingId,  
-        },
-        success: function(response) {
-            if (response.success) {
-                row.find('.activestatus').text('return');  
-                row.find('.badge').removeClass('bg-success').addClass('bg-danger'); 
-                
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Slot returned successfully!',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+                $('#viewDetailsModal').modal('hide');
             } else if (response.error) {
                 Swal.fire({
                     position: 'center',
@@ -172,6 +176,54 @@ $('.return-btn').click(function(e) {
     });
 });
 
+$('#returnBtn').click(function(e) {
+    e.preventDefault(); 
+    var bookingId = $(this).data('booking-id'); 
+    console.log("Booking ID for return:", bookingId);
+
+    $.ajax({
+        url: '{{ route('returnslot') }}', 
+        method: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}', 
+            booking_id: bookingId
+        },
+        success: function(response) {
+            if (response.success) {
+                var row = $('tr[data-id="' + bookingId + '"]');
+                row.find('.activestatus').text('return');
+                row.find('.badge').removeClass('bg-success').addClass('bg-danger');
+                
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Slot returned successfully!',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                $('#viewDetailsModal').modal('hide');
+            } else if (response.error) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: response.message,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'An error occurred: ' + error,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    });
+});
 
 </script>
 
