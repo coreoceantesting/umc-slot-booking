@@ -71,14 +71,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="viewDetailsModalLabel">Slot Booking Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> --}}
+                            {{-- <span aria-hidden="true">&times;</span> --}}
+                        {{-- </button> --}}
                     </div>
                     <div class="modal-body" id="view-details-content">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" id="approveBtn">Approve</button>
                         <button type="button" class="btn btn-danger" id="returnBtn">Return</button>
                     </div>
@@ -224,6 +224,12 @@ $('#returnBtn').click(function(e) {
         }
     });
 });
+
+document.getElementById('closeBtn').onclick = function() {
+    var modal = document.getElementById('viewDetailsModal');
+    var modalInstance = bootstrap.Modal.getInstance(modal); 
+    modalInstance.hide(); 
+  };
 
 </script>
 
