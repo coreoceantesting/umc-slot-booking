@@ -27,6 +27,7 @@
                                         <th>BookingDate</th>
                                         <th>Citizentype</th>
                                         <th>Slot</th>
+                                        <th>Time</th>
                                         <th>ActiveStatus</th>
                                         <th>Action</th>
                                     </tr>
@@ -49,6 +50,7 @@
                                                 @endif
                                             </td>
                                             <td>{{$pro->SlotName }}</td>
+                                            <td>{{$pro->fromtime }}-{{$pro->totime}}</td>
                                             <td><span class="badge bg-danger activestatus">{{$pro->activestatus}}</span></td>
                                             <td>
                                                 <button type="button" class="btn btn-primary view-btn" value="{{ $pro->id }}">View</button>

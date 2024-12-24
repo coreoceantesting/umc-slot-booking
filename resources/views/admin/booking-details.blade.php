@@ -2,17 +2,14 @@
     <div>
         <h3>Booking Details</h3>
         <table class="table">
-            <tr>
-                <th>ID</th>
-                <td>{{ $booking->id }}</td>
-            </tr>
+           
             <tr>
                 <th>Property Type</th>
-                <td>{{ $booking->propertytype }}</td>
+                <td>{{ $booking->Pname }}</td>
             </tr>
             <tr>
                 <th>Property Type Name</th>
-                <td>{{ $booking->propertytypename }}</td>
+                <td>{{ $booking->Prname }}</td>
             </tr>
             <tr>
                 <th>Address</th>
@@ -48,7 +45,7 @@
             </tr>
             <tr>
                 <th>Slot</th>
-                <td>{{ $booking->slot }}</td>
+                <td>{{ $booking->SlotName }}&nbsp;{{ $booking->fromtime }}-{{ $booking->totime }}</td>
             </tr>
             <tr>
                 <th>SD Amount</th>
@@ -66,12 +63,8 @@
                 <th>Files</th>
                 <td>{{ $booking->files }}</td>
             </tr>
-            <tr>
-                <th>Active Status</th>
-                <td>{{ $booking->activestatus }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
+           
+            
     
 </div>
 </div>

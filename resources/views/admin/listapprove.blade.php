@@ -27,6 +27,7 @@
                                         <th>BookingDate</th>
                                         <th>Citizentype</th>
                                         <th>Slot</th>
+                                        <th>Time</th>
                                         <th>ActiveStatus</th>
                                         {{-- <th>Action</th> --}}
                                     </tr>
@@ -50,6 +51,7 @@
                                             </td>
                                             
                                             <td>{{$pro->SlotName }}</td>
+                                            <td>{{$pro->fromtime }}-{{$pro->totime }}</td>
                                             <td><span class="badge bg-success">{{$pro->activestatus}}</span></td>
                                             {{-- <td>
                                                 <button type="submit" class="btn btn-primary" id="approve">Approve</button>

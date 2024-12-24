@@ -30,7 +30,9 @@ class ListingController extends Controller
                 ->select(
                     'slotbookings.*',
                     'propertytype.name as Pname',
-                    'slot.name as SlotName'
+                    'slot.name as SlotName',
+                    'slot.totime',   
+                'slot.fromtime' 
                 )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'pending')
@@ -41,7 +43,8 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
+                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName','slot.totime',   
+                'slot.fromtime' )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->where('propertytype.name', '=', 'Samaj Mandir')
@@ -56,7 +59,9 @@ class ListingController extends Controller
             ->select(
                 'slotbookings.*',
                 'propertytype.name as Pname',
-                'slot.name as SlotName'
+                'slot.name as SlotName',
+                'slot.totime',  
+                'slot.fromtime' 
             )
             ->whereNull('slotbookings.deleted_at')
             ->where('slotbookings.activestatus', '=', 'pending') 
@@ -98,7 +103,9 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
+                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime' )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
                  ->where('propertytype.name', '!=', 'Samaj Mandir')
@@ -109,7 +116,9 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
+                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime' )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->where('propertytype.name', '!=', 'Samaj Mandir')
@@ -120,7 +129,9 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
+                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime' )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->where('propertytype.name', '!=', 'Samaj Mandir')
@@ -154,7 +165,9 @@ class ListingController extends Controller
                 ->select(
                     'slotbookings.*',
                     'propertytype.name as Pname',
-                    'slot.name as SlotName'
+                    'slot.name as SlotName',
+                    'slot.totime',   
+                'slot.fromtime' 
                 )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('propertytype.name', '=', 'Samaj Mandir')
@@ -168,7 +181,9 @@ class ListingController extends Controller
             ->select(
                 'slotbookings.*',
                 'propertytype.name as Pname',
-                'slot.name as SlotName'
+                'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime' 
             )
             ->whereNull('slotbookings.deleted_at')
             ->where('propertytype.name', '!=', 'Samaj Mandir')
@@ -179,7 +194,9 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
+                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime' )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->where('propertytype.name', '=', 'Samaj Mandir')
@@ -190,7 +207,9 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
+                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime' )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->where('propertytype.name', '!=', 'Samaj Mandir')
@@ -201,7 +220,9 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
+                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime' )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->where('propertytype.name', '!=', 'Samaj Mandir')
@@ -212,7 +233,9 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName')
+                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime' )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->where('propertytype.name', '!=', 'Samaj Mandir')
@@ -387,13 +410,32 @@ class ListingController extends Controller
     }
 
     public function getSlotDetails($id)
-    {
-        $booking = SlotBooking::findOrFail($id); 
+{
+    $booking = SlotBooking::join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+        ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+        ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
+        ->join('property', 'property.id', '=', 'slotbookings.propertytypename')
+        ->select(
+            'slotbookings.*', 
+            'propertytype.name as Pname', 
+            'property.name as Prname', 
+            'slot.name as SlotName',
+            'slot.totime',   
+            'slot.fromtime'
+        )
+        ->where('slotbookings.id', $id)
+        ->first(); 
+      
 
-        return response()->json([
-            'details' => view('admin.booking-details', compact('booking'))->render()
-        ]);
+    if (!$booking) {
+        return response()->json(['error' => 'Booking not found'], 404);
     }
+
+    return response()->json([
+        'details' => view('admin.booking-details', compact('booking'))->render()
+    ]);
+}
+
 
 
     /**
