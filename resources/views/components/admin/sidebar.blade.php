@@ -119,8 +119,7 @@
                         <span data-key="t-slotbooking">Pending Slots</span>
                     </a>
                 </li>
-                @endcan
-                @canany(['users.view', 'roles.view'])
+            
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('approvelist') }}">
                         <i class="ri-dashboard-2-line"></i>
