@@ -219,6 +219,16 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'pendinglist.pending_list',
                 'group' => 'pendinglist',
             ],
+            [
+                'id' => 43,
+                'name' => 'returnlist.return_list',
+                'group' => 'returnlist',
+            ],
+            [
+                'id' => 44,
+                'name' => 'approvelist.approve_list',
+                'group' => 'approvelist',
+            ],
 
         ];
 
