@@ -18,7 +18,7 @@ class PropertyDetailsController extends Controller
     public function index()
     {
         $propertytype = DB::table('propertytype')->whereNull('deleted_at')->latest()->get();
-        $propertytypename = DB::table('Property')->whereNull('deleted_at')->latest()->get();
+        $propertytypename = DB::table('property')->whereNull('deleted_at')->latest()->get();
         $slots = DB::table('slot')->whereNull('deleted_at')->latest()->get();
         
         $data = DB::table('propertydetails')
