@@ -36,20 +36,32 @@ class WardController extends Controller
      */
     public function store(StoreWardRequest $request)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
+
             $input = $request->validated();
-            Ward::create( Arr::only( $input, Ward::getFillables() ) );
+
+            $existingWard = Ward::withTrashed()
+                ->where('name', $input['name']) 
+                ->first();
+
+            if ($existingWard) {
+  
+                Ward::create(Arr::only($input, Ward::getFillables()));
+            } else {
+
+                Ward::create(Arr::only($input, Ward::getFillables()));
+            }
+
             DB::commit();
 
-            return response()->json(['success'=> 'Ward created successfully!']);
-        }
-        catch(\Exception $e)
-        {
+            return response()->json(['success' => 'Ward created successfully!']);
+        } catch (\Exception $e) {
+            DB::rollBack();
             return $this->respondWithAjax($e, 'creating', 'Ward');
         }
     }
+
 
     /**
      * Display the specified resource.

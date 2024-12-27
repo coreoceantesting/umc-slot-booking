@@ -21,7 +21,7 @@ class PropertyController extends Controller
 
     public function index()
     {
-        $propertytype = DB::table('propertytype')->whereNull('deleted_by')->latest()->get();
+        $propertytype = DB::table('propertytype')->whereNull('deleted_at')->latest()->get();
 
         $data = Property::join('propertytype', 'propertytype.id', 'property.propertytypename')
         ->get(['property.*', 'propertytype.name as Pname']);
@@ -43,20 +43,31 @@ class PropertyController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StorePropertyRequest $request)
-{
-    try {
-        DB::beginTransaction();
+    {
+        try {
+            DB::beginTransaction();
         
-        $input = $request->validated();
-       
-        Property::create($input);
-        DB::commit();
-
-        return response()->json(['success' => 'Property created successfully!']);
-    } catch (\Exception $e) {
-        return $this->respondWithAjax($e, 'creating', 'Property');
+            $input = $request->validated();
+         
+            $existingProperty = Property::withTrashed()
+                ->where('name', $input['name']) 
+                ->first();
+    
+            if ($existingProperty) {
+                Property::create($input);
+            } else {
+                Property::create($input);
+            }
+    
+            DB::commit();
+    
+            return response()->json(['success' => 'Property created successfully!']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->respondWithAjax($e, 'creating', 'Property');
+        }
     }
-}
+    
 
 
     /**

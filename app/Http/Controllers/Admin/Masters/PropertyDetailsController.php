@@ -17,9 +17,9 @@ class PropertyDetailsController extends Controller
 {
     public function index()
     {
-        $propertytype = DB::table('propertytype')->whereNull('deleted_by')->latest()->get();
-        $propertytypename = DB::table('Property')->whereNull('deleted_by')->latest()->get();
-        $slots = DB::table('slot')->whereNull('deleted_by')->latest()->get();
+        $propertytype = DB::table('propertytype')->whereNull('deleted_at')->latest()->get();
+        $propertytypename = DB::table('Property')->whereNull('deleted_at')->latest()->get();
+        $slots = DB::table('slot')->whereNull('deleted_at')->latest()->get();
         
         $data = DB::table('propertydetails')
         ->join('propertytype', 'propertytype.id', '=', 'propertydetails.propertytypename') 
@@ -31,6 +31,7 @@ class PropertyDetailsController extends Controller
             'property.name as PropertyName', 
             'slot.name as SlotName'
         )
+        ->whereNull('propertydetails.deleted_at')
         ->latest() 
         ->get();
    
@@ -50,20 +51,20 @@ class PropertyDetailsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StorePropertyDetailsRequest $request)
-{
-    try {
-        DB::beginTransaction();
+    {
+        try {
+            DB::beginTransaction();
+            
+            $input = $request->validated();
         
-        $input = $request->validated();
-      
-        PropertyDetails::create($input);
-        DB::commit();
+            PropertyDetails::create($input);
+            DB::commit();
 
-        return response()->json(['success' => 'Property Details created successfully!']);
-    } catch (\Exception $e) {
-        return $this->respondWithAjax($e, 'creating', 'propertydetails');
+            return response()->json(['success' => 'Property Details created successfully!']);
+        } catch (\Exception $e) {
+            return $this->respondWithAjax($e, 'creating', 'propertydetails');
+        }
     }
-}
 
 
     /**

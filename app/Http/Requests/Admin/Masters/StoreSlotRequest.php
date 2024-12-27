@@ -22,7 +22,7 @@ class StoreSlotRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'name' => 'required|unique:slot,name',
+           'name' => 'required',
             'initial' => 'required',
             'totime' => 'required',
             'fromtime' => 'required',

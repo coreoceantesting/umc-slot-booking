@@ -23,7 +23,7 @@ class StorePropertyRequest extends FormRequest
     {
         return [
             'propertytypename' => 'required',
-            'name' => 'required|string|max:255|unique:property,name',
+            'name' => 'required|string',
             'address' => 'required|string|max:255',
         ];
     }

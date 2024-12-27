@@ -79,14 +79,15 @@ class SlotBookingController extends Controller
 
     public function amount_fetch(Request $request){
         $propertyId = $request->input('propertyname');
-    
+        
         $property = DB::table('propertydetails')
             ->where('id', $propertyId)
-            ->whereNull('deleted_by') 
+            ->whereNull('deleted_at') 
             ->first();
-    
+           
         if ($property) {
             return response()->json([
+                'slot'=>$property->slot,
                 'gamount' => $property->gamount,
                 'sdamount' => $property->sdamount,
                 'citizenamount' => $property->citizenamount,
@@ -143,7 +144,7 @@ class SlotBookingController extends Controller
             'mobileno' => 'required',
             'bookingpurpose' => 'required|string',
             'citizentype' => 'required|in:1,2',
-            'slot' => 'required',
+            'slot' => 'required|nullable',
             'files' => 'required',
         ];
     
@@ -170,14 +171,16 @@ class SlotBookingController extends Controller
         }
     
         $existingBooking = SlotBooking::where('slot', $request->input('slot'))
-                                      ->where('booking_date', $request->input('booking_date'))
-                                      ->first();
-    
+        ->where('booking_date', $request->input('booking_date'))
+        ->where('propertytypename', '!=', $request->input('propertyname'))
+        ->first();
+
         if ($existingBooking) {
-            return response()->json([
-                'error' => 'This slot is already booked for the selected date. Please choose another slot or date.'
-            ], 422);
+        return response()->json([
+        'error' => 'This slot is already booked for the selected date with a different property type. Please choose another slot or date.'
+        ], 422);
         }
+
     
         try {
             $slotBooking = new SlotBooking();

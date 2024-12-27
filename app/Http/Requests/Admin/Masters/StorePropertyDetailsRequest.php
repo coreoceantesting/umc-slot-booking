@@ -24,7 +24,7 @@ class StorePropertyDetailsRequest extends FormRequest
         return [
             'propertytypename' => 'required', 
             'propertyname' => 'required', 
-            'slot' => 'required', 
+            'slot' => 'required|nullable', 
             'gamount' => 'required|numeric|min:0',
             'sdamount' => 'required|numeric|min:0', 
             'citizenamount' => 'required|numeric|min:0', 

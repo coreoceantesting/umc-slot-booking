@@ -29,20 +29,30 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
+            
             $input = $request->validated();
-            Department::create($input);
+           
+            $existingDepartment = Department::withTrashed()
+                ->where('name', $input['name']) 
+                ->first();
+
+            if ($existingDepartment) {
+                Department::create($input);
+            } else {
+                Department::create($input);
+            }
+
             DB::commit();
 
-            return response()->json(['success'=> 'Department created successfully!']);
-        }
-        catch(\Exception $e)
-        {
+            return response()->json(['success' => 'Department created successfully!']);
+        } catch (\Exception $e) {
+            DB::rollBack();
             return $this->respondWithAjax($e, 'creating', 'Department');
         }
     }
+
 
     /**
      * Display the specified resource.

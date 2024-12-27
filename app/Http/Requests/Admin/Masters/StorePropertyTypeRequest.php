@@ -22,7 +22,7 @@ class StorePropertyTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'name' => 'required|string|unique:propertytype,name',
+                'name' => 'required|string',
                 'initial' => 'required|string',
         ];
     }

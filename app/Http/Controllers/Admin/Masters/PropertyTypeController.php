@@ -36,20 +36,30 @@ class PropertyTypeController extends Controller
      */
     public function store(StorePropertyTypeRequest $request)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
+            
             $input = $request->validated();
-            PropertyType::create($input);
+            
+            $existingPropertyType = PropertyType::withTrashed()
+                ->where('name', $input['name'])
+                ->first();
+
+            if ($existingPropertyType) {
+                PropertyType::create($input);
+            } else {
+                PropertyType::create($input);
+            }
+
             DB::commit();
 
-            return response()->json(['success'=> 'PropertyType created successfully!']);
-        }
-        catch(\Exception $e)
-        {
+            return response()->json(['success' => 'PropertyType created successfully!']);
+        } catch (\Exception $e) {
+            DB::rollBack();
             return $this->respondWithAjax($e, 'creating', 'PropertyType');
         }
     }
+
 
     /**
      * Display the specified resource.

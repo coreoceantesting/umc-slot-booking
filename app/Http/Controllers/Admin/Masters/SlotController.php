@@ -14,7 +14,8 @@ class SlotController extends Controller
 {
     public function index()
     {
-        $slots = Slot::latest()->get();
+        $slots = Slot::latest()
+        ->whereNull('deleted_at')->get();
 
         return view('admin.masters.slot')->with(['slots'=> $slots]);
     }
@@ -26,20 +27,32 @@ class SlotController extends Controller
 
     public function store(StoreSlotRequest $request)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
+            
+            
             $input = $request->validated();
-            Slot::create($input);
+            
+            
+            $existingSlot = Slot::withTrashed()
+                ->where('name', $input['name']) 
+                ->first();
+
+            if ($existingSlot) {
+                Slot::create($input);
+            } else {
+                Slot::create($input);
+            }
+
             DB::commit();
 
-            return response()->json(['success'=> 'Slot created successfully!']);
-        }
-        catch(\Exception $e)
-        {
+            return response()->json(['success' => 'Slot created successfully!']);
+        } catch (\Exception $e) {
+            DB::rollBack();
             return $this->respondWithAjax($e, 'creating', 'Slot');
         }
     }
+
 
     public function show(string $id)
     {

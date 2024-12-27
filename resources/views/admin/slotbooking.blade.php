@@ -85,7 +85,7 @@
 
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="slot">Select Slot <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="slot" id="slot" required>
+                                    <select class="form-control" name="slot" id="slot" required >
                                         <option value="">--Select slot --</option>
                                         @foreach ($slots as $slot)
                                             <option value="{{ $slot->id }}">{{ $slot->name }}[{{ $slot->fromtime }}-{{$slot->totime}}]</option>
@@ -96,14 +96,14 @@
 
                                 <div class="col-md-4" id="sdamount-container" style="display: none;">
                                     <label class="col-form-label" for="sdamount">Security Deposit Amount <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="sdamount" name="sdamount" type="text" placeholder="Enter SD Amount" >
+                                    <input class="form-control" id="sdamount" name="sdamount" type="text" placeholder="Enter SD Amount" readonly>
                                     <span class="text-danger is-invalid sdamount_err"></span>
                                 </div>
                                 
 
                                 <div class="col-md-4" id="scamount-container" style="display: none;">
                                     <label class="col-form-label" for="scamount">Booking Charges  <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="scamount" name="scamount" type="text" placeholder="Enter SC Amount" >
+                                    <input class="form-control" id="scamount" name="scamount" type="text" placeholder="Enter SC Amount" readonly>
                                     <span class="text-danger is-invalid scamount_err"></span>
                                 </div>
 
@@ -724,6 +724,7 @@ $('#propertyname').change(function() {
                 propertyname: propertyId 
             },
             success: function(response) {
+                $("#addForm select[name='slot']").val(response.slot);
                 $('#signupcitizenType').change(function() {
                     var citizenType = $(this).val();
                     if (citizenType === '1') {
@@ -743,6 +744,7 @@ $('#propertyname').change(function() {
         $('#address').val('');
     }
 });
+
 
 
 </script>
