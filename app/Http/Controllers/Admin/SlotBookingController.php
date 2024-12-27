@@ -48,8 +48,7 @@ class SlotBookingController extends Controller
             ->where('slotbookings.fullname', '=', $user->name)
             ->where(function ($query) {
                 $query->where('slotbookings.activestatus', '=', 'pending')
-                      ->orWhere('slotbookings.activestatus', '=', 'approve')
-                      ->orWhere('slotbookings.activestatus', '=', 'return');
+                      ->orWhere('slotbookings.activestatus', '=', 'approve');
             })
             
             ->latest()
