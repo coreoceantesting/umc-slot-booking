@@ -136,6 +136,7 @@ class ListingController extends Controller
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->where('propertytype.name', '!=', 'Samaj Mandir')
                 ->where('dataapprove.addstatus', '=', 'pending')
+                ->where('dataapprove.assstatus', '=', 'approve')
                 ->latest();
                
         }else{
