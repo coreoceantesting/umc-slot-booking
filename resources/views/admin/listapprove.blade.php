@@ -52,7 +52,16 @@
                                             
                                             <td>{{$pro->SlotName }}</td>
                                             <td>{{$pro->fromtime }}-{{$pro->totime }}</td>
-                                            <td><span class="badge bg-success">{{$pro->activestatus}}</span></td>
+                                            <td>
+                                            @if ($pro->activestatus == 'return')
+                                                <span class="badge bg-secondary">{{ ucfirst($pro->activestatus) }}</span>
+                                            @elseif ($pro->activestatus == 'pending')
+                                                <span class="badge bg-danger">{{ ucfirst($pro->activestatus) }}</span>
+                                            @else
+                                                <span class="badge bg-success">{{ ucfirst($pro->activestatus) }}</span>
+                                            @endif
+                                            
+                                            </td>
                                             {{-- <td>
                                                 <button type="submit" class="btn btn-primary" id="approve">Approve</button>
                                             </td> --}}

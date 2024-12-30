@@ -199,6 +199,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="signupMobile" class="form-label">Mobile Number<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="signupMobile" name="mobile" required>
+                                        <span id="mobile-error" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="signupDob" class="form-label">DOB<span class="text-danger">*</span></label>
@@ -467,6 +468,29 @@
                     icon.classList.add('fa-eye');
                 }
             });
+        </script>
+        <script>
+            function validateMobile() {
+                    var mobile = document.getElementById("signupMobile"); 
+                    var errorSpan = document.getElementById("mobile-error"); 
+
+                    var mobileValue = mobile.value.replace(/\D/g, ''); 
+
+                    if (mobileValue.length > 10) {
+                        mobileValue = mobileValue.substring(0, 10);
+                    }
+
+                    mobile.value = mobileValue;
+
+                    if (mobileValue.length === 10) {
+                        errorSpan.textContent = "";
+                        mobile.classList.remove("is-invalid");
+                    } else {
+                        errorSpan.textContent = "Please enter a valid 10-digit mobile number."; 
+                        mobile.classList.add("is-invalid"); 
+                    }
+                }
+           document.getElementById("signupMobile").addEventListener("input", validateMobile);
         </script>
     </body>
 </html>

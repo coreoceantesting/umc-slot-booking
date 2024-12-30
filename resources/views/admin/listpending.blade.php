@@ -51,7 +51,15 @@
                                             </td>
                                             <td>{{$pro->SlotName }}</td>
                                             <td>{{$pro->fromtime }}-{{$pro->totime}}</td>
-                                            <td><span class="badge bg-danger activestatus">{{$pro->activestatus}}</span></td>
+                                            <td>
+                                                @if ($pro->activestatus == 'return')
+                                                <span class="badge bg-secondary">{{$pro->activestatus}}</span>
+                                                @elseif ($pro->activestatus == 'pending')
+                                                <span class="badge bg-danger ">{{$pro->activestatus}}</span>
+                                                @else
+                                                    <span class="badge bg-success">{{ $pro->activestatus }}</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary view-btn" value="{{ $pro->id }}">View</button>
                                                 {{-- <button type="button" class="btn btn-primary approve-btn" value="{{ $pro->id }}">Approve</button>
@@ -133,99 +141,141 @@ $('#approveBtn').click(function(e) {
     e.preventDefault(); 
     var bookingId = $(this).data('booking-id'); 
     console.log("Booking ID for approve:", bookingId);
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to approve this slot.',
+        icon: 'warning',
+        showCancelButton: true, 
+        confirmButtonText: 'Yes, approve it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true 
+    }).then((result) => {
+        if (result.isConfirmed) {
 
-    $.ajax({
-        url: '{{ route('approvedslot') }}', 
-        method: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}', 
-            booking_id: bookingId
-        },
-        success: function(response) {
-            if (response.success) {
-                var row = $('tr[data-id="' + bookingId + '"]');
-                row.find('.activestatus').text('approved');
-                row.find('.badge').removeClass('bg-danger').addClass('bg-success');
-                
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Slot approved successfully!',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+            $.ajax({
+                url: '{{ route('approvedslot') }}', 
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', 
+                    booking_id: bookingId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        var row = $('tr[data-id="' + bookingId + '"]');
+                        row.find('.activestatus').text('approved');
+                        row.find('.badge').removeClass('bg-danger').addClass('bg-success');
+                        
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Slot approved successfully!',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
 
-                $('#viewDetailsModal').modal('hide');
-            } else if (response.error) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: response.message,
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            }
-        },
-        error: function(xhr, status, error) {
+                        $('#viewDetailsModal').modal('hide');
+                    } else if (response.error) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'An error occurred: ' + error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        } else {
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: 'An error occurred: ' + error,
+                title: 'Approval action cancelled.',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
             });
         }
     });
 });
+
 
 $('#returnBtn').click(function(e) {
     e.preventDefault(); 
     var bookingId = $(this).data('booking-id'); 
     console.log("Booking ID for return:", bookingId);
 
-    $.ajax({
-        url: '{{ route('returnslot') }}', 
-        method: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}', 
-            booking_id: bookingId
-        },
-        success: function(response) {
-            if (response.success) {
-                var row = $('tr[data-id="' + bookingId + '"]');
-                row.find('.activestatus').text('return');
-                row.find('.badge').removeClass('bg-success').addClass('bg-danger');
-                
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Slot returned successfully!',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to return this slot.',
+        icon: 'warning',
+        showCancelButton: true,  
+        confirmButtonText: 'Yes, return it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true 
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '{{ route('returnslot') }}', 
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', 
+                    booking_id: bookingId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        var row = $('tr[data-id="' + bookingId + '"]');
+                        row.find('.activestatus').text('return');
+                        row.find('.badge').removeClass('bg-success').addClass('bg-danger');
+                        
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Slot returned successfully!',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
 
-                $('#viewDetailsModal').modal('hide');
-            } else if (response.error) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: response.message,
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            }
-        },
-        error: function(xhr, status, error) {
+                        $('#viewDetailsModal').modal('hide');
+                    } else if (response.error) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'An error occurred: ' + error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        } else {
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: 'An error occurred: ' + error,
+                title: 'Return action cancelled.',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
             });
         }
     });
 });
+
 
 document.getElementById('closeBtn').onclick = function() {
     var modal = document.getElementById('viewDetailsModal');

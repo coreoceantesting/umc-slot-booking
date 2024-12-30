@@ -110,8 +110,10 @@
 
                             <div class="col-md-4">
                                 <label class="col-form-label" for="mobile">User Mobile <span class="text-danger">*</span></label>
-                                <input class="form-control" name="mobile" type="number" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
-                                    placeholder="Enter User Mobile">
+                                <input  class="form-control"  name="mobile"   type="number" id="mobile"  maxlength="10"
+                                pattern="^\d{10}$" oninput="validateMobile()" placeholder="Enter User Mobile" 
+                                required
+                            >
                                 <span class="text-danger is-invalid mobile_err"></span>
                             </div>
 
@@ -649,4 +651,29 @@
             }
         });
     });
+
+    
+
+    function validateMobile() {
+    var mobile = document.getElementById("mobile");
+    var errorSpan = document.getElementById("mobile-error");
+
+    var mobileValue = mobile.value.replace(/\D/g, '');
+    if (mobileValue.length > 10) {
+        mobileValue = mobileValue.substring(0, 10);
+    }
+
+    mobile.value = mobileValue;
+
+    if (mobileValue.length === 10) {
+        errorSpan.textContent = "";
+        mobile.classList.remove("is-invalid");
+    } else {
+        errorSpan.textContent = "Please enter a valid 10-digit mobile number.";
+        mobile.classList.add("is-invalid");
+    }
+}
+
+document.getElementById("mobile").addEventListener("input", validateMobile);
+
 </script>

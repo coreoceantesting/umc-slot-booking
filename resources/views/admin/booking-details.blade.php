@@ -55,19 +55,22 @@
                 <th>SC Amount</th>
                 <td>{{ $booking->scamount }}</td>
             </tr>
-            <tr>
-                <th>Registration No</th>
-                <td>{{ $booking->registrationno }}</td>
-            </tr>
-            <tr>
-                <th>Files</th>
-                <td>
-                    <a href="{{ asset('storage/registration_certificates/' . $booking->files) }}" target="_blank">
-                        view document
-                    </a>
-                </td>
-                
-            </tr>
+         
+            @if($booking->citizentype == 2)
+                <tr>
+                    <th>Registration No</th>
+                    <td>{{ $booking->registrationno }}</td>
+                </tr>
+                <tr>
+                    <th>Files</th>
+                    <td>
+                        <a href="{{ asset('storage/registration_certificates/' . $booking->files) }}" target="_blank">
+                            View Document
+                        </a>
+                    </td>
+                </tr>
+            @endif
+            
     
 </div>
 </div>

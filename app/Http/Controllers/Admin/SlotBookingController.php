@@ -172,7 +172,6 @@ class SlotBookingController extends Controller
     
         $existingBooking = SlotBooking::where('slot', $request->input('slot'))
         ->where('booking_date', $request->input('booking_date'))
-        ->where('propertytypename', '!=', $request->input('propertyname'))
         ->first();
 
         if ($existingBooking) {

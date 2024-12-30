@@ -309,17 +309,22 @@
                                             <td>{{$pro->fromtime }}-{{$pro->totime }}</td>
                                             <td>
                                                 @if ($pro->activestatus == 'return')
-                                                    <span class="badge bg-secondary">{{ $pro->activestatus }}</span>
+                                                    <span class="badge bg-secondary">{{ ucfirst($pro->activestatus) }}</span>
                                                 @elseif ($pro->activestatus == 'pending')
-                                                    <span class="badge bg-danger">{{ $pro->activestatus }}</span>
+                                                    <span class="badge bg-danger">{{ ucfirst($pro->activestatus) }}</span>
                                                 @else
-                                                    <span class="badge bg-secondary">{{ $pro->activestatus }}</span>
+                                                    <span class="badge bg-success">{{ ucfirst($pro->activestatus) }}</span>
                                                 @endif
                                             </td>
                                             
                                             <td>
-                                                <button class="edit-element btn text-secondary px-2 py-1" title="Edit slotbooking" data-id="{{ $pro->id }}"><i data-feather="edit"></i></button>
-                                                <button class="btn text-danger rem-element px-2 py-1" title="Delete slotbooking" data-id="{{ $pro->id }}"><i data-feather="trash-2"></i></button>
+                                                @if ($pro->activestatus != 'approve')
+                                                    <button class="edit-element btn text-secondary px-2 py-1 " title="Edit slotbooking" data-id="{{ $pro->id }}"><i data-feather="edit"></i></button>
+                                                    <button class="btn text-danger rem-element px-2 py-1 " title="Delete slotbooking" data-id="{{ $pro->id }}"><i data-feather="trash-2"></i></button>
+                                                @else
+                                                    <button class="edit-element btn text-secondary px-2 py-1 d-none" title="Edit slotbooking" data-id="{{ $pro->id }}" disabled><i data-feather="edit"></i></button>
+                                                    <button class="btn text-danger rem-element px-2 py-1 d-none" title="Delete slotbooking" data-id="{{ $pro->id }}" disabled><i data-feather="trash-2"></i></button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -745,6 +750,31 @@ $('#propertyname').change(function() {
     }
 });
 
+// date code
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; 
+    const bookingDateInput = document.getElementById('booking_date');
+    const editBookingDateInput = document.getElementById('edit_booking_date');
+    bookingDateInput.setAttribute('min', formattedDate);
+    editBookingDateInput.setAttribute('min', formattedDate);
+
+    bookingDateInput.value = formattedDate;
+    editBookingDateInput.value = formattedDate;
+
+    bookingDateInput.addEventListener('input', function() {
+        const selectedDate = bookingDateInput.value;
+        const selectedYear = selectedDate.split('-')[0];
+
+        if (selectedYear.length !== 4 || isNaN(selectedYear)) {
+            document.querySelector('.booking_date_err').textContent = "Please enter a valid 4-digit year.";
+            bookingDateInput.classList.add("is-invalid");
+        } else {
+            document.querySelector('.booking_date_err').textContent = "";
+            bookingDateInput.classList.remove("is-invalid");
+        }
+    });
+});
 
 
 </script>
