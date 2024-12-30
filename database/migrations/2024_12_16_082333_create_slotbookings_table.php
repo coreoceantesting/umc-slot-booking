@@ -12,7 +12,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('slotbookings', function (Blueprint $table) {
-            $table->id(); 
+            $table->id();
+            $table->string('slotapplicationid')->nullable(); 
             $table->string('propertytype')->nullable();
             $table->string('propertytypename')->nullable();
             $table->string('address')->nullable();

@@ -147,9 +147,9 @@ class SlotBookingController extends Controller
             'slot' => 'required|nullable',
             'files' => 'required',
         ];
-    
+
         $citizentype = (int) $request->input('citizentype');
-    
+
         if ($citizentype === 1) {
             $rules['sdamount'] = 'required|numeric';
             $rules['scamount'] = 'required|numeric';
@@ -161,26 +161,25 @@ class SlotBookingController extends Controller
             $rules['registrationno'] = 'required';
             $rules['files'] = 'required';
         }
-    
+
         $validator = Validator::make($request->all(), $rules);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 422);
         }
-    
+
         $existingBooking = SlotBooking::where('slot', $request->input('slot'))
-        ->where('booking_date', $request->input('booking_date'))
-        ->first();
+            ->where('booking_date', $request->input('booking_date'))
+            ->first();
 
         if ($existingBooking) {
-        return response()->json([
-        'error' => 'This slot is already booked for the selected date with a different property type. Please choose another slot or date.'
-        ], 422);
+            return response()->json([
+                'error' => 'This slot is already booked for the selected date with a different property type. Please choose another slot or date.'
+            ], 422);
         }
 
-    
         try {
             $slotBooking = new SlotBooking();
             $slotBooking->propertytype = $request->input('propertytypename');
@@ -195,7 +194,7 @@ class SlotBookingController extends Controller
             $slotBooking->scamount = $request->input('scamount');
             $slotBooking->registrationno = $request->input('registrationno');
             $slotBooking->booking_date = $request->input('booking_date');
-    
+
             if ($request->hasFile('files')) {
                 $file = $request->file('files');
                 $fileName = time() . '.' . $file->getClientOriginalExtension();
@@ -207,25 +206,32 @@ class SlotBookingController extends Controller
                     return response()->json(['error' => 'File is required for citizentype 2.'], 422);
                 }
             }
-    
+
             $slotBooking->save();
-    
+
+            $slotapplicationid = 'SLOT/' . date('Y') . '/' . $slotBooking->id;
+            $slotBooking->slotapplicationid = $slotapplicationid;
+
+            $slotBooking->save();
+
             DB::table('dataapprove')->insert([
                 'applicationid' => $slotBooking->id
             ]);
-    
+
             return response()->json([
                 'success' => 'Slot booking created successfully!',
+                'slotapplicationid' => $slotapplicationid
             ]);
-    
+
         } catch (\Exception $e) {
             \Log::error('Error in slot booking: ' . $e->getMessage());
-    
+
             return response()->json([
                 'error' => 'Something went wrong, please try again.',
             ], 500);
         }
     }
+
     
 
 
