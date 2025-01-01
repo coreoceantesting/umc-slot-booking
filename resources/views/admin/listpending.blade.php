@@ -29,7 +29,7 @@
                                         <th>Citizentype</th>
                                         <th>Slot</th>
                                         <th>Time</th>
-                                        <th>ActiveStatus</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -55,11 +55,11 @@
                                             <td>{{$pro->fromtime }}-{{$pro->totime}}</td>
                                             <td>
                                                 @if ($pro->activestatus == 'return')
-                                                <span class="badge bg-secondary">{{$pro->activestatus}}</span>
+                                                    <span class="badge bg-secondary">{{ ucfirst($pro->activestatus) }}</span>
                                                 @elseif ($pro->activestatus == 'pending')
-                                                <span class="badge bg-danger ">{{$pro->activestatus}}</span>
+                                                    <span class="badge bg-danger">{{ ucfirst($pro->activestatus) }}</span>
                                                 @else
-                                                    <span class="badge bg-success">{{ $pro->activestatus }}</span>
+                                                    <span class="badge bg-danger">Pending</span>
                                                 @endif
                                             </td>
                                             <td>

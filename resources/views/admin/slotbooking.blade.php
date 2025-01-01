@@ -75,7 +75,7 @@
                           
                                 <div class="col-md-4">
                                     <label for="citizentype" class="form-label">Select Citizen <span class="text-danger">*</span></label>
-                                    <select id="signupcitizenType" name="citizentype" class="form-select">
+                                    <select id="signupcitizenType" name="citizentype" class="form-select" required>
                                         <option value="">--Select Citizen Type --</option>
                                         <option value="1">General</option>
                                         <option value="2">Senior Citizen</option>
@@ -223,14 +223,14 @@
                                 <!-- SD Amount -->
                                 <div class="col-md-4" id="sdamount-container" style="display: none;">
                                     <label class="col-form-label" for="edit_sdamount">Security Deposit Amount <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="edit_sdamount" name="sdamount" type="text" placeholder="Enter SD Amount">
+                                    <input class="form-control" id="edit_sdamount" name="sdamount" type="text" placeholder="Enter SD Amount" readonly>
                                     <span class="text-danger is-invalid sdamount_err"></span>
                                 </div>
         
                                 <!-- SC Amount -->
                                 <div class="col-md-4" id="scamount-container" style="display: none;">
                                     <label class="col-form-label" for="edit_scamount">Booking Charges <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="edit_scamount" name="scamount" type="text" placeholder="Enter SC Amount">
+                                    <input class="form-control" id="edit_scamount" name="scamount" type="text" placeholder="Enter SC Amount" readonly>
                                     <span class="text-danger is-invalid scamount_err"></span>
                                 </div>
         
@@ -688,11 +688,19 @@ $(document).ready(function() {
             $('#registrationno-container').show();
             $('#files-container').show();
             $('#sdamount-container').show();
+
+            $('#scamount').prop('required', true);
+            $('#sdamount').prop('required', true);
+            $('#registrationno').prop('required', true);
+            $('#files').prop('required', true);
+            
         } else if (citizenType === '1') { 
             $('#scamount-container').show();
             $('#sdamount-container').show();
             $('#registrationno-container').hide();
             $('#files-container').hide();
+
+
         }
     });
 
@@ -760,11 +768,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const formattedDate = today.toISOString().split('T')[0]; 
     const bookingDateInput = document.getElementById('booking_date');
     const editBookingDateInput = document.getElementById('edit_booking_date');
-    bookingDateInput.setAttribute('min', formattedDate);
-    editBookingDateInput.setAttribute('min', formattedDate);
+    // bookingDateInput.setAttribute('min', formattedDate);
+    // editBookingDateInput.setAttribute('min', formattedDate);
 
-    bookingDateInput.value = formattedDate;
-    editBookingDateInput.value = formattedDate;
+    // bookingDateInput.value = formattedDate;
+    // editBookingDateInput.value = formattedDate;
 
     bookingDateInput.addEventListener('input', function() {
         const selectedDate = bookingDateInput.value;

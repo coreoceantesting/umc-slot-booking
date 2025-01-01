@@ -383,10 +383,9 @@ class ListingController extends Controller
     
 
     public function return_list(){
-
         $user = Auth::user();
         $userRole = $user->getRoleNames()->first();
-     
+       
         $query = DB::table('slotbookings')
             ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype') 
             ->join('slot', 'slot.id', '=', 'slotbookings.slot') 
@@ -397,18 +396,22 @@ class ListingController extends Controller
             )
             ->whereNull('slotbookings.deleted_at') 
             ->where('slotbookings.activestatus', '=', 'return')  
-            ->latest();
+            ->orderBy('slotbookings.created_at', 'desc'); 
     
-        if ($userRole == 'Ward Clerk') {
+        $rolesForSamajMandir = ['Ward Clerk', 'Ward Officer'];
+        $rolesForNonSamajMandir = ['Department Clerk', 'Department HOD', 'Assistant Commissioner', 'Additional  Commissioner'];
+    
+        if (in_array($userRole, $rolesForSamajMandir)) {
             $query->where('propertytype.name', '=', 'Samaj Mandir');
-        } elseif ($userRole == 'Department Clerk') {
+        } elseif (in_array($userRole, $rolesForNonSamajMandir)) {
             $query->where('propertytype.name', '!=', 'Samaj Mandir');
         }
     
         $data = $query->get();
-
-        return view('admin.returnslot',compact('data'));
+    
+        return view('admin.returnslot', compact('data'));
     }
+    
 
     public function getSlotDetails($id)
 {

@@ -186,8 +186,9 @@
                                             </div>
                                         </td> --}}
                                         <td>
-                                            {{ \Carbon\Carbon::parse($user->created_at)->format('d M, y h:i:s') }}
+                                            {{ \Carbon\Carbon::parse($user->created_at)->timezone('Asia/Kolkata')->format('d M, y h:i:s') }}
                                         </td>
+                                        
                                         <td>{{ $user->department_name ?? 'NA' }}</td>
                                         <td>
                                             <button class="edit-element btn text-primary px-2 py-1" title="Edit User" data-id="{{ $user->id }}"><i data-feather="edit"></i></button>
@@ -216,31 +217,37 @@
                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
+    
                         <input type="hidden" id="user_id" name="user_id" value="">
-
+    
                         <div class="col-8 mx-auto my-2">
                             <div class="form-group">
-                                <label>Password</label>
-                                <div class="input-group"><span class="input-group-text"><i class="fas fa-unlock-keyhole"></i></span>
+                                <label for="new_password">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-unlock-keyhole"></i></span>
                                     <input class="form-control" type="password" id="new_password" name="new_password">
-                                    {{-- <div class="show-hide"><span class="show"></span></div> --}}
+                                    <span class="input-group-text" id="new_password_eye" style="cursor: pointer;">
+                                        <i class="fas fa-eye-slash"></i>
+                                    </span>
                                 </div>
                                 <span class="text-danger is-invalid password_err"></span>
                             </div>
                         </div>
-
+    
                         <div class="col-8 mx-auto my-2">
                             <div class="form-group">
-                                <label>Confirm Password</label>
-                                <div class="input-group"><span class="input-group-text"><i class="fas fa-unlock-keyhole"></i></span>
+                                <label for="confirmed_password">Confirm Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-unlock-keyhole"></i></span>
                                     <input class="form-control" type="password" id="confirmed_password" name="confirmed_password">
-                                    {{-- <div class="show-hide"><span class="show"></span></div> --}}
+                                    <span class="input-group-text" id="confirmed_password_eye" style="cursor: pointer;">
+                                        <i class="fas fa-eye-slash"></i>
+                                    </span>
                                 </div>
                                 <span class="text-danger is-invalid confirmed_password_err"></span>
                             </div>
                         </div>
-
+    
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
@@ -250,6 +257,7 @@
             </form>
         </div>
     </div>
+    
 
 
     {{-- Assign Role Modal --}}
@@ -675,5 +683,33 @@
 }
 
 document.getElementById("mobile").addEventListener("input", validateMobile);
+
+
+
+// Function to toggle password visibility
+function togglePasswordVisibility(inputId, toggleId) {
+    var passwordField = document.getElementById(inputId);
+    var toggleIcon = document.getElementById(toggleId).querySelector('i');
+
+    if (passwordField.type === 'password') {
+        passwordField.setAttribute('type', 'text');
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    } else {
+        passwordField.setAttribute('type', 'password');
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    }
+}
+
+// Event listener for the "New Password" eye icon
+document.getElementById('new_password_eye').addEventListener('click', function() {
+    togglePasswordVisibility('new_password', 'new_password_eye');
+});
+
+// Event listener for the "Confirm Password" eye icon
+document.getElementById('confirmed_password_eye').addEventListener('click', function() {
+    togglePasswordVisibility('confirmed_password', 'confirmed_password_eye');
+});
 
 </script>

@@ -188,8 +188,12 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="signupFullName" class="form-label">Full Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="signupFullName" name="fullname" required>
+                                        <input type="text" class="form-control" id="signupFullName" name="fullname" required 
+                                            pattern="^[A-Za-z\s]+$" 
+                                            title="Only letters and spaces are allowed.">
                                     </div>
+                                    
+                                    
                                     <div class="col-md-6 mb-3">
                                         <label for="signupEmail" class="form-label">Email<span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="signupEmail" name="email"  required>
@@ -442,13 +446,22 @@
     var age = today.getFullYear() - dobDate.getFullYear(); 
     var monthDifference = today.getMonth() - dobDate.getMonth(); 
 
- 
     if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
         age--;
     }
 
     document.getElementById("signupAge").value = age;
+
+    if (age < 18) {
+        alert("You must be at least 18 years old.");
+        document.getElementById("signupAge").value = ""; 
+        document.getElementById("signupDob").value = ""; 
+        return false; 
+    }
+
+    return true; 
 }
+
 </script>
 
 

@@ -1,6 +1,5 @@
 <div>
     <div>
-        <h3>Booking Details</h3>
         <table class="table">
            
             <tr>
