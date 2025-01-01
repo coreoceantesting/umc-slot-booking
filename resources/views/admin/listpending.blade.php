@@ -21,6 +21,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sr.No</th>
+                                        <th>Application ID</th>
                                         <th>PropertyType</th>
                                         <th>Fullname</th>
                                         <th>Mobile</th>
@@ -36,6 +37,7 @@
                                     @foreach ($data as $index => $pro)
                                         <tr data-id="{{ $pro->id }}"> 
                                             <td>{{ $index + 1 }}</td>
+                                            <td>{{ $pro->slotapplicationid }}</td>
                                             <td>{{ $pro->Pname }}</td>
                                             <td>{{ $pro->fullname }}</td>
                                             <td>{{ $pro->mobileno }}</td>
@@ -106,21 +108,19 @@
 $('.view-btn').click(function(e) {
     e.preventDefault(); 
 
-    var bookingId = $(this).val(); // Get booking ID from the clicked button
+    var bookingId = $(this).val(); 
     console.log("Booking ID:", bookingId);
 
     $.ajax({
-        url: '/get-slot-details/' + bookingId,  // Assuming this route is working fine
+        url: '/get-slot-details/' + bookingId, 
         method: 'GET',
         success: function(response) {
             if (response.details) {
-                // Inject the details into the modal
                 $('#view-details-content').html(response.details);
                 
-                // Open the modal
+           
                 $('#viewDetailsModal').modal('show');
-                
-                // Store the bookingId in approve and return buttons
+              
                 $('#approveBtn').data('booking-id', bookingId);  
                 $('#returnBtn').data('booking-id', bookingId);  
 
@@ -172,7 +172,7 @@ $('#approveBtn').click(function(e) {
                             showConfirmButton: false,
                             timer: 3000
                         });
-
+                        window.location.reload();
                         $('#viewDetailsModal').modal('hide');
                     } else if (response.error) {
                         Swal.fire({
@@ -242,7 +242,7 @@ $('#returnBtn').click(function(e) {
                             showConfirmButton: false,
                             timer: 3000
                         });
-
+                        window.location.reload();
                         $('#viewDetailsModal').modal('hide');
                     } else if (response.error) {
                         Swal.fire({

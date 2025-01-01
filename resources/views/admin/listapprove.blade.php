@@ -21,6 +21,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sr.No</th>
+                                        <th>Application ID</th>
                                         <th>PropertyType</th>
                                         <th>Fullname</th>
                                         <th>Mobile</th>
@@ -36,6 +37,7 @@
                                     @foreach ($data as $index => $pro)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
+                                            <td>{{ $pro->slotapplicationid }}</td>
                                             <td>{{ $pro->Pname }}</td>
                                             <td>{{ $pro->fullname }}</td>
                                             <td>{{ $pro->mobileno }}</td>

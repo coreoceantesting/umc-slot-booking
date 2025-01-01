@@ -48,7 +48,8 @@ class SlotBookingController extends Controller
             ->where('slotbookings.fullname', '=', $user->name)
             ->where(function ($query) {
                 $query->where('slotbookings.activestatus', '=', 'pending')
-                      ->orWhere('slotbookings.activestatus', '=', 'approve');
+                      ->orWhere('slotbookings.activestatus', '=', 'approve')
+                      ->orWhere('slotbookings.activestatus', '=', 'return');
             })
             
             ->latest()
@@ -170,30 +171,93 @@ class SlotBookingController extends Controller
             ], 422);
         }
 
-        $existingBooking = SlotBooking::where('slot', $request->input('slot'))
-            ->where('booking_date', $request->input('booking_date'))
+        $slot = $request->input('slot');
+        $bookingDate = $request->input('booking_date');
+        $propertyName = $request->input('propertyname');
+        $propertyType = $request->input('propertytypename');
+
+
+        $existingBooking = SlotBooking::where('slot', $slot)
+            ->where('booking_date', $bookingDate)
+            ->where('propertytypename', $propertyName)
             ->first();
 
         if ($existingBooking) {
             return response()->json([
-                'error' => 'This slot is already booked for the selected date with a different property type. Please choose another slot or date.'
+                'error' => 'This slot is already booked for the selected property. Please choose another slot or date.'
             ], 422);
+        }
+
+        $existingBookingDifferentProperty = SlotBooking::
+            where('propertytypename', '!=', $propertyName)
+            ->first();
+
+        if ($existingBookingDifferentProperty) {
+            try {
+                $slotBooking = new SlotBooking();
+                $slotBooking->propertytype = $propertyType;
+                $slotBooking->propertytypename = $propertyName;
+                $slotBooking->address = $request->input('address');
+                $slotBooking->fullname = $request->input('fullname');
+                $slotBooking->mobileno = $request->input('mobileno');
+                $slotBooking->bookingpurpose = $request->input('bookingpurpose');
+                $slotBooking->citizentype = $citizentype;
+                $slotBooking->slot = $slot;
+                $slotBooking->sdamount = $request->input('sdamount');
+                $slotBooking->scamount = $request->input('scamount');
+                $slotBooking->registrationno = $request->input('registrationno');
+                $slotBooking->booking_date = $bookingDate;
+
+                if ($request->hasFile('files')) {
+                    $file = $request->file('files');
+                    $fileName = time() . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public/registration_certificates', $fileName);
+                    $slotBooking->files = $fileName;
+                } else {
+                    if ($citizentype === 2) {
+                        \Log::error('File not uploaded when citizentype is 2.');
+                        return response()->json(['error' => 'File is required for citizentype 2.'], 422);
+                    }
+                }
+
+                $slotBooking->save();
+
+                $slotapplicationid = 'SLOT/' . date('Y') . '/' . $slotBooking->id;
+                $slotBooking->slotapplicationid = $slotapplicationid;
+                $slotBooking->save();
+
+                DB::table('dataapprove')->insert([
+                    'applicationid' => $slotBooking->id
+                ]);
+
+                return response()->json([
+                    'success' => 'Slot successfully booked for a different property type!',
+                    'slotapplicationid' => $slotapplicationid
+                ]);
+
+            } catch (\Exception $e) {
+                \Log::error('Error in slot booking: ' . $e->getMessage());
+
+                return response()->json([
+                    'error' => 'Something went wrong, please try again.',
+                ], 500);
+            }
         }
 
         try {
             $slotBooking = new SlotBooking();
-            $slotBooking->propertytype = $request->input('propertytypename');
-            $slotBooking->propertytypename = $request->input('propertyname');
+            $slotBooking->propertytype = $propertyType;
+            $slotBooking->propertytypename = $propertyName;
             $slotBooking->address = $request->input('address');
             $slotBooking->fullname = $request->input('fullname');
             $slotBooking->mobileno = $request->input('mobileno');
             $slotBooking->bookingpurpose = $request->input('bookingpurpose');
             $slotBooking->citizentype = $citizentype;
-            $slotBooking->slot = $request->input('slot');
+            $slotBooking->slot = $slot;
             $slotBooking->sdamount = $request->input('sdamount');
             $slotBooking->scamount = $request->input('scamount');
             $slotBooking->registrationno = $request->input('registrationno');
-            $slotBooking->booking_date = $request->input('booking_date');
+            $slotBooking->booking_date = $bookingDate;
 
             if ($request->hasFile('files')) {
                 $file = $request->file('files');
@@ -211,7 +275,6 @@ class SlotBookingController extends Controller
 
             $slotapplicationid = 'SLOT/' . date('Y') . '/' . $slotBooking->id;
             $slotBooking->slotapplicationid = $slotapplicationid;
-
             $slotBooking->save();
 
             DB::table('dataapprove')->insert([
@@ -219,7 +282,7 @@ class SlotBookingController extends Controller
             ]);
 
             return response()->json([
-                'success' => 'Slot booking created successfully!',
+                'success' => 'Slot successfully booked!',
                 'slotapplicationid' => $slotapplicationid
             ]);
 
@@ -231,6 +294,7 @@ class SlotBookingController extends Controller
             ], 500);
         }
     }
+
 
     
 

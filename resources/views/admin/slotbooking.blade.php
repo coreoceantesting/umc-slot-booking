@@ -341,7 +341,9 @@
 
 </x-admin.layout>
 
+<link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet" />
 
+<script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
 {{-- Add --}}
 <script>
   $("#addForm").submit(function(e) {
@@ -777,6 +779,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
 
 </script>
