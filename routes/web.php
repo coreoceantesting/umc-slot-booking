@@ -68,7 +68,8 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
 
     Route::post('/approvedslot', [App\Http\Controllers\Admin\ListingController::class, 'approved_slot'])->name('approvedslot');
     Route::post('/returnslot', [App\Http\Controllers\Admin\ListingController::class, 'return_slot'])->name('returnslot');
-
+    Route::get('report', [App\Http\Controllers\Admin\ListingController::class, 'report'])->name('report');
+    Route::post('reportsearch', [App\Http\Controllers\Admin\ListingController::class, 'report_search'])->name('reportsearch');
 
 
 

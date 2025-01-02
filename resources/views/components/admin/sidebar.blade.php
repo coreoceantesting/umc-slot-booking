@@ -133,6 +133,12 @@
                         <span data-key="t-slotbooking">Return Slots</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('report') }}">
+                        <i class="ri-dashboard-2-line"></i>
+                        <span data-key="t-slotbooking">Report Slots</span>
+                    </a>
+                </li>
                
                 
             </ul>

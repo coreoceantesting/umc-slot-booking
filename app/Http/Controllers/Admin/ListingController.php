@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use App\Models\Property;
 use App\Models\SlotBooking;
 use App\Models\PropertyType;
 use App\Models\User;
 use App\Models\Role;
+use Carbon\Carbon;
 
 class ListingController extends Controller
 {
@@ -414,31 +416,31 @@ class ListingController extends Controller
     
 
     public function getSlotDetails($id)
-{
-    $booking = SlotBooking::join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-        ->join('slot', 'slot.id', '=', 'slotbookings.slot')
-        ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-        ->join('property', 'property.id', '=', 'slotbookings.propertytypename')
-        ->select(
-            'slotbookings.*', 
-            'propertytype.name as Pname', 
-            'property.name as Prname', 
-            'slot.name as SlotName',
-            'slot.totime',   
-            'slot.fromtime'
-        )
-        ->where('slotbookings.id', $id)
-        ->first(); 
-      
+    {
+        $booking = SlotBooking::join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+            ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+            ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
+            ->join('property', 'property.id', '=', 'slotbookings.propertytypename')
+            ->select(
+                'slotbookings.*', 
+                'propertytype.name as Pname', 
+                'property.name as Prname', 
+                'slot.name as SlotName',
+                'slot.totime',   
+                'slot.fromtime'
+            )
+            ->where('slotbookings.id', $id)
+            ->first(); 
+        
 
-    if (!$booking) {
-        return response()->json(['error' => 'Booking not found'], 404);
+        if (!$booking) {
+            return response()->json(['error' => 'Booking not found'], 404);
+        }
+
+        return response()->json([
+            'details' => view('admin.booking-details', compact('booking'))->render()
+        ]);
     }
-
-    return response()->json([
-        'details' => view('admin.booking-details', compact('booking'))->render()
-    ]);
-}
 
 
 
@@ -489,4 +491,85 @@ class ListingController extends Controller
     {
         //
     }
+
+    public function report()
+    {
+        return view('admin.masters.reports');
+    }
+
+    public function report_search(Request $request)
+    {
+        $validated = $request->validate([
+            'from_date' => 'nullable|date',
+            'to_date' => 'nullable|date',
+            'status' => 'nullable|string|in:pending,approve,return', 
+        ]);
+
+        $fromDate = $validated['from_date'] ?? null;
+        $toDate = $validated['to_date'] ?? null;
+        $status = $validated['status'] ?? null;
+
+        if ($fromDate) {
+            $fromDate = Carbon::parse($fromDate)->startOfDay();
+        }
+
+        if ($toDate) {
+            $toDate = Carbon::parse($toDate)->endOfDay();
+        }
+
+        $query = DB::table('slotbookings')
+            ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+            ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+            ->select(
+                'slotbookings.id',
+                'slotbookings.slotapplicationid',
+                'slotbookings.propertytype',
+                'propertytype.name as Pname',
+                'slotbookings.address',
+                'slotbookings.fullname',
+                'slotbookings.mobileno',
+                'slotbookings.bookingpurpose',
+                'slotbookings.booking_date',
+                'slotbookings.citizentype',
+                'slotbookings.slot',
+                'slotbookings.sdamount',
+                'slotbookings.scamount',
+                'slotbookings.registrationno',
+                'slotbookings.files',
+                'slotbookings.activestatus',
+                'slotbookings.status',
+                'slotbookings.created_at',
+                'slotbookings.updated_at',
+                'slotbookings.deleted_at',
+                'slot.name as SlotName',
+            );
+
+        if ($status) {
+            $query->where('slotbookings.activestatus', $status);
+        }
+
+        if ($fromDate && $toDate) {
+            $query->whereBetween('slotbookings.created_at', [$fromDate, $toDate]);
+        } elseif ($fromDate) {
+            $query->where('slotbookings.created_at', '>=', $fromDate);
+        } elseif ($toDate) {
+            $query->where('slotbookings.created_at', '<=', $toDate);
+        }
+
+        $slotBookings = $query->get();
+
+        \Log::info("Query Results: ", $slotBookings->toArray());
+
+        if ($request->ajax()) {
+            return response()->json([
+                'slotBookings' => $slotBookings,
+            ]);
+        }
+
+        return view('admin.masters.reports');
+    }
+
+   
+
+    
 }
