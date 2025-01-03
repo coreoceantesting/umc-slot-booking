@@ -276,7 +276,7 @@
             <div class="card border-primary card-height-100" style="display: block">
                 <div class="card-header bg-primary align-items-center d-flex">
                     <h4 class="card-title text-white mb-0 flex-grow-1">
-                        Equipments Stock Details (उपकरणे स्टॉक तपशील)
+                         Details 
                     </h4>
                     <div>
                         <a href="#" class="btn btn-soft-secondary btn-sm">
