@@ -71,7 +71,7 @@ class ListingController extends Controller
             ->where('dataapprove.clerkstatus', '=', 'pending')
             ->latest();
 
-// Execute the query or return the results as needed
+            // Execute the query or return the results as needed
 
             // $query = DB::table('slotbookings')
             // ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
@@ -99,7 +99,7 @@ class ListingController extends Controller
             //         ->where('dataapprove.clerkstatus', '=', 'pending');
             // }
             // $query->latest();
-    }        
+        }        
         elseif ($userRole == 'Department HOD') {
             $query = DB::table('slotbookings')
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')

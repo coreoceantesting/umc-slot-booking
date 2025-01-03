@@ -33,12 +33,12 @@
 
                 <!-- App Search-->
                 <form class="app-search d-none d-md-block">
-                    <div class="position-relative">
+                    {{-- <div class="position-relative">
                         <input type="text" class="form-control" placeholder="Search..." autocomplete="off" id="search-options" value="" />
                         <span class="mdi mdi-magnify search-widget-icon"></span>
                         <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none" id="search-close-options"></span>
-                    </div>
-                    <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
+                    </div> --}}
+                    {{-- <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
                         <div data-simplebar style="max-height: 320px">
                             <!-- item-->
                             <div class="dropdown-header">
@@ -130,7 +130,7 @@
                             <a href="pages-search-results.html" class="btn btn-primary btn-sm">View All Results
                                 <i class="ri-arrow-right-line ms-1"></i></a>
                         </div>
-                    </div>
+                    </div> --}}
                 </form>
             </div>
 
@@ -170,7 +170,7 @@
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="{{ asset('admin/images/users/avatar-1.jpg') }}" alt="Header Avatar" />
+                            <img class="rounded-circle header-profile-user" src="{{ asset('admin/images/users/user-dummy-img.jpg') }}" alt="Header Avatar" />
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-semibold user-name-text">{{ ucfirst(auth()->user()->name) }}</span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ auth()->user()->roles[0]->name }}</span>
@@ -181,7 +181,7 @@
                         <h6 class="dropdown-header">
                             Welcome {{ ucfirst(auth()->user()->name) }}!
                         </h6>
-                        <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
+                        <a class="dropdown-item" href=""><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                             <span class="align-middle">Profile</span>
                         </a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
