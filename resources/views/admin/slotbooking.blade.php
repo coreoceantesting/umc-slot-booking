@@ -768,10 +768,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const formattedDate = today.toISOString().split('T')[0]; 
     const bookingDateInput = document.getElementById('booking_date');
     const editBookingDateInput = document.getElementById('edit_booking_date');
-    // bookingDateInput.setAttribute('min', formattedDate);
+    bookingDateInput.setAttribute('min', formattedDate);
     // editBookingDateInput.setAttribute('min', formattedDate);
 
-    // bookingDateInput.value = formattedDate;
+    bookingDateInput.value = formattedDate;
     // editBookingDateInput.value = formattedDate;
 
     bookingDateInput.addEventListener('input', function() {

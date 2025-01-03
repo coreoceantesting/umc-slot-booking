@@ -31,92 +31,118 @@
     
                     <!-- Submit Button -->
                     <div class="col-md-3 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        <button type="submit" class="btn btn-primary w-50">Submit</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-    
-    <div id="report-results">
+    <div  id="report-results">
     </div>
+
+
+
 </x-admin.layout>
 
 <script>
-    $(document).ready(function() {
-        $('#report-form').on('submit', function(e) {
-            e.preventDefault();  
+  $(document).ready(function() {
+    $('#report-form').on('submit', function(e) {
+        e.preventDefault();  
 
-            var formData = $(this).serialize();  
+        var formData = $(this).serialize();  
 
-            $.ajax({
-                    url: "{{ route('reportsearch') }}",
-                    method: "POST",
-                    data: formData, 
-                    success: function(response) {
-                        console.log(response);  
+        $.ajax({
+            url: "{{ route('reportsearch') }}",
+            method: "POST",
+            data: formData, 
+            success: function(response) {
+                console.log(response);  
 
-                        if (response.slotBookings.length > 0) {
-                            var tableHTML = `
-                                <div class="table-responsive">
-                                    <table id="buttons-datatables" class="table table-bordered nowrap align-middle" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr.No</th>
-                                                <th>Application ID</th>
-                                                <th>PropertyType</th>
-                                                <th>Fullname</th>
-                                                <th>Mobile</th>
-                                                <th>Citizentype</th>
-                                                <th>Slot</th>
-                                                <th>Time</th>
-                                                <th>ActiveStatus</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>`;
-
-                            $.each(response.slotBookings, function(index, booking) {
-                                tableHTML += `
+                if (response.slotBookings.length > 0) {
+                    var tableHTML = `
+                        <div class="table-responsive">
+                            <table id="buttons-datatables" class="table table-bordered nowrap align-middle" style="width:100%">
+                                <thead>
                                     <tr>
-                                        <td>${index + 1}</td>
-                                        <td>${booking.slotapplicationid}</td>
-                                        <td>${booking.Pname}</td>
-                                        <td>${booking.fullname}</td>
-                                        <td>${booking.mobileno}</td>
-                                        <td>
-                                            ${booking.citizentype == 1 ? 'General' : (booking.citizentype == 2 ? 'Senior Citizen' : 'Unknown')}
-                                        </td>
-                                        <td>${booking.SlotName}</td>
-                                        <td>${booking.created_at}</td>
-                                        <td>
-                                            ${booking.activestatus == 'return' ? 
-                                                '<span class="badge bg-secondary">Return</span>' : 
-                                                (booking.activestatus == 'pending' ? 
-                                                    '<span class="badge bg-danger">Pending</span>' : 
-                                                    '<span class="badge bg-success">Approve</span>')}
-                                        </td>
-                                    </tr>`;
-                            });
+                                        <th>Sr.No</th>
+                                        <th>Application ID</th>
+                                        <th>PropertyType</th>
+                                        <th>Fullname</th>
+                                        <th>Mobile</th>
+                                        <th>Citizentype</th>
+                                        <th>Slot</th>
+                                        <th>Time</th>
+                                        <th>ActiveStatus</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
 
-                            // Close the table structure
-                            tableHTML += `</tbody></table></div>`;
+                    $.each(response.slotBookings, function(index, booking) {
+                        var createdAt = new Date(booking.created_at);
+                        var formattedDate = formatDate(createdAt);
 
-                            // Insert the table into the DOM
-                            $('#report-results').html(tableHTML);  
+                        tableHTML += `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${booking.slotapplicationid}</td>
+                                <td>${booking.Pname}</td>
+                                <td>${booking.fullname}</td>
+                                <td>${booking.mobileno}</td>
+                                <td>
+                                    ${booking.citizentype == 1 ? 'General' : (booking.citizentype == 2 ? 'Senior Citizen' : 'Unknown')}
+                                </td>
+                                <td>${booking.SlotName}</td>
+                                <td>${formattedDate}</td>
+                                <td>
+                                    ${booking.activestatus == 'return' ? 
+                                        '<span class="badge bg-secondary">Return</span>' : 
+                                        (booking.activestatus == 'pending' ? 
+                                            '<span class="badge bg-danger">Pending</span>' : 
+                                            '<span class="badge bg-success">Approve</span>')}
+                                </td>
+                            </tr>`;
+                    });
 
-                        } else {
-                            // If no results are found, show a message
-                            $('#report-results').html('<p>No results found for the selected filters.</p>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        // In case of error, show an alert
-                        alert('An error occurred. Please try again.');
-                    }
-                });
+                    tableHTML += `</tbody></table></div>`;
+                    $('#report-results').html(tableHTML);  
 
+                    $('#buttons-datatables').DataTable({
+                        dom: 'Bfrtip',  
+                        buttons: [
+                            'copy',       
+                            'excel',       
+                            'csv',       
+                            'pdf',        
+                            {
+                                extend: 'print', 
+                                text: 'Print Table'
+                            }
+                        ],
+                        responsive: true 
+                    });
 
+                } else {
+                    $('#report-results').html('<p>No results found for the selected filters.</p>');
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred. Please try again.');
+            }
         });
     });
+});
+
+function formatDate(date) {
+    var day = date.getDate().toString().padStart(2, '0');
+    var month = date.toLocaleString('default', { month: 'short' });
+    var year = date.getFullYear().toString().slice(-2);
+    var hours = date.getHours() % 12 || 12; 
+    var minutes = date.getMinutes().toString().padStart(2, '0'); 
+    // var seconds = date.getSeconds().toString().padStart(2, '0'); 
+    var ampm = date.getHours() >= 12 ? 'PM' : 'AM'; 
+
+    return `${day}-${month}-${year} ${hours}.${minutes}${ampm}`;
+}
+
 </script>
 

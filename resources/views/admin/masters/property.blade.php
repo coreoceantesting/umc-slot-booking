@@ -29,7 +29,7 @@
                     
                                 <!-- Property Name -->
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="name">Enter Property Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="name">Property Name <span class="text-danger">*</span></label>
                                     <input class="form-control" id="name" name="name" pattern="[A-Za-z\s]+" type="text" placeholder="Enter Property Name" required>
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
@@ -80,7 +80,7 @@
                                     <span class="text-danger is-invalid propertytypename_err"></span>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="name">Enter Property Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="name"> Property Name <span class="text-danger">*</span></label>
                                     <input class="form-control" id="name" name="name" type="text" pattern="[A-Za-z\s]+" placeholder="Enter Property Name" required>
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>

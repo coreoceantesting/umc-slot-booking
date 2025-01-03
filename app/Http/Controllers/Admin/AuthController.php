@@ -86,23 +86,17 @@ class AuthController extends Controller
             'age' => 'required|numeric',
             'username' => 'required|string',
             'citizenType' => 'required|string',
-            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-            'password' => 'required',
-            'confirmPassword' => 'required',
+            'password' => 'required', 
+            'confirmPassword' => 'required', 
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
             ], 422);
         }
-    
-        // $imagePath = null;
-        // if ($request->hasFile('image')) {
-        //     $imagePath = $request->file('image')->store('user_images', 'public');
-        // }
- 
-    
+
+        // User registration logic
         $user = User::create([
             'name' => $request->fullname,
             'fullname' => $request->fullname,
@@ -112,25 +106,23 @@ class AuthController extends Controller
             'age' => $request->age,
             'citizenType' => $request->citizenType,
             'username' => $request->username,
-            // 'image' => $imagePath,
             'password' => Hash::make($request->password), 
-            'role_id' =>8,
+            'role_id' => 8,
         ]);
 
+        // Assign role to the user
         DB::table('model_has_roles')->insert([
             'role_id' => 8, 
             'model_type' => 'App\Models\User',
             'model_id' => $user->id
         ]);
-    
+
         return response()->json([
             'success' => 'User registered successfully!',
             'user' => $user
         ], 201);
-
-        return response()->json(['success' => 'User registered successfully!', 'user' => $user], 201);
-
     }
+
     
 
     public function logout()

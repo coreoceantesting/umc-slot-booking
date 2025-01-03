@@ -165,13 +165,18 @@ $('#approveBtn').click(function(e) {
                         row.find('.activestatus').text('approved');
                         row.find('.badge').removeClass('bg-danger').addClass('bg-success');
                         
+                        var successTitle = (response.userRole === 'Ward Officer' || response.userRole === 'Additional  Commissioner') 
+                            ? 'Final slot booked!' 
+                            : 'Slot approved successfully!';
+                        
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: 'Slot approved successfully!',
+                            title: successTitle,  
                             showConfirmButton: false,
                             timer: 3000
                         });
+
                         window.location.reload();
                         $('#viewDetailsModal').modal('hide');
                     } else if (response.error) {
@@ -194,6 +199,7 @@ $('#approveBtn').click(function(e) {
                     });
                 }
             });
+
         } else {
             Swal.fire({
                 position: 'center',

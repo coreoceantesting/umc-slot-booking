@@ -121,6 +121,10 @@
                 content: "";
                 height: 100vh;
             }
+
+            .modal-backdrop{
+                background-color: #0000009c!important;
+            }
         </style>
     </head>
     <body>
@@ -158,7 +162,7 @@
                                     <div style="display: flex !important; flex-wrap: nowrap; justify-content: space-between;">
                                         <label class="form-label" for="password-input">Password<span class="text-danger">*</span></label>
                                         <p class="">
-                                            <a class="text-primary signUp" href="forgot-password-link" style="cursor: pointer;">
+                                            <a class="text-primary"   style="cursor: pointer;">
                                                 Forgot Password
                                             </a>
                                         </p>
@@ -180,6 +184,7 @@
                                 <p class="mt-3 text-center">Don't Have An Account? <a class="text-primary signUp" style="cursor: pointer;"> Signup </a></p>
                             </form>
                         </div>
+
         
                         <!-- Signup Form (Initially Hidden) -->
                         <div class="container custompadding d-none" id="signupFormContainer">
@@ -404,6 +409,15 @@
 <script>
     $("#signupForm").submit(function(e) {
         e.preventDefault();
+    
+        var password = $("#signupPassword").val();
+        var confirmPassword = $("#signupConfirmPassword").val();
+
+        if (password !== confirmPassword) {
+            swal("Error!", "Passwords do not match!", "error");
+            return; 
+        }
+
         $("#signupForm_submit").prop('disabled', true);
 
         var formdata = new FormData(this);
@@ -414,29 +428,31 @@
             contentType: false,
             processData: false,
             success: function(data) {
-                $("#addSubmit").prop('disabled', false);
-                if (!data.error2)
+                $("#signupForm_submit").prop('disabled', false);
+                if (!data.error2) {
                     swal("Successful!", data.success, "success")
                     .then((action) => {
                         window.location.href = '{{ route('login') }}';
                     });
-                else
+                } else {
                     swal("Error!", data.error2, "error");
+                }
             },
             statusCode: {
                 422: function(responseObject, textStatus, jqXHR) {
-                    $("#addSubmit").prop('disabled', false);
+                    $("#signupForm_submit").prop('disabled', false);
                     resetErrors();
                     printErrMsg(responseObject.responseJSON.errors);
                 },
                 500: function(responseObject, textStatus, errorThrown) {
-                    $("#addSubmit").prop('disabled', false);
-                    swal("Error occured!", "Something went wrong please try again", "error");
+                    $("#signupForm_submit").prop('disabled', false);
+                    swal("Error occurred!", "Something went wrong. Please try again.", "error");
                 }
             }
         });
-
     });
+
+
 
     function calculateAge() {
     var dob = document.getElementById("signupDob").value; 
@@ -505,5 +521,6 @@
                 }
            document.getElementById("signupMobile").addEventListener("input", validateMobile);
         </script>
+        
     </body>
 </html>

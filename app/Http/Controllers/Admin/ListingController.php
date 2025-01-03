@@ -260,38 +260,18 @@ class ListingController extends Controller
     {
         $user = Auth::user();
         $userRole = $user->getRoleNames()->first();
-    
+
         $validated = $request->validate([
             'booking_id' => 'required|exists:slotbookings,id',
         ]);
-    
+
         $booking = SlotBooking::find($request->booking_id);
-    
+
         if (!$booking) {
             return response()->json(['error' => true, 'message' => 'Booking not found.']);
         }
-    
-        $existingBooking = null;
-        if ($userRole == 'Ward Clerk') {
-            $existingBooking = SlotBooking::where('slot', $booking->slot)
-                ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-                ->where('activestatus', 'approve')
-                ->where('booking_date', $booking->booking_date)
-                ->where('propertytype.name', '=', 'Samaj Mandir')
-                ->first();
-        } elseif ($userRole == 'Department Clerk') {
-            $existingBooking = SlotBooking::where('slot', $booking->slot)
-                ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-                ->where('activestatus', 'approve')
-                ->where('booking_date', $booking->booking_date)
-                ->where('propertytype.name', '!=', 'Samaj Mandir')
-                ->first();
-        }
-    
-        if ($existingBooking) {
-            return response()->json(['error' => true, 'message' => 'Slot already booked for this date!']);
-        }
-    
+
+       
         
         $statusField = '';
         $userIdField = '';
@@ -304,7 +284,6 @@ class ListingController extends Controller
                 $userIdField = 'warduserid';
                 $approvalDateField = 'wardapprovaldate';
                 $statusMessage = 'Booking approved By Ward Clerk successfully!';
-                
                 break;
             case 'Ward Officer':
                 $statusField = 'officerstatus';
@@ -339,7 +318,8 @@ class ListingController extends Controller
             default:
                 return response()->json(['error' => true, 'message' => 'Invalid user role.']);
         }
-    
+
+        
         $updateStatus = DB::table('dataapprove')
             ->where('applicationid', $request->booking_id)
             ->update([
@@ -349,16 +329,18 @@ class ListingController extends Controller
                 'deleted_by' => null,
                 'deleted_at' => null,
             ]);
-    
+
         if ($updateStatus === false) {
             return response()->json(['error' => true, 'message' => 'Failed to update approval status.']);
         }
-    
+
+      
         $booking->activestatus = 'approve';
         $booking->save();
-    
-        return response()->json(['success' => true, 'message' => $statusMessage]);
+
+        return response()->json(['success' => true, 'userRole' => $userRole, 'message' => $statusMessage]);
     }
+
 
 
     public function return_slot(Request $request)

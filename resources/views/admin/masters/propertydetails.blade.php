@@ -15,7 +15,7 @@
                         <div class="card-body">
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="propertytypename">Select Property Type Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="propertytypename">Property Type Name <span class="text-danger">*</span></label>
                                     <select class="form-control" name="propertytypename" id="propertytypename" required>
                                         <option value="">--Select Property Type--</option>
                                         @foreach ($propertytype as $property)
@@ -45,7 +45,7 @@
                                 </div> --}}
 
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="slot">Select Slot Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="slot">Slot Name <span class="text-danger">*</span></label>
                                     <select class="form-control" name="slot" id="slot" required>
                                         <option value="">--Select Slot Name --</option>
                                         @foreach ($slots as $slot)
@@ -102,7 +102,7 @@
                         <div class="card-body py-2">
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="propertytypename">Select Property Type Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="propertytypename"> Property Type Name <span class="text-danger">*</span></label>
                                     <select class="form-control" name="propertytypename" id="propertytypename" required>
                                         <option value="">--Select Property Type--</option>
                                         @foreach ($propertytype as $property)
@@ -113,7 +113,7 @@
                                 </div>
                                 
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="propertyname">Select Property Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="propertyname">Property Name <span class="text-danger">*</span></label>
                                     <select class="form-control" name="propertyname" id="propertyname" required>
                                         <option value="">--Select Property Name --</option>
                                         @foreach ($propertytypename as $propertytypenames)
@@ -124,7 +124,7 @@
                                 </div>
         
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="slot">Select Slot Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="slot">Slot Name <span class="text-danger">*</span></label>
                                     <select class="form-control" name="slot" id="slot" required>
                                         <option value="">--Select Slot Name --</option>
                                         @foreach ($slots as $slot)

@@ -51,6 +51,7 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::resource('department', App\Http\Controllers\Admin\Masters\DepartmentController::class);
     Route::resource('slot', App\Http\Controllers\Admin\Masters\SlotController::class);
     Route::resource('propertydetails',App\Http\Controllers\Admin\Masters\PropertyDetailsController::class);
+    Route::resource('adhaardetail',App\Http\Controllers\Admin\Masters\AdhaarDetailsController::class);
 
     // Slot Booking
     Route::resource('slotbooking', App\Http\Controllers\Admin\SlotBookingController::class);
