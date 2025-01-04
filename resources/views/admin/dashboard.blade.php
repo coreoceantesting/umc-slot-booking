@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-animate" id="totalSlipsCardNew">
-                            <div class="card-body" style="background: linear-gradient(165deg, #482668, #ffffff);">
+                            <div class="card-body" style="background:#78737d">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <a class="fw-medium text-dark mb-0">
@@ -61,7 +61,7 @@
                     <div class="col-xl-3 col-md-3">
                         <!-- card -->
                         <div class="card card-animate" id="yearlySlipsCardNew">
-                            <div class="card-body" style="background: linear-gradient(160deg, #482668, #ffffff);">
+                            <div class="card-body" style="background: #016e01">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <a class="fw-medium text-dark mb-0">
@@ -94,8 +94,8 @@
         
                     <div class="col-xl-3 col-md-3" style="border-radius:10px;">
                         {{-- card --}}
-                        <div class="card card-animate" id="actiontakenSlipsNew" style="background: linear-gradient(160deg, #ff0058ad, #482668);">
-                            <div class="card-body">
+                        <div class="card card-animate" id="actiontakenSlipsNew" >
+                            <div class="card-body" style="background: #ee6352;">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <a class="fw-medium text-dark mb-0">
@@ -129,7 +129,7 @@
                     <div class="col-xl-3 col-md-3">
                         <!-- card -->
                         <div class="card card-animate" id="vardiahavalSlipsCardNew">
-                            <div class="card-body" style="background: linear-gradient(160deg, #8c68cd, #482668);">
+                            <div class="card-body" style="background: #3910c38c;">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <a class="fw-medium text-dark mb-0">
