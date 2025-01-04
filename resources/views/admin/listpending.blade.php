@@ -88,6 +88,7 @@
                         {{-- </button> --}}
                     </div>
                     <div class="modal-body" id="view-details-content">
+                       
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Close</button>
@@ -141,6 +142,8 @@ $('#approveBtn').click(function(e) {
     e.preventDefault(); 
     var bookingId = $(this).data('booking-id'); 
     console.log("Booking ID for approve:", bookingId);
+    var remark = $('#remarkInput').val(); 
+    console.log("Remark:", remark); 
     Swal.fire({
         title: 'Are you sure?',
         text: 'You are about to approve this slot.',
@@ -157,7 +160,8 @@ $('#approveBtn').click(function(e) {
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}', 
-                    booking_id: bookingId
+                    booking_id: bookingId,
+                    remark: remark 
                 },
                 success: function(response) {
                     if (response.success) {
@@ -217,6 +221,8 @@ $('#returnBtn').click(function(e) {
     e.preventDefault(); 
     var bookingId = $(this).data('booking-id'); 
     console.log("Booking ID for return:", bookingId);
+    var remark = $('#remarkInput').val(); 
+    console.log("Remark:", remark); 
 
     Swal.fire({
         title: 'Are you sure?',
@@ -233,7 +239,8 @@ $('#returnBtn').click(function(e) {
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}', 
-                    booking_id: bookingId
+                    booking_id: bookingId,
+                    remark: remark 
                 },
                 success: function(response) {
                     if (response.success) {

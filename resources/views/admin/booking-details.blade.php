@@ -1,7 +1,6 @@
 <div>
     <div>
         <table class="table">
-           
             <tr>
                 <th>Property Type</th>
                 <td>{{ $booking->Pname }}</td>
@@ -54,7 +53,7 @@
                 <th>SC Amount</th>
                 <td>{{ $booking->scamount }}</td>
             </tr>
-         
+
             @if($booking->citizentype == 2)
                 <tr>
                     <th>Registration No</th>
@@ -69,67 +68,69 @@
                     </td>
                 </tr>
             @endif
-
-            
-            
-    
+            <!-- Remark field added here -->
+            <tr>
+                <th>Remark</th>
+                <td>
+                    <textarea class="form-control" id="remarkInput" rows="3" placeholder="Enter your remark here..." required></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
-</div>
 
-<script>
-//    $(document).ready(function() {
-//     // Approve button click event
-//     $('#approveBtn').click(function() {
-//         var bookingId = $(this).data('booking-id'); 
-//   console.log('model booking id ',bookingId);
-//         if (!bookingId) {
-//             alert("No booking ID found!");
-//             return;
-//         }
+{{-- <script>
+    $('#approveBtn').click(function() {
+        var bookingId = $(this).data('booking-id');
+        var remark = $('#remarkInput').val(); 
 
-//         $.ajax({
-//             url: '/approvedslot/' + bookingId, 
-//             method: 'POST',
-//             data: {
-//                 _token: $('meta[name="csrf-token"]').attr('content'), 
-//             },
-//             success: function(response) {
-//                 alert(response.message || 'Booking approved!');
-//                 $('#viewDetailsModal').modal('hide');
-//             },
-//             error: function(xhr, status, error) {
-//                 // Show error alert if something goes wrong
-//                 alert("Error approving booking: " + error);
-//             }
-//         });
-//     });
+        console.log('Booking ID for approve:', bookingId);
+        console.log('Remark:', remark);
 
-//     // Return button click event
-//     $('#returnBtn').click(function() {
-//         var bookingId = $(this).data('booking-id'); // Get the bookingId from the button
+        if (!bookingId) {
+            alert("No booking ID found!");
+            return;
+        }
 
-//         if (!bookingId) {
-//             alert("No booking ID found!");
-//             return;
-//         }
+        $.ajax({
+            url: '/approvedslot/' + bookingId, 
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'), 
+                remark: remark  
+            },
+            success: function(response) {
+                alert(response.message || 'Booking approved!');
+                $('#viewDetailsModal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                alert("Error approving booking: " + error);
+            }
+        });
+    });
 
-//         $.ajax({
-//             url: '/returnslot/' + bookingId, // API route for return
-//             method: 'POST',
-//             data: {
-//                 _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
-//             },
-//             success: function(response) {
-//                 // If the request is successful, alert the user and hide the modal
-//                 alert(response.message || 'Booking returned!');
-//                 $('#viewDetailsModal').modal('hide');
-//             },
-//             error: function(xhr, status, error) {
-//                 // Show error alert if something goes wrong
-//                 alert("Error returning booking: " + error);
-//             }
-//         });
-//     });
-// });
+    $('#returnBtn').click(function() {
+        var bookingId = $(this).data('booking-id');
+        var remark = $('#remarkInput').val();  
 
-    </script>
+        if (!bookingId) {
+            alert("No booking ID found!");
+            return;
+        }
+
+        $.ajax({
+            url: '/returnslot/' + bookingId,
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                remark: remark  
+            success: function(response) {
+                alert(response.message || 'Booking returned!');
+                $('#viewDetailsModal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                alert("Error returning booking: " + error);
+            }
+        });
+    });
+</script> --}}

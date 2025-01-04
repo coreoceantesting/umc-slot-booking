@@ -263,7 +263,9 @@ class ListingController extends Controller
 
         $validated = $request->validate([
             'booking_id' => 'required|exists:slotbookings,id',
+            'remark' => 'nullable|string|max:255',  
         ]);
+        
 
         $booking = SlotBooking::find($request->booking_id);
 
@@ -283,37 +285,37 @@ class ListingController extends Controller
                 $statusField = 'wardstatus';
                 $userIdField = 'warduserid';
                 $approvalDateField = 'wardapprovaldate';
-                $statusMessage = 'Booking approved By Ward Clerk successfully!';
+                $statusMessage = 'wardremark';
                 break;
             case 'Ward Officer':
                 $statusField = 'officerstatus';
                 $userIdField = 'officeruserid';
                 $approvalDateField = 'officerapprovaldate';
-                $statusMessage = 'Booking approved By Ward Officer successfully!';
+                $statusMessage = 'officerremark';
                 break;
             case 'Department Clerk':
                 $statusField = 'clerkstatus';
                 $userIdField = 'clerkuserid';
                 $approvalDateField = 'clerkapprovaldate';
-                $statusMessage = 'Booking approved By Department Clerk successfully!';
+                $statusMessage = 'clerkremark';
                 break;
             case 'Department HOD':
                 $statusField = 'hodstatus';
                 $userIdField = 'hoduserid';
                 $approvalDateField = 'hodapprovaldate';
-                $statusMessage = 'Booking approved By Department HOD successfully!';
+                $statusMessage = 'hodremark';
                 break;
             case 'Assistant Commissioner':
                 $statusField = 'assstatus';
                 $userIdField = 'assuserid';
                 $approvalDateField = 'assapprovaldate';
-                $statusMessage = 'Booking approved By Assistant Commissioner successfully!';
+                $statusMessage = 'assremark';
                 break;
             case 'Additional  Commissioner':
                 $statusField = 'addstatus';
                 $userIdField = 'adduserid';
                 $approvalDateField = 'addapprovaldate';
-                $statusMessage = 'Booking approved By Additional Commissioner successfully!';
+                $statusMessage = 'addremark';
                 break;
             default:
                 return response()->json(['error' => true, 'message' => 'Invalid user role.']);
@@ -326,6 +328,7 @@ class ListingController extends Controller
                 $statusField => 'approve',
                 $userIdField => $user->id,
                 $approvalDateField => now(),
+                $statusMessage=>$request->remark,
                 'deleted_by' => null,
                 'deleted_at' => null,
             ]);
@@ -349,7 +352,8 @@ class ListingController extends Controller
         $userRole = $user->getRoleNames()->first();
         
         $validated = $request->validate([
-            'booking_id' => 'required|exists:slotbookings,id',
+            'booking_id' => 'required|exists:slotbookings,id',  
+            'remark' => 'nullable|string|max:255',               
         ]);
         
         $booking = SlotBooking::find($request->booking_id);
@@ -357,12 +361,58 @@ class ListingController extends Controller
         if (!$booking) {
             return response()->json(['error' => true, 'message' => 'Booking not found.']);
         }
+
+        $userIdField = '';
+        $statusMessage = '';
         
+        switch ($userRole) {
+            case 'Ward Clerk':
+                $userIdField = 'warduserid';
+                $statusMessage = 'wardremark';
+                break;
+            case 'Ward Officer':
+                $userIdField = 'officeruserid';
+                $statusMessage = 'officerremark';
+                break;
+            case 'Department Clerk':
+                $userIdField = 'clerkuserid';
+                $statusMessage = 'clerkremark';
+                break;
+            case 'Department HOD':
+                $userIdField = 'hoduserid';
+                $statusMessage = 'hodremark';
+                break;
+            case 'Assistant Commissioner':
+                $userIdField = 'assuserid';
+                $statusMessage = 'assremark';
+                break;
+            case 'Additional Commissioner':
+                $userIdField = 'adduserid';
+                $statusMessage = 'addremark';
+                break;
+            default:
+                return response()->json(['error' => true, 'message' => 'Invalid user role.']);
+        }
+
+        $updateStatus = DB::table('dataapprove')
+            ->where('applicationid', $request->booking_id)
+            ->update([
+                $userIdField => $user->id,
+                $statusMessage => $request->remark,  
+                'deleted_by' => null,
+                'deleted_at' => null,
+            ]);
+        
+        if (!$updateStatus) {
+            return response()->json(['error' => true, 'message' => 'Failed to update approval data.']);
+        }
+
         $booking->activestatus = 'return';
         $booking->save();
-        
+
         return response()->json(['success' => true, 'message' => 'Slot returned successfully!']);
     }
+
 
     
 

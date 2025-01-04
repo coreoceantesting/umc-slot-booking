@@ -3,6 +3,8 @@
     line-height: 1.95;
     font-size: small;
 }
+
+
 </style>
 <x-admin.layout>
     <x-slot name="title">Slot Booking</x-slot>
