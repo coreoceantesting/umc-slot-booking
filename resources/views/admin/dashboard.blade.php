@@ -27,21 +27,21 @@
                 <div class="row">
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-animate" id="totalSlipsCardNew">
-                            <div class="card-body" style="background: linear-gradient(165deg, green, #d1d8db">
+                            <div class="card-body" style="background: linear-gradient(165deg, #482668, #ffffff);">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <a class="fw-medium text-dark mb-0">
                                             <b style="color:#fff;">Total Register Slot</b>
                                         </a>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value " style="color:#fff;" data-target=""></span>
+                                            <span class="counter-value" style="color:#fff;" data-target="{{$slotbooking}}">{{$slotbooking}}</span>
                                         </h2>
                                         <p class="mb-0 text-muted" style="display: none">
-                                            <span class="badge bg-light text-success mb-0"><i class="ri-arrow-up-line align-middle"></i>
+                                            <span class="badge bg-light text-success mb-0">
+                                                <i class="ri-arrow-up-line align-middle"></i>
                                                 16.24 %
                                             </span>
-                                            vs. previous
-                                            month
+                                            vs. previous month
                                         </p>
                                     </div>
                                     <div>
@@ -57,92 +57,25 @@
                         </div>
                         <!-- end card-->
                     </div><!--end col-->
-                    <div class="col-xl-3 col-md-3 d-none">
-                        <!-- card -->
-                        <div class="card card-animate" id="todaySlipsCardNew">
-                            <div class="card-body" style="background-color: deepskyblue">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <a class="fw-medium text-dark mb-0">
-                                            <b style="color:#fff;">Today's Slips (आजच्या स्लिप्स)</b>
-                                        </a>
-                                        <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value" style="color:#fff;" data-target=""></span>
-                                        </h2>
-                                        <p class="mb-0 text-muted" style="display: none">
-                                            <span class="badge bg-light text-success mb-0"><i class="ri-arrow-up-line align-middle"></i>
-                                                16.24 %
-                                            </span>
-                                            vs. previous
-                                            month
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <div class="avatar-sm flex-shrink-0 d-none">
-                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                <i data-feather="award" class="text-info"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end card body -->
-                        </div>
-                        <!-- end card-->
-                    </div><!-- end col -->
-                    <div class="col-xl-3 col-md-3 d-none">
-                        <!-- card -->
-                        <div class="card card-animate" id="monthlySlipsCardNew">
-                            <div class="card-body" style="background: linear-gradient(160deg, mistyrose, #9d78e0);">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <a class="fw-medium text-dark mb-0">
-                                           <b style="color:#fff;"> Montly Slips (मासिक स्लिप्स)</b>
-                                        </a>
-                                        <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value " style="color:#fff;" data-target=""></span>
-                                        </h2>
-                                        <p class="mb-0 text-muted" style="display: none">
-                                            <span class="badge bg-light text-danger mb-0">
-                                                <i class="ri-arrow-down-line align-middle"></i>
-                                                3.96 %
-                                            </span>
-                                            vs. previous
-                                            month
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <div class="avatar-sm flex-shrink-0 d-none">
-                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                <i data-feather="box" class="text-info"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end card body -->
-                        </div>
-                        <!-- end card-->
-                    </div><!-- end col -->
+                    
                     <div class="col-xl-3 col-md-3">
                         <!-- card -->
                         <div class="card card-animate" id="yearlySlipsCardNew">
-                            <div class="card-body" style="background: linear-gradient(160deg, #00000063, #e5bebe87);">
+                            <div class="card-body" style="background: linear-gradient(160deg, #482668, #ffffff);">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <a class="fw-medium text-dark mb-0">
                                             <b style="color:#fff;">Total Approve Slot</b>
                                         </a>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value " style="color:#fff;" data-target=""></span>
+                                            <span class="counter-value" style="color:#fff;" data-target="{{$approveSlotCount}}">{{$approveSlotCount}}</span>
                                         </h2>
                                         <p class="mb-0 text-muted" style="display: none">
                                             <span class="badge bg-light text-danger mb-0">
                                                 <i class="ri-arrow-down-line align-middle"></i>
                                                 0.24 %
                                             </span>
-                                            vs. previous
-                                            month
+                                            vs. previous month
                                         </p>
                                     </div>
                                     <div>
@@ -158,9 +91,10 @@
                         </div>
                         <!-- end card-->
                     </div><!-- end col -->
+        
                     <div class="col-xl-3 col-md-3" style="border-radius:10px;">
                         {{-- card --}}
-                        <div class="card card-animate" id="actiontakenSlipsNew" style="background:linear-gradient(160deg, #ff0058ad, #e4dcf1);">
+                        <div class="card card-animate" id="actiontakenSlipsNew" style="background: linear-gradient(160deg, #ff0058ad, #482668);">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div>
@@ -168,15 +102,14 @@
                                             <b style="color:#fff;">Total Pending Slot</b>
                                         </a>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value " style="color:#fff;" data-target=""></span>
+                                            <span class="counter-value" style="color:#fff;" data-target="{{$pendingSlotCount}}">{{$pendingSlotCount}}</span>
                                         </h2>
                                         <p class="mb-0 text-muted" style="display: none">
                                             <span class="badge bg-light text-success mb-0">
                                                 <i class="ri-arrow-up-line align-middle"></i>
                                                 7.05 %
                                             </span>
-                                            vs. previous
-                                            month
+                                            vs. previous month
                                         </p>
                                     </div>
                                     <div>
@@ -192,25 +125,25 @@
                         </div>
                         <!-- end card-->
                     </div><!--end col-->
+                    
                     <div class="col-xl-3 col-md-3">
                         <!-- card -->
                         <div class="card card-animate" id="vardiahavalSlipsCardNew">
-                            <div class="card-body" style="background:linear-gradient(160deg, #8c68cd, #b8aad1);">
+                            <div class="card-body" style="background: linear-gradient(160deg, #8c68cd, #482668);">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <a class="fw-medium text-dark mb-0">
                                             <b style="color:#fff;">Total Return Slot</b>
                                         </a>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value" style="color:#fff;" data-target=""></span>
+                                            <span class="counter-value" style="color:#fff;" data-target="{{$returnSlotCount}}">{{$returnSlotCount}}</span>
                                         </h2>
                                         <p class="mb-0 text-muted" style="display: none">
                                             <span class="badge bg-light text-success mb-0">
                                                 <i class="ri-arrow-up-line align-middle"></i>
                                                 7.05 %
                                             </span>
-                                            vs. previous
-                                            month
+                                            vs. previous month
                                         </p>
                                     </div>
                                     <div>
@@ -229,22 +162,21 @@
                 </div><!--end row-->
             </div>
         </div><!--end col-->
+        
     
         <div class="col-xl-6">
             <div class="card border-primary card-height-100">
                 <div class="card-header bg-primary align-items-center d-flex">
-                    <h4 class="card-title text-white mb-0 flex-grow-1">Total List (एकूण यादी)</h4>
+                    <h4 class="card-title text-white mb-0 flex-grow-1"> Pending List</h4>
                     <div class="flex-shrink-0">
-                        <a href="#" class="btn btn-soft-primary btn-sm">
+                        <a href="{{ route('slotbooking.index') }}" class="btn btn-soft-primary btn-sm">
                             View All
                         </a>
                     </div>
                 </div><!-- end card header -->
                 <!-- card body -->
                 <div class="card-body">
-                    {{-- @php
-                        $serialNumber = 1;
-                    @endphp --}}
+                 
                     <div id="users-by-country" data-colors='["--vz-light"]' class="text-center d-none" style="height: 252px"></div>
 
                     <div class="table-responsive">
@@ -252,18 +184,42 @@
                             <thead>
                                 <tr>
                                     <th>Sr.No</th>
-                                    <th>Caller Name</th>
-                                    <th>Date</th>
+                                    <th>slotapplicationid</th>
+                                    <th>fullname</th>
+                                    <th>mobileno</th>
+                                    <th>booking_date</th>
+                                    <th>citizentype</th>
+                                    <th>status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($todaysSlipList as $list)
+                                @foreach ($todaysSlotList as $index => $list)
                                     <tr>
-                                        <td>{{ $serialNumber++ }}</td>
-                                        <td>{{ $list->caller_name }}</td>
-                                        <td>{{ $list->slip_date }}</td>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $list->slotapplicationid }}</td>
+                                        <td>{{ $list->fullname }}</td>
+                                        <td>{{ $list->mobileno }}</td>
+                                        <td>{{ $list->booking_date }}</td>
+                                        <td>
+                                        @if($list->citizentype == 1)
+                                        General
+                                        @elseif($list->citizentype == 2)
+                                            Senior Citizen
+                                        @else
+                                            Unknown
+                                        @endif
+                                        </td>
+                                        <td>
+                                            @if ($list->activestatus == 'return')
+                                            <span class="badge bg-secondary">{{ ucfirst($list->activestatus) }}</span>
+                                            @elseif ($list->activestatus == 'pending')
+                                                <span class="badge bg-danger">{{ ucfirst($list->activestatus) }}</span>
+                                            @else
+                                                <span class="badge bg-success">{{ ucfirst($list->activestatus) }}</span>
+                                            @endif
+                                        </td>
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -276,18 +232,16 @@
             <div class="card border-primary card-height-100" style="display: block">
                 <div class="card-header bg-primary align-items-center d-flex">
                     <h4 class="card-title text-white mb-0 flex-grow-1">
-                         Details 
+                          Return List 
                     </h4>
                     <div>
-                        <a href="#" class="btn btn-soft-secondary btn-sm">
+                        <a href="{{ route('returnlist') }}" class="btn btn-soft-secondary btn-sm">
                             View All
                         </a>
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- @php
-                        $serialNumber = 1;
-                    @endphp --}}
+                
                     <div id="users-by-country" data-colors='["--vz-light"]' class="text-center d-none" style="height: 252px"></div>
 
                     <div class="table-responsive">
@@ -295,22 +249,42 @@
                             <thead>
                                 <tr>
                                     <th>Sr.No</th>
-                                    <th>Equipment</th>
-                                    <th>Remaining Stock</th>
-                                    <th>InProcess Stock</th>
-                                    <th>Expire Stock</th>
+                                    <th>slotapplicationid</th>
+                                    <th>fullname</th>
+                                    <th>mobileno</th>
+                                    <th>booking_date</th>
+                                    <th>citizentype</th>
+                                    <th>status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($equipment_list as $list)
+                                @foreach ($returnSlotList as $index => $list)
                                     <tr>
-                                        <td>{{ $serialNumber++ }}</td>
-                                        <td>{{ $list->equipment_name }}</td>
-                                        <td>{{ $list->total_stock - $list->total_supply_quantity ?: '0' }}</td>
-                                        <td>{{ $list->total_supply_quantity ?: '0' }}</td>
-                                        <td>{{ $list->total_expire_quantity ?: '0' }}</td>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $list->slotapplicationid }}</td>
+                                        <td>{{ $list->fullname }}</td>
+                                        <td>{{ $list->mobileno }}</td>
+                                        <td>{{ $list->booking_date }}</td>
+                                        <td>
+                                        @if($list->citizentype == 1)
+                                        General
+                                        @elseif($list->citizentype == 2)
+                                            Senior Citizen
+                                        @else
+                                            Unknown
+                                        @endif
+                                        </td>
+                                        <td>
+                                            @if ($list->activestatus == 'return')
+                                            <span class="badge bg-secondary">{{ ucfirst($list->activestatus) }}</span>
+                                            @elseif ($list->activestatus == 'pending')
+                                                <span class="badge bg-danger">{{ ucfirst($list->activestatus) }}</span>
+                                            @else
+                                                <span class="badge bg-success">{{ ucfirst($list->activestatus) }}</span>
+                                            @endif
+                                        </td>
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -320,62 +294,15 @@
             <!-- end card -->
         </div><!--end col-->
 
-        <div class="col-xl-6">
-            <div class="card border-primary card-height-100" style="display: block">
-                <div class="card-header bg-primary align-items-center d-flex">
-                    <h4 class="card-title text-white mb-0 flex-grow-1">
-                        Total List
-                    </h4>
-                    <div>
-                        <a href="#" class="btn btn-soft-secondary btn-sm">
-                            View All
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @php
-                        $serialNumber = 1;
-                    @endphp
-                    <div id="users-by-country" data-colors='["--vz-light"]' class="text-center d-none" style="height: 252px"></div>
-
-                    <div class="table-responsive">
-                        <table id="vehicledetails" class="table table-bordered nowrap align-middle" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Sr.No</th>
-                                    <th>Application ID</th>
-                                    <th>name</th>
-                                    <th>Booking Date</th>
-                                    <th>Mobile No</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{-- @foreach ($vehicle_history_details as $list)
-                                    <tr>
-                                        <td>{{ $serialNumber++ }}</td>
-                                        <td>{{ $list->vehicle_name }}</td>
-                                        <td>{{ $list->vehicle_no }}</td>
-                                        <td>{{ $list->puc_end_date }}</td>
-                                        <td>{{ $list->insurance_end_date }}</td>
-                                        <td>{{ $list->vehicle_fitness_end_date }}</td>
-                                    </tr>
-                                @endforeach --}}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- end card body -->
-            </div>
-            <!-- end card -->
-        </div>
+        
         <!--end col-->
         
         {{-- pie chart --}}
-        <div class="col-xl-6">
+        {{-- <div class="col-xl-6">
             <canvas id="slotPieChart" width="150" height="150"></canvas>
-        </div>
+        </div> --}}
         
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             var data = {
                 labels: ["Approve Slot", "Return Slot", "Pending Slot", "All Register Slot"],
@@ -419,7 +346,7 @@
         
             var ctx = document.getElementById('slotPieChart').getContext('2d');
             var slotPieChart = new Chart(ctx, config);  
-        </script>
+        </script> --}}
         
     
 
