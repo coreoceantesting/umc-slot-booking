@@ -26,6 +26,7 @@
                                         <th>Mobile</th>
                                         <th>Citizentype</th>
                                         <th>Slot</th>
+                                        {{-- <th>Remark</th> --}}
                                         <th>ActiveStatus</th>
                                         {{-- <th>Action</th> --}}
                                     </tr>
@@ -59,6 +60,9 @@
                                             @endif
                                             
                                             </td>
+                                            {{-- <td>
+                                                {{$pro->wardremark}}
+                                            </td> --}}
                                             {{-- <td>
                                                 <button type="submit" class="btn btn-primary" id="approve">Approve</button>
                                             </td> --}}

@@ -423,10 +423,17 @@ class ListingController extends Controller
         $query = DB::table('slotbookings')
             ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype') 
             ->join('slot', 'slot.id', '=', 'slotbookings.slot') 
+            ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id') 
             ->select(
                 'slotbookings.*', 
                 'propertytype.name as Pname', 
-                'slot.name as SlotName'
+                'slot.name as SlotName',
+                'dataapprove.wardremark',
+                'dataapprove.officerremark',
+                'dataapprove.clerkremark',
+                'dataapprove.hodremark',
+                'dataapprove.assremark',
+                'dataapprove.addremark'
             )
             ->whereNull('slotbookings.deleted_at') 
             ->where('slotbookings.activestatus', '=', 'return')  
@@ -442,6 +449,8 @@ class ListingController extends Controller
         }
     
         $data = $query->get();
+        // print_r($data);
+        // exit;
     
         return view('admin.returnslot', compact('data'));
     }

@@ -764,28 +764,25 @@ $('#propertyname').change(function() {
     }
 });
 
-// date code
 document.addEventListener('DOMContentLoaded', function() {
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0]; 
+
     const bookingDateInput = document.getElementById('booking_date');
     const editBookingDateInput = document.getElementById('edit_booking_date');
-    bookingDateInput.setAttribute('min', formattedDate);
-    // editBookingDateInput.setAttribute('min', formattedDate);
 
-    bookingDateInput.value = formattedDate;
-    // editBookingDateInput.value = formattedDate;
+    bookingDateInput.setAttribute('min', formattedDate);
 
     bookingDateInput.addEventListener('input', function() {
         const selectedDate = bookingDateInput.value;
-        const selectedYear = selectedDate.split('-')[0];
+        const selectedYear = selectedDate.split('-')[0]; 
 
         if (selectedYear.length !== 4 || isNaN(selectedYear)) {
             document.querySelector('.booking_date_err').textContent = "Please enter a valid 4-digit year.";
-            bookingDateInput.classList.add("is-invalid");
+            bookingDateInput.classList.add("is-invalid"); 
         } else {
-            document.querySelector('.booking_date_err').textContent = "";
-            bookingDateInput.classList.remove("is-invalid");
+            document.querySelector('.booking_date_err').textContent = "";  
+            bookingDateInput.classList.remove("is-invalid");  
         }
     });
 });

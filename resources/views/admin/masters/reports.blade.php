@@ -21,7 +21,7 @@
     
                     <div class="col-md-3">
                         <label for="status" class="col-form-label">Status</label>
-                        <select id="status" class="form-control" style="width: 100%;left:0;margin:0;" name="status" >
+                        <select id="status" class="form-control" style="width: 100%;left:0;margin:0;" name="status">
                             <option value="">All</option>
                             <option value="pending">Pending</option>
                             <option value="approve">Approve</option>
@@ -37,112 +37,106 @@
             </div>
         </form>
     </div>
-    <div  id="report-results">
-    </div>
-
-
-
+    <div id="report-results"></div>
 </x-admin.layout>
 
 <script>
-  $(document).ready(function() {
-    $('#report-form').on('submit', function(e) {
-        e.preventDefault();  
+    $(document).ready(function () {
+        $('#report-form').on('submit', function (e) {
+            e.preventDefault();  
 
-        var formData = $(this).serialize();  
+            var formData = $(this).serialize();  
 
-        $.ajax({
-            url: "{{ route('reportsearch') }}",
-            method: "POST",
-            data: formData, 
-            success: function(response) {
-                console.log(response);  
+            $.ajax({
+                url: "{{ route('reportsearch') }}",
+                method: "POST",
+                data: formData, 
+                success: function(response) {
+                    console.log(response);  
 
-                if (response.slotBookings.length > 0) {
-                    var tableHTML = `
-                        <div class="table-responsive">
-                            <table id="buttons-datatables" class="table table-bordered nowrap align-middle" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Sr.No</th>
-                                        <th>Application ID</th>
-                                        <th>PropertyType</th>
-                                        <th>Fullname</th>
-                                        <th>Mobile</th>
-                                        <th>Citizentype</th>
-                                        <th>Slot</th>
-                                        <th>Time</th>
-                                        <th>ActiveStatus</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
+                    if (response.slotBookings.length > 0) {
+                        var tableHTML = ` 
+                            <div class="table-responsive">
+                                <table id="buttons-datatables" class="table table-bordered nowrap align-middle" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.No</th>
+                                            <th>Application ID</th>
+                                            <th>PropertyType</th>
+                                            <th>Fullname</th>
+                                            <th>Mobile</th>
+                                            <th>Citizentype</th>
+                                            <th>Slot</th>
+                                            <th>Time</th>
+                                            <th>ActiveStatus</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
 
-                    $.each(response.slotBookings, function(index, booking) {
-                        var createdAt = new Date(booking.created_at);
-                        var formattedDate = formatDate(createdAt);
+                        $.each(response.slotBookings, function (index, booking) {
+                            var createdAt = new Date(booking.created_at);
+                            createdAt.setHours(createdAt.getHours() + 5);  
+                            createdAt.setMinutes(createdAt.getMinutes() + 30);  
+                            
+                            var options = {  
+                                year: '2-digit',  
+                                month: 'short',  
+                                day: '2-digit',  
+                                hour: '2-digit',  
+                                minute: '2-digit',  
+                                second: '2-digit',  
+                                hour12: true  
+                            };
+                            var indianTime = createdAt.toLocaleString('en-IN', options);
 
-                        tableHTML += `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${booking.slotapplicationid}</td>
-                                <td>${booking.Pname}</td>
-                                <td>${booking.fullname}</td>
-                                <td>${booking.mobileno}</td>
-                                <td>
-                                    ${booking.citizentype == 1 ? 'General' : (booking.citizentype == 2 ? 'Senior Citizen' : 'Unknown')}
-                                </td>
-                                <td>${booking.SlotName}</td>
-                                <td>${formattedDate}</td>
-                                <td>
-                                    ${booking.activestatus == 'return' ? 
-                                        '<span class="badge bg-secondary">Return</span>' : 
-                                        (booking.activestatus == 'pending' ? 
-                                            '<span class="badge bg-danger">Pending</span>' : 
-                                            '<span class="badge bg-success">Approve</span>')}
-                                </td>
-                            </tr>`;
-                    });
+                            tableHTML += ` 
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${booking.slotapplicationid}</td>
+                                    <td>${booking.Pname}</td>
+                                    <td>${booking.fullname}</td>
+                                    <td>${booking.mobileno}</td>
+                                    <td>
+                                        ${booking.citizentype == 1 ? 'General' : (booking.citizentype == 2 ? 'Senior Citizen' : 'Unknown')}
+                                    </td>
+                                    <td>${booking.SlotName}</td>
+                                    <td>${indianTime}</td>  <!-- Display the formatted time -->
+                                    <td>
+                                        ${booking.activestatus == 'return' ? 
+                                            '<span class="badge bg-secondary">Return</span>' : 
+                                            (booking.activestatus == 'pending' ? 
+                                                '<span class="badge bg-danger">Pending</span>' : 
+                                                '<span class="badge bg-success">Approve</span>')}
+                                    </td>
+                                </tr>`;
+                        });
 
-                    tableHTML += `</tbody></table></div>`;
-                    $('#report-results').html(tableHTML);  
+                        tableHTML += `</tbody></table></div>`;
+                        $('#report-results').html(tableHTML);  
 
-                    $('#buttons-datatables').DataTable({
-                        dom: 'Bfrtip',  
-                        buttons: [
-                            'copy',       
-                            'excel',       
-                            'csv',       
-                            'pdf',        
-                            {
-                                extend: 'print', 
-                                text: 'Print Table'
-                            }
-                        ],
-                        responsive: true 
-                    });
+                        $('#buttons-datatables').DataTable({
+                            dom: 'Bfrtip',  
+                            buttons: [
+                                'copy',       
+                                'excel',       
+                                'csv',       
+                                'pdf',        
+                                {
+                                    extend: 'print', 
+                                    text: 'Print Table'
+                                }
+                            ],
+                            responsive: true 
+                        });
 
-                } else {
-                    $('#report-results').html('<p>No results found for the selected filters.</p>');
+                    } else {
+                        $('#report-results').html('<p>No results found for the selected filters.</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred. Please try again.');
                 }
-            },
-            error: function(xhr, status, error) {
-                alert('An error occurred. Please try again.');
-            }
+            });
         });
     });
-});
-
-function formatDate(date) {
-    var day = date.getDate().toString().padStart(2, '0');
-    var month = date.toLocaleString('default', { month: 'short' });
-    var year = date.getFullYear().toString().slice(-2);
-    var hours = date.getHours() % 12 || 12; 
-    var minutes = date.getMinutes().toString().padStart(2, '0'); 
-    // var seconds = date.getSeconds().toString().padStart(2, '0'); 
-    var ampm = date.getHours() >= 12 ? 'PM' : 'AM'; 
-
-    return `${day}-${month}-${year} ${hours}.${minutes}${ampm}`;
-}
-
 </script>
-
