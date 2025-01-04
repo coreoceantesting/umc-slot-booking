@@ -154,7 +154,7 @@
                         <span data-key="t-slotbooking">Approve Slots</span>
                     </a>
                 </li>
-                @endcan
+               
 
                 <li class="nav-item {{ request()->routeIs('returnlist') ? 'active' : '' }}">
                     <a class="nav-link menu-link" href="{{ route('returnlist') }}">
@@ -169,6 +169,7 @@
                         <span data-key="t-slotbooking">Report Slots</span>
                     </a>
                 </li>
+                @endcan
             </ul>
         </div>
     </div>
