@@ -184,12 +184,12 @@
                             <thead>
                                 <tr>
                                     <th>Sr.No</th>
-                                    <th>slotapplicationid</th>
-                                    <th>fullname</th>
-                                    <th>mobileno</th>
-                                    <th>booking_date</th>
-                                    <th>citizentype</th>
-                                    <th>status</th>
+                                    <th>ApplicationID</th>
+                                    <th>Name</th>
+                                    <th>MobileNo</th>
+                                    <th>BookingDate</th>
+                                    <th>CitizenType</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -235,7 +235,7 @@
                           Return List 
                     </h4>
                     <div>
-                        <a href="{{ route('returnlist') }}" class="btn btn-soft-secondary btn-sm">
+                        <a href="{{ route('returnlist') }}" class="btn btn-soft-primary btn-sm">
                             View All
                         </a>
                     </div>
@@ -249,12 +249,12 @@
                             <thead>
                                 <tr>
                                     <th>Sr.No</th>
-                                    <th>slotapplicationid</th>
-                                    <th>fullname</th>
-                                    <th>mobileno</th>
-                                    <th>booking_date</th>
-                                    <th>citizentype</th>
-                                    <th>status</th>
+                                    <th>ApplicationID</th>
+                                    <th>Name</th>
+                                    <th>MobileNo</th>
+                                    <th>BookingDate</th>
+                                    <th>CitizenType</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
