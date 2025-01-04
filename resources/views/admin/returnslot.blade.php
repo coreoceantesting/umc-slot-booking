@@ -26,7 +26,7 @@
                                         <th>Mobile</th>
                                         <th>Citizentype</th>
                                         <th>Slot</th>
-                                        {{-- <th>Remark</th> --}}
+                                        <th>Remark</th>
                                         <th>ActiveStatus</th>
                                         {{-- <th>Action</th> --}}
                                     </tr>
@@ -50,22 +50,34 @@
                                             </td>
                                             
                                             <td>{{$pro->SlotName }}</td>
+                                          
                                             <td>
-                                            @if ($pro->activestatus == 'return')
-                                                <span class="badge bg-secondary">{{ ucfirst($pro->activestatus) }}</span>
-                                            @elseif ($pro->activestatus == 'pending')
-                                                <span class="badge bg-danger">{{ ucfirst($pro->activestatus) }}</span>
-                                            @else
-                                                <span class="badge bg-success">{{ ucfirst($pro->activestatus) }}</span>
-                                            @endif
-                                            
+                                                @if($userRole == 'Ward Clerk')
+                                                    {{ $pro->wardremark }}
+                                                @elseif($userRole == 'Ward Officer')
+                                                    {{ $pro->officerremark }}
+                                                @elseif($userRole == 'Department Clerk')
+                                                    {{ $pro->clerkremark }}
+                                                @elseif($userRole == 'Department HOD')
+                                                    {{ $pro->hodremark }}
+                                                @elseif($userRole == 'Assistant Commissioner')
+                                                    {{ $pro->assremark }}
+                                                @elseif($userRole == 'Additional  Commissioner')
+                                                    {{ $pro->addremark }}
+                                                @else
+                                                    No Remark Available
+                                                @endif
                                             </td>
-                                            {{-- <td>
-                                                {{$pro->wardremark}}
-                                            </td> --}}
-                                            {{-- <td>
-                                                <button type="submit" class="btn btn-primary" id="approve">Approve</button>
-                                            </td> --}}
+
+                                            <td>
+                                                @if ($pro->activestatus == 'return')
+                                                    <span class="badge bg-secondary">{{ ucfirst($pro->activestatus) }}</span>
+                                                @elseif ($pro->activestatus == 'pending')
+                                                    <span class="badge bg-danger">{{ ucfirst($pro->activestatus) }}</span>
+                                                @else
+                                                    <span class="badge bg-success">{{ ucfirst($pro->activestatus) }}</span>
+                                                @endif
+                                                </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -416,10 +416,36 @@ class ListingController extends Controller
 
     
 
-    public function return_list(){
+    public function return_list()
+    {
         $user = Auth::user();
         $userRole = $user->getRoleNames()->first();
-       
+        
+        $remarkField = '';
+        
+        switch ($userRole) {
+            case 'Ward Clerk':
+                $remarkField = 'wardremark';
+                break;
+            case 'Ward Officer':
+                $remarkField = 'officerremark';
+                break;
+            case 'Department Clerk':
+                $remarkField = 'clerkremark';
+                break;
+            case 'Department HOD':
+                $remarkField = 'hodremark';
+                break;
+            case 'Assistant Commissioner':
+                $remarkField = 'assremark';
+                break;
+            case 'Additional Commissioner':
+                $remarkField = 'addremark';
+                break;
+            default:
+                return response()->json(['error' => true, 'message' => 'Invalid user role.']);
+        }
+        
         $query = DB::table('slotbookings')
             ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype') 
             ->join('slot', 'slot.id', '=', 'slotbookings.slot') 
@@ -428,20 +454,15 @@ class ListingController extends Controller
                 'slotbookings.*', 
                 'propertytype.name as Pname', 
                 'slot.name as SlotName',
-                'dataapprove.wardremark',
-                'dataapprove.officerremark',
-                'dataapprove.clerkremark',
-                'dataapprove.hodremark',
-                'dataapprove.assremark',
-                'dataapprove.addremark'
+                'dataapprove.' . $remarkField, 
             )
             ->whereNull('slotbookings.deleted_at') 
             ->where('slotbookings.activestatus', '=', 'return')  
             ->orderBy('slotbookings.created_at', 'desc'); 
     
         $rolesForSamajMandir = ['Ward Clerk', 'Ward Officer'];
-        $rolesForNonSamajMandir = ['Department Clerk', 'Department HOD', 'Assistant Commissioner', 'Additional  Commissioner'];
-    
+        $rolesForNonSamajMandir = ['Department Clerk', 'Department HOD', 'Assistant Commissioner', 'Additional Commissioner'];
+        
         if (in_array($userRole, $rolesForSamajMandir)) {
             $query->where('propertytype.name', '=', 'Samaj Mandir');
         } elseif (in_array($userRole, $rolesForNonSamajMandir)) {
@@ -449,11 +470,10 @@ class ListingController extends Controller
         }
     
         $data = $query->get();
-        // print_r($data);
-        // exit;
-    
-        return view('admin.returnslot', compact('data'));
+        
+        return view('admin.returnslot', compact('data','userRole'));
     }
+    
     
 
     public function getSlotDetails($id)
