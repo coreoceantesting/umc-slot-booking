@@ -246,6 +246,10 @@ class PermissionTableSeeder extends Seeder
                 'id' => 48,
                 'name' => 'adhaardetail.delete',
                 'group' => 'adhaardetail',
+            ],[
+                'id' => 49,
+                'name' => 'approvelist.approve_list',
+                'group' => 'approvelist',
             ],
 
         ];
