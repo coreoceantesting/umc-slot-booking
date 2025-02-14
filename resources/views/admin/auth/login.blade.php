@@ -244,15 +244,11 @@
                                             </button>
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-6 mb-3">
-                                        <label for="signupImage" class="form-label">Upload Image<span class="text-danger">*</span></label>
-                                        <input type="file" class="form-control" id="signupImage" accept="image/*" name="image" required>
-                                    </div> --}}
+                                  
                                     
                                 </div>
 
                                 <div class="row">
-                                   
                                     <div class="col-md-6 mb-3">
                                         <label for="signupConfirmPassword" class="form-label">Confirm Password<span class="text-danger">*</span></label>
                                         <div class="input-group">
@@ -261,6 +257,10 @@
                                                 <i class="ri-eye-fill align-middle" id="eye-icon-confirmPassword"></i>
                                             </button>
                                         </div>
+                                    </div>
+                                     <div class="col-md-6 mb-3">
+                                        <label for="signupImage" class="form-label">Upload Image<span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" id="signupImage" accept="image/*" name="image" required>
                                     </div>
                                 </div>
                                

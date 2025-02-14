@@ -88,12 +88,18 @@ class AuthController extends Controller
             'citizenType' => 'required|string',
             'password' => 'required', 
             'confirmPassword' => 'required', 
+            'image' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
             ], 422);
+        }
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('user_images', 'public');
         }
 
         // User registration logic
@@ -108,6 +114,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password), 
             'role_id' => 8,
+            'image' => $imagePath,
         ]);
 
         // Assign role to the user

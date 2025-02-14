@@ -58,6 +58,8 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::get('fetchproperty', [App\Http\Controllers\Admin\SlotBookingController::class, 'propertynamefetch'])->name('fetchproperty');
     Route::get('fetchamount', [App\Http\Controllers\Admin\SlotBookingController::class, 'amount_fetch'])->name('fetchamount');
     Route::get('fetchaddress', [App\Http\Controllers\Admin\SlotBookingController::class, 'fetch_address'])->name('fetchaddress');
+    Route::post('create-order', [App\Http\Controllers\RazorpayController::class, 'createOrder']);
+    Route::post('verify-payment', [App\Http\Controllers\RazorpayController::class, 'verifyPayment']);
 
     //Ward login clerk and Department clerk
     Route::get('pendinglist', [App\Http\Controllers\Admin\ListingController::class, 'pending_list'])->name('pendinglist');

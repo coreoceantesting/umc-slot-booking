@@ -287,7 +287,8 @@
                                         <th>Citizentype</th>
                                         <th>Slot</th>
                                         <th>Time</th>
-                                        <th>ActiveStatus</th>
+                                        <th>Status</th>
+                                        <th id="remark">Remark</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -320,16 +321,50 @@
                                                     <span class="badge bg-success">{{ ucfirst($pro->activestatus) }}</span>
                                                 @endif
                                             </td>
+
+                                            {{-- <td >
+                                                @if ($pro->activestatus == 'return')
+                                                @if ($pro->wardstatus == 'pending' && !is_null($pro->wardremark))
+                                                    <span> {{ $pro->wardremark }}</span>
+                                                @endif
+                                        
+                                                @if ($pro->officerstatus == 'pending' && !is_null($pro->officerremark))
+                                                    <span>{{ $pro->officerremark }}</span>
+                                                @endif
+                                        
+                                                @if ($pro->clerkstatus == 'pending' && !is_null($pro->clerkremark))
+                                                    <span>{{ $pro->clerkremark }}</span>
+                                                @endif
+                                        
+                                                @if ($pro->hodstatus == 'pending' && !is_null($pro->hodremark))
+                                                    <span>{{ $pro->hodremark }}</span>
+                                                @endif
+                                        
+                                                @if ($pro->assstatus == 'pending' && !is_null($pro->assremark))
+                                                    <span>{{ $pro->assremark }}</span>
+                                                @endif
+                                        
+                                                @if ($pro->addstatus == 'pending' && !is_null($pro->addremark))
+                                                    <span>{{ $pro->addremark }}</span>
+                                                @endif
+                                        
+                                            @elseif ($pro->activestatus == 'pending')
+                                            @else
+                                            @endif
+                                            </td> --}}
                                             
                                             <td>
-                                                @if ($pro->activestatus != 'approve')
-                                                    <button class="edit-element btn text-secondary px-2 py-1 " title="Edit slotbooking" data-id="{{ $pro->id }}"><i data-feather="edit"></i></button>
-                                                    <button class="btn text-danger rem-element px-2 py-1 " title="Delete slotbooking" data-id="{{ $pro->id }}"><i data-feather="trash-2"></i></button>
-                                                @else
-                                                    <button class="edit-element btn text-secondary px-2 py-1 d-none" title="Edit slotbooking" data-id="{{ $pro->id }}" disabled><i data-feather="edit"></i></button>
-                                                    <button class="btn text-danger rem-element px-2 py-1 d-none" title="Delete slotbooking" data-id="{{ $pro->id }}" disabled><i data-feather="trash-2"></i></button>
-                                                @endif
+                                                    @if ($pro->activestatus != 'approve')
+                                                        <button class="edit-element btn text-secondary px-2 py-1" title="Edit slotbooking" data-id="{{ $pro->id }}"><i data-feather="edit"></i></button>
+                                                        <button class="btn text-danger rem-element px-2 py-1" title="Delete slotbooking" data-id="{{ $pro->id }}"><i data-feather="trash-2"></i></button>
+                                                    @else
+                                                        <button class="edit-element btn text-secondary px-2 py-1 d-none" title="Edit slotbooking" data-id="{{ $pro->id }}" disabled><i data-feather="edit"></i></button>
+                                                        <button class="btn text-danger rem-element px-2 py-1 d-none" title="Delete slotbooking" data-id="{{ $pro->id }}" disabled><i data-feather="trash-2"></i></button>
+                                                    
+                                                        <button class="btn text-success px-2 py-1" id="razorpay-button-{{ $pro->id }}" data-id="{{ $pro->id }}" data-amount="{{ 2000 }}" title="Pay with Razorpay"><i data-feather="credit-card"></i> Pay Now</button>
+                                                    @endif
                                             </td>
+                                            
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -344,7 +379,7 @@
 </x-admin.layout>
 
 <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet" />
-
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
 {{-- Add --}}
 <script>
@@ -786,5 +821,79 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+
+document.querySelectorAll('[id^="razorpay-button-"]').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            var productId = button.getAttribute('data-id');
+            var amount = button.getAttribute('data-amount');
+
+            fetch('/create-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    id: productId,
+                    amount: amount
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.order) {
+                    console.log(data);
+                    var options = {
+                        key: "{{ env('RAZORPAY_KEY_ID') }}", 
+                        amount: amount, 
+                        currency: "INR",
+                        name: "Name",
+                        description: "Product Payment",
+                        image: "logo.png",
+                        order_id: data.order.id, 
+                        handler: function(response) {
+                         
+                            fetch('/verify-payment', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_signature: response.razorpay_signature
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === 'Payment verified') {
+                                    alert('Payment successful!');
+                                } else {
+                                    alert('Payment verification failed');
+                                }
+                            });
+                        },
+                        prefill: {
+                            name: "",
+                            email: "",
+                            contact: ""
+                        },
+                        theme: {
+                            color: "#F37254"
+                        }
+                    };
+
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+                } else {
+                    alert('Unable to create order');
+                }
+            });
+        });
+    });
 
 </script>

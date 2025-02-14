@@ -58,6 +58,93 @@ class SlotBookingController extends Controller
             
         return view('admin.slotbooking', compact('propertytypes', 'slots', 'user' ,'data'));
     }
+
+
+    // remark retuurn ka code working 
+    // public function index()
+    // {
+    //     $user = Auth::user(); 
+    //     $userName = $user->name;  
+
+    //     $propertytypes = DB::table('propertytype')
+    //         ->whereNull('deleted_at')
+    //         ->latest()
+    //         ->get();
+
+    //     $slots = DB::table('slot')
+    //         ->whereNull('deleted_at')
+    //         ->get();
+
+    //         $data = DB::table('slotbookings')
+    //         ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+    //         ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+    //         ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
+    //         ->select(
+    //             'slotbookings.*',
+    //             'propertytype.name as Pname',
+    //             'slot.name as SlotName',
+    //             'slot.totime',   
+    //             'slot.fromtime',
+    //             'dataapprove.id',
+    //             'dataapprove.applicationid',
+    //             'dataapprove.warduserid',
+    //             'dataapprove.wardapprovaldate',
+    //             'dataapprove.wardremark',
+    //             'dataapprove.wardstatus',
+    //             'dataapprove.officeruserid',
+    //             'dataapprove.officerapprovaldate',
+    //             'dataapprove.officerremark',
+    //             'dataapprove.officerstatus',
+    //             'dataapprove.clerkuserid',
+    //             'dataapprove.clerkapprovaldate',
+    //             'dataapprove.clerkremark',
+    //             'dataapprove.clerkstatus',
+    //             'dataapprove.hoduserid',
+    //             'dataapprove.hodapprovaldate',
+    //             'dataapprove.hodremark',
+    //             'dataapprove.hodstatus',
+    //             'dataapprove.assuserid',
+    //             'dataapprove.assapprovaldate',
+    //             'dataapprove.assremark',
+    //             'dataapprove.assstatus',
+    //             'dataapprove.adduserid',
+    //             'dataapprove.addapprovaldate',
+    //             'dataapprove.addremark',
+    //             'dataapprove.addstatus',
+    //         )
+    //         ->whereNull('slotbookings.deleted_at') 
+    //         ->where('slotbookings.fullname', '=', $user->name)  
+    //         ->where(function ($query) {
+    //             $query->where('slotbookings.activestatus', '=', 'pending')
+    //                 ->orWhere('slotbookings.activestatus', '=', 'approve')
+    //                 ->orWhere('slotbookings.activestatus', '=', 'return')
+    //                 ->orWhereNotNull('dataapprove.wardremark')
+    //                 ->orWhereNotNull('dataapprove.warduserid')
+    //                 ->orWhereNotNull('dataapprove.wardstatus', '=', 'pending')
+    //                 ->orWhereNotNull('dataapprove.officerremark')
+    //                 ->orWhereNotNull('dataapprove.officeruserid')
+    //                 ->orWhereNotNull('dataapprove.officerstatus', '=', 'pending')
+    //                 ->orWhereNotNull('dataapprove.clerkremark')
+    //                 ->orWhereNotNull('dataapprove.clerkuserid')
+    //                 ->orWhereNotNull('dataapprove.clerkstatus', '=', 'pending')
+    //                 ->orWhereNotNull('dataapprove.hodremark')
+    //                 ->orWhereNotNull('dataapprove.hoduserid')
+    //                 ->orWhereNotNull('dataapprove.hodstatus', '=', 'pending')
+    //                 ->orWhereNotNull('dataapprove.assremark')
+    //                 ->orWhereNotNull('dataapprove.assuserid')
+    //                 ->orWhereNotNull('dataapprove.assstatus', '=', 'pending')
+    //                 ->orWhereNotNull('dataapprove.addremark')
+    //                 ->orWhereNotNull('dataapprove.adduserid')
+    //                 ->orWhereNotNull('dataapprove.addstatus', '=', 'pending');
+    //         })
+    //         ->latest()
+    //         ->get();
+
+   
+            
+    //     return view('admin.slotbooking', compact('propertytypes', 'slots', 'user' ,'data'));
+    // }
+
     
 
 
