@@ -33,43 +33,47 @@ class ListingController extends Controller
                     'slotbookings.*',
                     'propertytype.name as Pname',
                     'slot.name as SlotName',
-                    'slot.totime',   
-                'slot.fromtime' 
+                    'slot.totime',
+                    'slot.fromtime'
                 )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'pending')
-                ->where('propertytype.name', '=', 'Samaj Mandir')
+                // ->where('propertytype.name', '=', 'Samaj Mandir')
                 ->latest();
         } elseif ($userRole == 'Ward Officer') {
             $query = DB::table('slotbookings')
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName','slot.totime',   
-                'slot.fromtime' )
+                ->select(
+                    'slotbookings.*',
+                    'propertytype.name as Pname',
+                    'slot.name as SlotName',
+                    'slot.totime',
+                    'slot.fromtime'
+                )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
-                ->where('propertytype.name', '=', 'Samaj Mandir')
+                // ->where('propertytype.name', '=', 'Samaj Mandir')
                 ->where('dataapprove.officerstatus', '=', 'pending')
                 ->latest();
-        } 
-        elseif ($userRole == 'Department Clerk') {
+        } elseif ($userRole == 'Department Clerk') {
             $query = DB::table('slotbookings')
-            ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-            ->join('slot', 'slot.id', '=', 'slotbookings.slot')
-            ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-            ->select(
-                'slotbookings.*',
-                'propertytype.name as Pname',
-                'slot.name as SlotName',
-                'slot.totime',  
-                'slot.fromtime' 
-            )
-            ->whereNull('slotbookings.deleted_at')
-            ->where('slotbookings.activestatus', '=', 'pending') 
-            ->where('propertytype.name', '!=', 'Samaj Mandir') 
-            ->where('dataapprove.clerkstatus', '=', 'pending')
-            ->latest();
+                ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+                ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+                ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
+                ->select(
+                    'slotbookings.*',
+                    'propertytype.name as Pname',
+                    'slot.name as SlotName',
+                    'slot.totime',
+                    'slot.fromtime'
+                )
+                ->whereNull('slotbookings.deleted_at')
+                ->where('slotbookings.activestatus', '=', 'approve')
+                // ->where('propertytype.name', '=', 'Samaj Mandir')
+                ->where('dataapprove.clerkremark', '=', 'pending')
+                ->latest();
 
             // Execute the query or return the results as needed
 
@@ -86,10 +90,10 @@ class ListingController extends Controller
             // $propertyTypeName = request()->input('propertytype_name');
             // if (empty($propertyTypeName)) {
             //     $propertyTypeName = $query->first()->Pname ?? null;
-              
+
             // }
             // if ($propertyTypeName == 'Samaj Mandir') {
-               
+
             //     $query->where('slotbookings.activestatus', '=', 'pending')
             //         ->where('propertytype.name', '=', 'Samaj Mandir')
             //         ->where('dataapprove.clerkstatus', '=', 'pending');
@@ -99,50 +103,44 @@ class ListingController extends Controller
             //         ->where('dataapprove.clerkstatus', '=', 'pending');
             // }
             // $query->latest();
-        }        
-        elseif ($userRole == 'Department HOD') {
+        } elseif ($userRole == 'Department HOD') {
             $query = DB::table('slotbookings')
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
-                'slot.totime',   
-                'slot.fromtime' )
+                ->select(
+                    'slotbookings.*',
+                    'propertytype.name as Pname',
+                    'slot.name as SlotName',
+                    'slot.totime',
+                    'slot.fromtime'
+                )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
-                 ->where('propertytype.name', '!=', 'Samaj Mandir')
+                // ->where('propertytype.name', '=', 'Samaj Mandir')
                 ->where('dataapprove.hodstatus', '=', 'pending')
                 ->latest();
-        } elseif ($userRole == 'Assistant Commissioner') {
-            $query = DB::table('slotbookings')
-                ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-                ->join('slot', 'slot.id', '=', 'slotbookings.slot')
-                ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
-                'slot.totime',   
-                'slot.fromtime' )
-                ->whereNull('slotbookings.deleted_at')
-                ->where('slotbookings.activestatus', '=', 'approve')
-                ->where('propertytype.name', '!=', 'Samaj Mandir')
-                ->where('dataapprove.assstatus', '=', 'pending')
-                ->latest();
-        } elseif ($userRole == 'Additional  Commissioner') {
-            $query = DB::table('slotbookings')
-                ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-                ->join('slot', 'slot.id', '=', 'slotbookings.slot')
-                ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
-                'slot.totime',   
-                'slot.fromtime' )
-                ->whereNull('slotbookings.deleted_at')
-                ->where('slotbookings.activestatus', '=', 'approve')
-                ->where('propertytype.name', '!=', 'Samaj Mandir')
-                ->where('dataapprove.addstatus', '=', 'pending')
-                ->where('dataapprove.assstatus', '=', 'approve')
-                ->latest();
-               
-        }else{
-            
+        }
+        // elseif ($userRole == 'Assistant Commissioner') {
+        //     $query = DB::table('slotbookings')
+        //         ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+        //         ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+        //         ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
+        //         ->select(
+        //             'slotbookings.*',
+        //             'propertytype.name as Pname',
+        //             'slot.name as SlotName',
+        //             'slot.totime',
+        //             'slot.fromtime'
+        //         )
+        //         ->whereNull('slotbookings.deleted_at')
+        //         ->where('slotbookings.activestatus', '=', 'approve')
+        //         ->where('propertytype.name', '!=', 'Samaj Mandir')
+        //         ->where('dataapprove.assstatus', '=', 'pending')
+        //         ->latest();
+        // } 
+        // 
+        else {
         }
 
         if ($query) {
@@ -155,9 +153,10 @@ class ListingController extends Controller
 
 
 
-    
 
-    public function approve_list(){
+
+    public function approve_list()
+    {
         $user = Auth::user();
         $userRole = $user->getRoleNames()->first();
         $query = null;
@@ -169,40 +168,44 @@ class ListingController extends Controller
                     'slotbookings.*',
                     'propertytype.name as Pname',
                     'slot.name as SlotName',
-                    'slot.totime',   
-                'slot.fromtime' 
+                    'slot.totime',
+                    'slot.fromtime'
                 )
                 ->whereNull('slotbookings.deleted_at')
-                ->where('propertytype.name', '=', 'Samaj Mandir')
+                // ->where('propertytype.name', '=', 'Samaj Mandir')
                 ->where('slotbookings.activestatus', '=', 'approve')
                 ->latest();
-        }elseif ($userRole == 'Department Clerk') {
+        } elseif ($userRole == 'Department Clerk') {
             $query = DB::table('slotbookings')
-            ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-            ->join('slot', 'slot.id', '=', 'slotbookings.slot')
-            ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-            ->select(
-                'slotbookings.*',
-                'propertytype.name as Pname',
-                'slot.name as SlotName',
-                'slot.totime',   
-                'slot.fromtime' 
-            )
-            ->whereNull('slotbookings.deleted_at')
-            ->where('propertytype.name', '!=', 'Samaj Mandir')
-            ->where('dataapprove.clerkstatus', '=', 'approve')
-            ->latest();
+                ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+                ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+                ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
+                ->select(
+                    'slotbookings.*',
+                    'propertytype.name as Pname',
+                    'slot.name as SlotName',
+                    'slot.totime',
+                    'slot.fromtime'
+                )
+                ->whereNull('slotbookings.deleted_at')
+                // ->where('propertytype.name', '=', 'Samaj Mandir')
+                ->where('dataapprove.clerkstatus', '=', 'approve')
+                ->latest();
         } elseif ($userRole == 'Ward Officer') {
             $query = DB::table('slotbookings')
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
-                'slot.totime',   
-                'slot.fromtime' )
+                ->select(
+                    'slotbookings.*',
+                    'propertytype.name as Pname',
+                    'slot.name as SlotName',
+                    'slot.totime',
+                    'slot.fromtime'
+                )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
-                ->where('propertytype.name', '=', 'Samaj Mandir')
+                // ->where('propertytype.name', '=', 'Samaj Mandir')
                 ->where('dataapprove.officerstatus', '=', 'approve')
                 ->latest();
         } elseif ($userRole == 'Department HOD') {
@@ -210,50 +213,63 @@ class ListingController extends Controller
                 ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
                 ->join('slot', 'slot.id', '=', 'slotbookings.slot')
                 ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
-                'slot.totime',   
-                'slot.fromtime' )
+                ->select(
+                    'slotbookings.*',
+                    'propertytype.name as Pname',
+                    'slot.name as SlotName',
+                    'slot.totime',
+                    'slot.fromtime'
+                )
                 ->whereNull('slotbookings.deleted_at')
                 ->where('slotbookings.activestatus', '=', 'approve')
-                ->where('propertytype.name', '!=', 'Samaj Mandir')
+                // ->where('propertytype.name', '!=', 'Samaj Mandir')
                 ->where('dataapprove.hodstatus', '=', 'approve')
                 ->latest();
-        } elseif ($userRole == 'Assistant Commissioner') {
-            $query = DB::table('slotbookings')
-                ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-                ->join('slot', 'slot.id', '=', 'slotbookings.slot')
-                ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
-                'slot.totime',   
-                'slot.fromtime' )
-                ->whereNull('slotbookings.deleted_at')
-                ->where('slotbookings.activestatus', '=', 'approve')
-                ->where('propertytype.name', '!=', 'Samaj Mandir')
-                ->where('dataapprove.assstatus', '=', 'approve')
-                ->latest();
-        } elseif ($userRole == 'Additional  Commissioner') {
-            $query = DB::table('slotbookings')
-                ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
-                ->join('slot', 'slot.id', '=', 'slotbookings.slot')
-                ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
-                ->select('slotbookings.*', 'propertytype.name as Pname', 'slot.name as SlotName',
-                'slot.totime',   
-                'slot.fromtime' )
-                ->whereNull('slotbookings.deleted_at')
-                ->where('slotbookings.activestatus', '=', 'approve')
-                ->where('propertytype.name', '!=', 'Samaj Mandir')
-                ->where('dataapprove.addstatus', '=', 'approve')
-                ->latest();
-        } else {
         }
-    
+        // elseif ($userRole == 'Assistant Commissioner') {
+        //     $query = DB::table('slotbookings')
+        //         ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+        //         ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+        //         ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
+        //         ->select(
+        //             'slotbookings.*',
+        //             'propertytype.name as Pname',
+        //             'slot.name as SlotName',
+        //             'slot.totime',
+        //             'slot.fromtime'
+        //         )
+        //         ->whereNull('slotbookings.deleted_at')
+        //         ->where('slotbookings.activestatus', '=', 'approve')
+        //         ->where('propertytype.name', '!=', 'Samaj Mandir')
+        //         ->where('dataapprove.assstatus', '=', 'approve')
+        //         ->latest();
+        // } 
+        // elseif ($userRole == 'Additional  Commissioner') {
+        //     $query = DB::table('slotbookings')
+        //         ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+        //         ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+        //         ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
+        //         ->select(
+        //             'slotbookings.*',
+        //             'propertytype.name as Pname',
+        //             'slot.name as SlotName',
+        //             'slot.totime',
+        //             'slot.fromtime'
+        //         )
+        //         ->whereNull('slotbookings.deleted_at')
+        //         ->where('slotbookings.activestatus', '=', 'approve')
+        //         ->where('propertytype.name', '!=', 'Samaj Mandir')
+        //         ->where('dataapprove.addstatus', '=', 'approve')
+        //         ->latest();
+        // } else {
+        // }
+
         if ($query) {
             $data = $query->get();
             return view('admin.listapprove', compact('data'));
         } else {
             return response()->view('admin.listapprove', ['data' => []]);
         }
-
     }
 
     public function approved_slot(Request $request)
@@ -263,9 +279,9 @@ class ListingController extends Controller
 
         $validated = $request->validate([
             'booking_id' => 'required|exists:slotbookings,id',
-            'remark' => 'nullable|string|max:255',  
+            'remark' => 'nullable|string|max:255',
         ]);
-        
+
 
         $booking = SlotBooking::find($request->booking_id);
 
@@ -273,13 +289,13 @@ class ListingController extends Controller
             return response()->json(['error' => true, 'message' => 'Booking not found.']);
         }
 
-       
-        
+
+
         $statusField = '';
         $userIdField = '';
         $approvalDateField = '';
         $statusMessage = '';
-        
+
         switch ($userRole) {
             case 'Ward Clerk':
                 $statusField = 'wardstatus';
@@ -321,14 +337,14 @@ class ListingController extends Controller
                 return response()->json(['error' => true, 'message' => 'Invalid user role.']);
         }
 
-        
+
         $updateStatus = DB::table('dataapprove')
             ->where('applicationid', $request->booking_id)
             ->update([
                 $statusField => 'approve',
                 $userIdField => $user->id,
                 $approvalDateField => now(),
-                $statusMessage=>$request->remark,
+                $statusMessage => $request->remark,
                 'deleted_by' => null,
                 'deleted_at' => null,
             ]);
@@ -337,7 +353,7 @@ class ListingController extends Controller
             return response()->json(['error' => true, 'message' => 'Failed to update approval status.']);
         }
 
-      
+
         $booking->activestatus = 'approve';
         $booking->save();
 
@@ -350,21 +366,21 @@ class ListingController extends Controller
     {
         $user = Auth::user();
         $userRole = $user->getRoleNames()->first();
-        
+
         $validated = $request->validate([
-            'booking_id' => 'required|exists:slotbookings,id',  
-            'remark' => 'nullable|string|max:255',               
+            'booking_id' => 'required|exists:slotbookings,id',
+            'remark' => 'nullable|string|max:255',
         ]);
-        
+
         $booking = SlotBooking::find($request->booking_id);
-        
+
         if (!$booking) {
             return response()->json(['error' => true, 'message' => 'Booking not found.']);
         }
 
         $userIdField = '';
         $statusMessage = '';
-        
+
         switch ($userRole) {
             case 'Ward Clerk':
                 $userIdField = 'warduserid';
@@ -398,11 +414,11 @@ class ListingController extends Controller
             ->where('applicationid', $request->booking_id)
             ->update([
                 $userIdField => $user->id,
-                $statusMessage => $request->remark,  
+                $statusMessage => $request->remark,
                 'deleted_by' => null,
                 'deleted_at' => null,
             ]);
-        
+
         if (!$updateStatus) {
             return response()->json(['error' => true, 'message' => 'Failed to update approval data.']);
         }
@@ -414,15 +430,15 @@ class ListingController extends Controller
     }
 
 
-    
+
 
     public function return_list()
     {
         $user = Auth::user();
         $userRole = $user->getRoleNames()->first();
-        
+
         $remarkField = '';
-        
+
         switch ($userRole) {
             case 'Ward Clerk':
                 $remarkField = 'wardremark';
@@ -445,36 +461,36 @@ class ListingController extends Controller
             default:
                 return response()->json(['error' => true, 'message' => 'Invalid user role.']);
         }
-        
+
         $query = DB::table('slotbookings')
-            ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype') 
-            ->join('slot', 'slot.id', '=', 'slotbookings.slot') 
-            ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id') 
+            ->join('propertytype', 'propertytype.id', '=', 'slotbookings.propertytype')
+            ->join('slot', 'slot.id', '=', 'slotbookings.slot')
+            ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
             ->select(
-                'slotbookings.*', 
-                'propertytype.name as Pname', 
+                'slotbookings.*',
+                'propertytype.name as Pname',
                 'slot.name as SlotName',
-                'dataapprove.' . $remarkField, 
+                'dataapprove.' . $remarkField,
             )
-            ->whereNull('slotbookings.deleted_at') 
-            ->where('slotbookings.activestatus', '=', 'return')  
-            ->orderBy('slotbookings.created_at', 'desc'); 
-    
+            ->whereNull('slotbookings.deleted_at')
+            ->where('slotbookings.activestatus', '=', 'return')
+            ->orderBy('slotbookings.created_at', 'desc');
+
         $rolesForSamajMandir = ['Ward Clerk', 'Ward Officer'];
         $rolesForNonSamajMandir = ['Department Clerk', 'Department HOD', 'Assistant Commissioner', 'Additional Commissioner'];
-        
+
         if (in_array($userRole, $rolesForSamajMandir)) {
             $query->where('propertytype.name', '=', 'Samaj Mandir');
         } elseif (in_array($userRole, $rolesForNonSamajMandir)) {
             $query->where('propertytype.name', '!=', 'Samaj Mandir');
         }
-    
+
         $data = $query->get();
-        
-        return view('admin.returnslot', compact('data','userRole'));
+
+        return view('admin.returnslot', compact('data', 'userRole'));
     }
-    
-    
+
+
 
     public function getSlotDetails($id)
     {
@@ -483,16 +499,16 @@ class ListingController extends Controller
             ->join('dataapprove', 'dataapprove.applicationid', '=', 'slotbookings.id')
             ->join('property', 'property.id', '=', 'slotbookings.propertytypename')
             ->select(
-                'slotbookings.*', 
-                'propertytype.name as Pname', 
-                'property.name as Prname', 
+                'slotbookings.*',
+                'propertytype.name as Pname',
+                'property.name as Prname',
                 'slot.name as SlotName',
-                'slot.totime',   
+                'slot.totime',
                 'slot.fromtime'
             )
             ->where('slotbookings.id', $id)
-            ->first(); 
-        
+            ->first();
+
 
         if (!$booking) {
             return response()->json(['error' => 'Booking not found'], 404);
@@ -563,7 +579,7 @@ class ListingController extends Controller
         $validated = $request->validate([
             'from_date' => 'nullable|date',
             'to_date' => 'nullable|date',
-            'status' => 'nullable|string|in:pending,approve,return', 
+            'status' => 'nullable|string|in:pending,approve,return',
         ]);
 
         $fromDate = $validated['from_date'] ?? null;
@@ -629,8 +645,4 @@ class ListingController extends Controller
 
         return view('admin.masters.reports');
     }
-
-   
-
-    
 }

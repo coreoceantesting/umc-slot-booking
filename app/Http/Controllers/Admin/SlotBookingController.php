@@ -12,6 +12,7 @@ use App\Models\Property;
 use App\Models\SlotBooking;
 use App\Models\PropertyType;
 use App\Models\User;
+use App\Models\Ward;
 
 class SlotBookingController extends Controller
 {
@@ -55,8 +56,10 @@ class SlotBookingController extends Controller
             ->latest()
             ->get();
 
+        $wardslot = Ward::latest()->pluck('name', 'id');
 
-        return view('admin.slotbooking', compact('propertytypes', 'slots', 'user', 'data'));
+
+        return view('admin.slotbooking', compact('propertytypes', 'slots', 'user', 'data', 'wardslot'));
     }
 
 
@@ -228,6 +231,8 @@ class SlotBookingController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+
         $rules = [
             'propertytypename' => 'required',
             'propertyname' => 'required',
@@ -237,6 +242,7 @@ class SlotBookingController extends Controller
             'bookingpurpose' => 'required|string',
             // 'citizentype' => 'required|in:1,2',
             // 'slot' => 'required|nullable',
+
             'filesaadhar' => 'required|file|mimes:jpeg,png,pdf',
             'filesresidency' => 'required|file|mimes:jpeg,png,pdf',
             'filesevents' => 'required|file|mimes:jpeg,png,pdf',
@@ -275,6 +281,9 @@ class SlotBookingController extends Controller
             $slotBooking->mobileno = $request->input('mobileno');
             $slotBooking->bookingpurpose = $request->input('bookingpurpose');
             $slotBooking->slot = $request->input('slot');
+            $slotBooking->wardslot = $request->input('wardslot');
+            // print_r($slotBooking);
+            // die();
             $slotBooking->sdamount = $request->input('sdamount');
             $slotBooking->scamount = $request->input('scamount');
             $slotBooking->registrationno = $request->input('registrationno');
@@ -356,9 +365,9 @@ class SlotBookingController extends Controller
             'bookingpurpose' => 'required|string',
             // 'citizentype' => 'required|in:1,2',
             // 'slot' => 'required',
-            'filesaadhar' => 'required|file|mimes:jpeg,png,pdf',
-            'filesresidency' => 'required|file|mimes:jpeg,png,pdf',
-            'filesevents' => 'required|file|mimes:jpeg,png,pdf',
+            'filesaadhar' => 'file|mimes:jpeg,png,pdf',
+            'filesresidency' => 'file|mimes:jpeg,png,pdf',
+            'filesevents' => 'file|mimes:jpeg,png,pdf',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -393,6 +402,7 @@ class SlotBookingController extends Controller
             $slotbooking->mobileno = $request->input('mobileno');
             $slotbooking->bookingpurpose = $request->input('bookingpurpose');
             $slotbooking->slot = $request->input('slot');
+            $slotbooking->wardslot = $request->input('wardslot');
             $slotbooking->sdamount = $request->input('sdamount');
             $slotbooking->scamount = $request->input('scamount');
             $slotbooking->registrationno = $request->input('registrationno');
@@ -418,7 +428,10 @@ class SlotBookingController extends Controller
                 'error' => 'Something went wrong, please try again.',
             ], 500);
         }
+        print_r($request->all());
+        exit;
     }
+
 
     /**
      * Remove the specified resource from storage.

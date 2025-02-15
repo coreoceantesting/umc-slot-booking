@@ -26,7 +26,7 @@
                                         <th>Fullname</th>
                                         <th>Mobile</th>
                                         <th>BookingDate</th>
-                                        <th>Citizentype</th>
+                                        {{-- <th>Citizentype</th> --}}
                                         <th>Slot</th>
                                         <th>Time</th>
                                         <th>Status</th>
@@ -42,7 +42,7 @@
                                             <td>{{ $pro->fullname }}</td>
                                             <td>{{ $pro->mobileno }}</td>
                                             <td>{{ $pro->booking_date }}</td>
-                                            <td>
+                                            {{-- <td>
                                                 @if($pro->citizentype == 1)
                                                     General
                                                 @elseif($pro->citizentype == 2)
@@ -50,7 +50,7 @@
                                                 @else
                                                     Unknown
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>{{$pro->SlotName }}</td>
                                             <td>{{$pro->fromtime }}-{{$pro->totime}}</td>
                                             <td>

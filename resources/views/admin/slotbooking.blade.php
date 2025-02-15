@@ -133,6 +133,17 @@
                                     <label for="files" class="col-form-label">Upload Event Proof <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" id="filesevent" accept="files/*" name="filesevents">
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="wardtype">Ward<span class="text-danger">*</span></label>
+                                    <select id="wardslot" name="wardslot" class="form-select">
+                                        <option value="">--Select Ward--</option>
+                                        @foreach($wardslot as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger is-invalid address_err"></span>
+                                </div>
                             </div>
                         </div>
                     
@@ -266,21 +277,35 @@
                                     <input type="file" class="form-control" id="edit_files" accept="files/*" name="files">
                                     <a  id="file-view-link" class="file-view-link" target="_blank">View Reg. Certificate</a>
                                 </div> --}}
-                                <div class="col-md-4" id="files-containeraadhar" >
+                                <div class="col-md-4" id="files-containeraadhar">
                                     <label for="files" class="col-form-label">Upload Aadhar Card <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" id="filesaadhar" accept="files/*" name="filesaadhar">
                                     <a  id="fileaadhar-view-link" class="fileaadhar-view-link" target="_blank">View Aadhar. Certificate</a>
                                 </div>
-                                <div class="col-md-4" id="files-containerresidency" >
+                                <div class="col-md-4" id="files-containerresidency">
                                     <label for="files" class="col-form-label">Upload Residency Proof <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" id="filesresidency" accept="files/*" name="filesresidency" >
                                     <a  id="fileresidency-view-link" class="fileresidency-view-link" target="_blank">View Residency. Certificate</a>
                                 </div>
                                 <div class="col-md-4" id="files-containerevent">
                                     <label for="files" class="col-form-label">Upload Event Proof <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" id="filesevent" accept="files/*" name="filesevents" >
+                                    <input type="file" class="form-control" id="filesevents" accept="files/*" name="filesevents" >
                                     <a  id="fileevent-view-link" class="fileevent-view-link" target="_blank">View Event. Certificate</a>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="wardtype">Ward<span class="text-danger">*</span></label>
+                                    <select id="wardslot" name="wardslot" class="form-select">
+                                        <option value="">--Select Ward--</option>
+                                        @foreach($wardslot as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger is-invalid address_err"></span>
+                                </div>
+
+                                
+                               
                                 
                             </div>
                         </div>
@@ -315,7 +340,7 @@
                                         <th>PropertyType</th>
                                         <th>Fullname</th>
                                         <th>Mobile</th>
-                                        <th>Citizentype</th>
+                                        {{-- <th>Citizentype</th> --}}
                                         <th>Slot</th>
                                         <th>Time</th>
                                         <th>Status</th>
@@ -331,7 +356,7 @@
                                             <td>{{ $pro->Pname }}</td>
                                             <td>{{ $pro->fullname }}</td>
                                             <td>{{ $pro->mobileno }}</td>
-                                            <td>
+                                            {{-- <td>
                                                 @if($pro->citizentype == 1)
                                                     General
                                                 @elseif($pro->citizentype == 2)
@@ -339,7 +364,7 @@
                                                 @else
                                                     Unknown
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             
                                             <td>{{$pro->SlotName }}</td>
                                             <td>{{$pro->fromtime }}-{{$pro->totime }}</td>
@@ -385,7 +410,7 @@
                                             </td> --}}
                                             
                                             <td>
-                                                    @if ($pro->activestatus != 'approve')
+                                                    @if ($pro->activestatus = 'approve')
                                                         <button class="edit-element btn text-secondary px-2 py-1" title="Edit slotbooking" data-id="{{ $pro->id }}"><i data-feather="edit"></i></button>
                                                         <button class="btn text-danger rem-element px-2 py-1" title="Delete slotbooking" data-id="{{ $pro->id }}"><i data-feather="trash-2"></i></button>
                                                     @else
@@ -419,6 +444,7 @@
     $("#addSubmit").prop('disabled', true);
 
     var formdata = new FormData(this);
+    //console.log(formdata);
     $.ajax({
         url: '{{ route('slotbooking.store') }}',
         type: 'POST',
@@ -487,7 +513,8 @@ $(document).ready(function() {
                     $("#editForm input[name='registrationno']").val(data.slotbooking.registrationno);
                     $("#editForm input[name='booking_date']").val(data.slotbooking.booking_date);
                     // $("#editForm input[name='files']").val('');
-                    $("#editForm input[name='filesaadhar']").val('');
+                    $("#editForm select[name='wardslot']").val(data.slotbooking.wardslot);
+                     $("#editForm input[name='filesaadhar']").val('');
                     $("#editForm input[name='filesresidency']").val('');
                     $("#editForm input[name='filesevents']").val('');
                     
@@ -497,6 +524,28 @@ $(document).ready(function() {
                 //     $("#editForm .file-view-link").attr("href", "/storage/registration_certificates/" + data.slotbooking.files);
                 //     $("#files-container").show();
                 // }
+
+                if (data.slotbooking.filesaadhar) {
+                    $("#editForm .file-name").text(data.slotbooking.filesaadhar);
+                   $("#editForm .file-view-link").attr("href", "/storage/aadhar_certificates/" + data.slotbooking.filesaadhar);
+                     $("#files-containeraadhar").show();
+                 }
+
+                 if (data.slotbooking.filesresidency) {
+                    $("#editForm .file-name").text(data.slotbooking.filesresidency);
+                   $("#editForm .file-view-link").attr("href", "/storage/residency_certificates/" + data.slotbooking.filesresidency);
+                     $("#files-containerresidency").show();
+                 }
+
+
+                 if (data.slotbooking.filesevents) {
+                    $("#editForm .file-name").text(data.slotbooking.filesevents);
+                   $("#editForm .file-view-link").attr("href", "/storage/events_certificates/" + data.slotbooking.filesevents);
+                     $("#files-containerevent").show();
+                 }
+
+
+               
 
                     $('#editContainer').show();
                     $('#editForm select[name="propertytypename"]').trigger('change');
@@ -785,13 +834,44 @@ $(document).ready(function() {
 $("#nextButton").click(function() {
     $("#files-container").toggle();
 
-    if (data.slotbooking && data.slotbooking.files) {
+    // if (data.slotbooking && data.slotbooking.files) {
+    //     $("#file-info").show();
+    //     $("#file-name").text(data.slotbooking.files);
+    //     $("#file-view-link").attr("href", "public/registration_certificates/" + data.slotbooking.files);
+    // } else {
+    //     $("#file-info").hide(); 
+    // }
+
+
+    if (data.slotbooking && data.slotbooking.filesaadhar) {
         $("#file-info").show();
-        $("#file-name").text(data.slotbooking.files);
-        $("#file-view-link").attr("href", "public/registration_certificates/" + data.slotbooking.files);
+        $("#file-name").text(data.slotbooking.filesaadhar);
+        $("#fileaadhar-view-link").attr("href", "public/aadhar_certificates/" + data.slotbooking.filesaadhar);
     } else {
         $("#file-info").hide(); 
     }
+
+
+    if (data.slotbooking && data.slotbooking.filesresidency) {
+        $("#file-info").show();
+        $("#file-name").text(data.slotbooking.filesresidency);
+        $("#filesresidency-view-link").attr("href", "public/residency_certificates/" + data.slotbooking.filesresidency);
+    } else {
+        $("#file-info").hide(); 
+    }
+
+
+    if (data.slotbooking && data.slotbooking.filesevents) {
+        $("#file-info").show();
+        $("#file-name").text(data.slotbooking.filesevents);
+        $("#filesresidency-view-link").attr("href", "public/events_certificates/" + data.slotbooking.filesevents);
+    } else {
+        $("#file-info").hide(); 
+    }
+
+
+    
+
 });
 
 // $("#edit_files").change(function() {
@@ -964,3 +1044,4 @@ document.querySelectorAll('[id^="razorpay-button-"]').forEach(function(button) {
     });
 
 </script>
+

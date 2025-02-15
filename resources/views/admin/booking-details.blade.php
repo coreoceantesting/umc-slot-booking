@@ -29,7 +29,7 @@
                 <th>Booking Date</th>
                 <td>{{ $booking->booking_date }}</td>
             </tr>
-            <tr>
+            {{-- <tr>
                 <th>Citizen Type</th>
                 <td>
                     @if($booking->citizentype == 1)
@@ -40,7 +40,7 @@
                         Unknown
                     @endif
                 </td>
-            </tr>
+            </tr> --}}
             <tr>
                 <th>Slot</th>
                 <td>{{ $booking->SlotName }}&nbsp;{{ $booking->fromtime }}-{{ $booking->totime }}</td>
