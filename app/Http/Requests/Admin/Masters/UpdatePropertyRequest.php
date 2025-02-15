@@ -25,6 +25,7 @@ class UpdatePropertyRequest extends FormRequest
             'propertytypename' => 'required',
             'name' => 'required',
             'address' => 'required',
+            'wardtype' => 'required|string',
         ];
     }
 }

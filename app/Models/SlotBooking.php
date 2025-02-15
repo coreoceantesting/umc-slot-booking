@@ -10,8 +10,8 @@ class SlotBooking extends Model
 {
     use HasFactory, SoftDeletes;
 
-  
-    protected $table = 'slotbookings'; 
+
+    protected $table = 'slotbookings';
 
     protected $fillable = [
         'propertytype',
@@ -26,14 +26,11 @@ class SlotBooking extends Model
         'sdamount',
         'scamount',
         'registrationno',
-        'files',
+        // 'files',
+        'filesaadhar',
+        'filesresidency',
+        'filesevents',
         'activestatus',
         'status'
     ];
-
-   
-
-  
-
-   
 }

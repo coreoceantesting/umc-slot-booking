@@ -93,7 +93,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" id="approveBtn">Approve</button>
-                        <button type="button" class="btn btn-danger" id="returnBtn">Return</button>
+                        <button type="button" class="btn btn-danger" id="returnBtn">Reject</button>
                     </div>
                 </div>
             </div>

@@ -216,16 +216,25 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    {{-- <div class="col-md-6 mb-3">
                                         <label for="signupAge" class="form-label">Age<span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" id="signupAge" name="age" required readonly>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-6 mb-3">
                                         <label for="signupUsername" class="form-label">Username<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="signupUsername" name="username" required>
                                     </div>
+                                    <div class="col-md-6 mb-3">
+                                    <label for="signupPassword" class="form-label">Password<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="signupPassword" name="password" required>
+                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon" onclick="togglePassword('signupPassword')">
+                                                <i class="ri-eye-fill align-middle" id="eye-icon-password"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="signupcitizenType" class="form-label">Select Citizen<span class="text-danger">*</span></label>
                                         <select id="signupcitizenType" name="citizenType" class="form-select">
@@ -246,7 +255,7 @@
                                     </div>
                                   
                                     
-                                </div>
+                                </div> --}}
 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -258,10 +267,10 @@
                                             </button>
                                         </div>
                                     </div>
-                                     <div class="col-md-6 mb-3">
+                                     {{-- <div class="col-md-6 mb-3">
                                         <label for="signupImage" class="form-label">Upload Image<span class="text-danger">*</span></label>
                                         <input type="file" class="form-control" id="signupImage" accept="image/*" name="image" required>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                
                                 <div class="text-center">

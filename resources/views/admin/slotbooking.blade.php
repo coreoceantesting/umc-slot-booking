@@ -75,7 +75,7 @@
                                     <span class="text-danger is-invalid bookingpurpose_err"></span>
                                 </div>
                           
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <label for="citizentype" class="form-label">Select Citizen <span class="text-danger">*</span></label>
                                     <select id="signupcitizenType" name="citizentype" class="form-select" required>
                                         <option value="">--Select Citizen Type --</option>
@@ -83,7 +83,7 @@
                                         <option value="2">Senior Citizen</option>
                                     </select>
                                     <span class="text-danger is-invalid citizentype_err"></span>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="slot">Select Slot <span class="text-danger">*</span></label>
@@ -96,28 +96,42 @@
                                     <span class="text-danger is-invalid slot_err"></span>
                                 </div>
 
-                                <div class="col-md-4" id="sdamount-container" style="display: none;">
+                                {{-- <div class="col-md-4" id="sdamount-container" style="display: none;"> --}}
+                                <div class="col-md-4" id="sdamount-container">
                                     <label class="col-form-label" for="sdamount">Security Deposit Amount <span class="text-danger">*</span></label>
                                     <input class="form-control" id="sdamount" name="sdamount" type="text" placeholder="Enter SD Amount" readonly>
                                     <span class="text-danger is-invalid sdamount_err"></span>
                                 </div>
                                 
 
-                                <div class="col-md-4" id="scamount-container" style="display: none;">
+                                {{-- <div class="col-md-4" id="scamount-container" style="display: none;"> --}}
+                                    <div class="col-md-4" id="scamount-container">
                                     <label class="col-form-label" for="scamount">Booking Charges  <span class="text-danger">*</span></label>
                                     <input class="form-control" id="scamount" name="scamount" type="text" placeholder="Enter SC Amount" readonly>
                                     <span class="text-danger is-invalid scamount_err"></span>
                                 </div>
 
-                                <div class="col-md-4" id="registrationno-container" style="display: none;">
+                                {{-- <div class="col-md-4" id="registrationno-container" style="display: none;">
                                     <label class="col-form-label" for="registrationno">Registration No <span class="text-danger">*</span></label>
                                     <input class="form-control" id="registrationno" name="registrationno" type="text" placeholder="Enter Registration No" >
                                     <span class="text-danger is-invalid registrationno_err"></span>
-                                </div>
+                                </div> --}}
 
-                                <div class="col-md-4" id="files-container" style="display: none;">
+                                {{-- <div class="col-md-4" id="files-container" style="display: none;">
                                     <label for="files" class="col-form-label">Upload Reg. Certificate <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" id="files" accept="files/*" name="files" >
+                                </div> --}}
+                                <div class="col-md-4" id="files-containeraadhar" >
+                                    <label for="files" class="col-form-label">Upload Aadhar Card <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" id="filesaadhar" accept="files/*" name="filesaadhar">
+                                </div>
+                                <div class="col-md-4" id="files-containerresidency" >
+                                    <label for="files" class="col-form-label">Upload Residency Proof <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" id="filesresidency" accept="files/*" name="filesresidency">
+                                </div>
+                                <div class="col-md-4" id="files-containerevent">
+                                    <label for="files" class="col-form-label">Upload Event Proof <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" id="filesevent" accept="files/*" name="filesevents">
                                 </div>
                             </div>
                         </div>
@@ -200,7 +214,7 @@
                                 </div>
         
                                 <!-- Citizen Type -->
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <label for="edit_citizentype" class="form-label">Select Citizen <span class="text-danger">*</span></label>
                                     <select id="edit_citizentype" name="citizentype" class="form-select">
                                         <option value="">--Select Citizen Type --</option>
@@ -208,7 +222,7 @@
                                         <option value="2">Senior Citizen</option>
                                     </select>
                                     <span class="text-danger is-invalid citizentype_err"></span>
-                                </div>
+                                </div> --}}
         
                                 <!-- Slot Selection -->
                                 <div class="col-md-4">
@@ -223,14 +237,16 @@
                                 </div>
         
                                 <!-- SD Amount -->
-                                <div class="col-md-4" id="sdamount-container" style="display: none;">
+                                {{-- <div class="col-md-4" id="sdamount-container" style="display: none;"> --}}
+                                    <div class="col-md-4" id="sdamount-container">
                                     <label class="col-form-label" for="edit_sdamount">Security Deposit Amount <span class="text-danger">*</span></label>
                                     <input class="form-control" id="edit_sdamount" name="sdamount" type="text" placeholder="Enter SD Amount" readonly>
                                     <span class="text-danger is-invalid sdamount_err"></span>
                                 </div>
         
                                 <!-- SC Amount -->
-                                <div class="col-md-4" id="scamount-container" style="display: none;">
+                                {{-- <div class="col-md-4" id="scamount-container" style="display: none;"> --}}
+                                    <div class="col-md-4" id="scamount-container">
                                     <label class="col-form-label" for="edit_scamount">Booking Charges <span class="text-danger">*</span></label>
                                     <input class="form-control" id="edit_scamount" name="scamount" type="text" placeholder="Enter SC Amount" readonly>
                                     <span class="text-danger is-invalid scamount_err"></span>
@@ -238,17 +254,32 @@
         
                                 
                                 <!-- Registration No -->
-                                <div class="col-md-4" id="registrationno-container" style="display: none;">
+                                {{-- <div class="col-md-4" id="registrationno-container" style="display: none;">
                                     <label class="col-form-label" for="edit_registrationno">Registration No <span class="text-danger">*</span></label>
                                     <input class="form-control" id="edit_registrationno" name="registrationno" type="text" placeholder="Enter Registration No">
                                     <span class="text-danger is-invalid registrationno_err"></span>
-                                </div>
+                                </div> --}}
         
                                 <!-- File Upload -->
-                                <div class="col-md-4" id="files-container" style="display: none;">
+                                {{-- <div class="col-md-4" id="files-container" style="display: none;">
                                     <label for="edit_files" class="col-form-label">Upload Reg. Certificate <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" id="edit_files" accept="files/*" name="files">
                                     <a  id="file-view-link" class="file-view-link" target="_blank">View Reg. Certificate</a>
+                                </div> --}}
+                                <div class="col-md-4" id="files-containeraadhar" >
+                                    <label for="files" class="col-form-label">Upload Aadhar Card <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" id="filesaadhar" accept="files/*" name="filesaadhar">
+                                    <a  id="fileaadhar-view-link" class="fileaadhar-view-link" target="_blank">View Aadhar. Certificate</a>
+                                </div>
+                                <div class="col-md-4" id="files-containerresidency" >
+                                    <label for="files" class="col-form-label">Upload Residency Proof <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" id="filesresidency" accept="files/*" name="filesresidency" >
+                                    <a  id="fileresidency-view-link" class="fileresidency-view-link" target="_blank">View Residency. Certificate</a>
+                                </div>
+                                <div class="col-md-4" id="files-containerevent">
+                                    <label for="files" class="col-form-label">Upload Event Proof <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" id="filesevent" accept="files/*" name="filesevents" >
+                                    <a  id="fileevent-view-link" class="fileevent-view-link" target="_blank">View Event. Certificate</a>
                                 </div>
                                 
                             </div>
@@ -288,7 +319,7 @@
                                         <th>Slot</th>
                                         <th>Time</th>
                                         <th>Status</th>
-                                        <th id="remark">Remark</th>
+                                        {{-- <th id="remark">Remark</th> --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -455,12 +486,17 @@ $(document).ready(function() {
                     $("#editForm select[name='slot']").val(data.slotbooking.slot);
                     $("#editForm input[name='registrationno']").val(data.slotbooking.registrationno);
                     $("#editForm input[name='booking_date']").val(data.slotbooking.booking_date);
-                    $("#editForm input[name='files']").val('');
-                    if (data.slotbooking.files) {
-                    $("#editForm .file-name").text(data.slotbooking.files);
-                    $("#editForm .file-view-link").attr("href", "/storage/registration_certificates/" + data.slotbooking.files);
-                    $("#files-container").show();
-                }
+                    // $("#editForm input[name='files']").val('');
+                    $("#editForm input[name='filesaadhar']").val('');
+                    $("#editForm input[name='filesresidency']").val('');
+                    $("#editForm input[name='filesevents']").val('');
+                    
+                    
+                //     if (data.slotbooking.files) {
+                //     $("#editForm .file-name").text(data.slotbooking.files);
+                //     $("#editForm .file-view-link").attr("href", "/storage/registration_certificates/" + data.slotbooking.files);
+                //     $("#files-container").show();
+                // }
 
                     $('#editContainer').show();
                     $('#editForm select[name="propertytypename"]').trigger('change');
@@ -515,23 +551,23 @@ $(document).ready(function() {
             }
         });
 
-        function handleCitizenTypeChange(citizenType) {
-            $('#editContainer #sdamount-container').hide();
-            $('#editContainer #scamount-container').hide();
-            $('#editContainer #registrationno-container').hide();
-            $('#editContainer #files-container').hide();
-            if (citizenType === '2') {
-                $('#editContainer #sdamount-container').show();
-                $('#editContainer #scamount-container').show();
-                $('#editContainer #registrationno-container').show();
-                $('#editContainer #files-container').show();
-            } else if (citizenType === '1') {
-                $('#editContainer #sdamount-container').show();
-                $('#editContainer #scamount-container').show();
-                $('#editContainer #registrationno-container').hide();
-                $('#editContainer #files-container').hide();
-            }
-        }
+        // function handleCitizenTypeChange(citizenType) {
+        //     $('#editContainer #sdamount-container').hide();
+        //     $('#editContainer #scamount-container').hide();
+        //     $('#editContainer #registrationno-container').hide();
+        //     $('#editContainer #files-container').hide();
+        //     if (citizenType === '2') {
+        //         $('#editContainer #sdamount-container').show();
+        //         $('#editContainer #scamount-container').show();
+        //         $('#editContainer #registrationno-container').show();
+        //         $('#editContainer #files-container').show();
+        //     } else if (citizenType === '1') {
+        //         $('#editContainer #sdamount-container').show();
+        //         $('#editContainer #scamount-container').show();
+        //         $('#editContainer #registrationno-container').hide();
+        //         $('#editContainer #files-container').hide();
+        //     }
+        // }
     });
 
     
@@ -758,14 +794,42 @@ $("#nextButton").click(function() {
     }
 });
 
-$("#edit_files").change(function() {
+// $("#edit_files").change(function() {
+//     var file = $(this)[0].files[0];
+//     if (file) {
+//         $("#file-info").show();
+//         $("#file-name").text(file.name);
+//         $("#file-view-link").attr("href", URL.createObjectURL(file)).text("View File");
+//     }
+// });
+
+$("#filesaadhar").change(function() {
     var file = $(this)[0].files[0];
     if (file) {
         $("#file-info").show();
         $("#file-name").text(file.name);
-        $("#file-view-link").attr("href", URL.createObjectURL(file)).text("View File");
+        $("#fileaadhar-view-link").attr("href", URL.createObjectURL(file)).text("View File");
     }
 });
+
+$("#filesresidency").change(function() {
+    var file = $(this)[0].files[0];
+    if (file) {
+        $("#file-info").show();
+        $("#file-name").text(file.name);
+        $("#fileresidency-view-link").attr("href", URL.createObjectURL(file)).text("View File");
+    }
+});
+
+$("#filesevent").change(function() {
+    var file = $(this)[0].files[0];
+    if (file) {
+        $("#file-info").show();
+        $("#file-name").text(file.name);
+        $("#fileevent-view-link").attr("href", URL.createObjectURL(file)).text("View File");
+    }
+});
+
 
 
 $('#propertyname').change(function() {
@@ -778,17 +842,20 @@ $('#propertyname').change(function() {
                 propertyname: propertyId 
             },
             success: function(response) {
+                console.log(response);
                 $("#addForm select[name='slot']").val(response.slot);
-                $('#signupcitizenType').change(function() {
-                    var citizenType = $(this).val();
-                    if (citizenType === '1') {
-                        $('#scamount').val(response.gamount);
-                        $('#sdamount').val(response.sdamount);
-                    } else if (citizenType === '2') {
-                        $('#scamount').val(response.citizenamount);
-                        $('#sdamount').val(response.citizensdamount);
-                    }
-                });
+                $("#addForm input[name='scamount']").val(response.gamount);
+                $("#addForm input[name='sdamount']").val(response.sdamount);
+                // $('#signupcitizenType').change(function() {
+                    // var citizenType = $(this).val();
+                    // if (citizenType === '1') {
+                 
+                      
+                    // } else if (citizenType === '2') {
+                        // $('#scamount').val(response.citizenamount);
+                        // $('#sdamount').val(response.citizensdamount);
+                    // }
+                // });
             },
             error: function(xhr, status, error) {
                 alert('Error fetching address.');

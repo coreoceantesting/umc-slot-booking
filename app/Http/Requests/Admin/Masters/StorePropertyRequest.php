@@ -25,6 +25,7 @@ class StorePropertyRequest extends FormRequest
             'propertytypename' => 'required',
             'name' => 'required|string',
             'address' => 'required|string|max:255',
+            'wardtype' => 'required|string',
         ];
     }
 }

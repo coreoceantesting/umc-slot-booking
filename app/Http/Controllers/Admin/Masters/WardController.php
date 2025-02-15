@@ -20,7 +20,7 @@ class WardController extends Controller
     {
         $wards = Ward::latest()->get();
 
-        return view('admin.masters.wards')->with(['wards'=> $wards]);
+        return view('admin.masters.wards')->with(['wards' => $wards]);
     }
 
     /**
@@ -42,11 +42,11 @@ class WardController extends Controller
             $input = $request->validated();
 
             $existingWard = Ward::withTrashed()
-                ->where('name', $input['name']) 
+                ->where('name', $input['name'])
                 ->first();
 
             if ($existingWard) {
-  
+
                 Ward::create(Arr::only($input, Ward::getFillables()));
             } else {
 
@@ -76,15 +76,12 @@ class WardController extends Controller
      */
     public function edit(Ward $ward)
     {
-        if ($ward)
-        {
+        if ($ward) {
             $response = [
                 'result' => 1,
                 'ward' => $ward,
             ];
-        }
-        else
-        {
+        } else {
             $response = ['result' => 0];
         }
         return $response;
@@ -95,17 +92,14 @@ class WardController extends Controller
      */
     public function update(UpdateWardRequest $request, Ward $ward)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
             $input = $request->validated();
-            $ward->update( Arr::only( $input, Ward::getFillables() ) );
+            $ward->update(Arr::only($input, Ward::getFillables()));
             DB::commit();
 
-            return response()->json(['success'=> 'Ward updated successfully!']);
-        }
-        catch(\Exception $e)
-        {
+            return response()->json(['success' => 'Ward updated successfully!']);
+        } catch (\Exception $e) {
             return $this->respondWithAjax($e, 'updating', 'Ward');
         }
     }
@@ -115,16 +109,13 @@ class WardController extends Controller
      */
     public function destroy(Ward $ward)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
             $ward->delete();
             DB::commit();
 
-            return response()->json(['success'=> 'Ward deleted successfully!']);
-        }
-        catch(\Exception $e)
-        {
+            return response()->json(['success' => 'Ward deleted successfully!']);
+        } catch (\Exception $e) {
             return $this->respondWithAjax($e, 'deleting', 'Ward');
         }
     }

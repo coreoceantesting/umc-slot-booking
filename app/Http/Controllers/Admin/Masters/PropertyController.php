@@ -10,6 +10,7 @@ use App\Models\PropertyType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use App\Models\Ward;
 
 class PropertyController extends Controller
 {
@@ -24,9 +25,13 @@ class PropertyController extends Controller
         $propertytype = DB::table('propertytype')->whereNull('deleted_at')->latest()->get();
 
         $data = Property::join('propertytype', 'propertytype.id', 'property.propertytypename')
-        ->get(['property.*', 'propertytype.name as Pname']);
+            ->get(['property.*', 'propertytype.name as Pname']);
 
-        return view('admin.masters.property', compact('propertytype', 'data'));
+
+        $wards = Ward::latest()->pluck('name', 'id');
+
+
+        return view('admin.masters.property', compact('propertytype', 'data', 'wards'));
     }
 
 
@@ -46,28 +51,32 @@ class PropertyController extends Controller
     {
         try {
             DB::beginTransaction();
-        
+
             $input = $request->validated();
-         
+
             $existingProperty = Property::withTrashed()
-                ->where('name', $input['name']) 
+                ->where('name', $input['name'])
                 ->first();
-    
+
+
+
+
             if ($existingProperty) {
                 Property::create($input);
             } else {
                 Property::create($input);
             }
-    
+
             DB::commit();
-    
+
+
             return response()->json(['success' => 'Property created successfully!']);
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->respondWithAjax($e, 'creating', 'Property');
         }
     }
-    
+
 
 
     /**
@@ -83,39 +92,63 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-       
-        if ($property)
-        {
+
+        if ($property) {
             return response()->json([
                 'result' => 1,
                 'property' => $property
             ]);
-        }
-        else
-        {
+        } else {
             return response()->json(['result' => 0]);
         }
-    }                                                                   
+    }
+
+    // public function editnewone(Property $property)
+    // {
+    //     // Check if property exists
+    //     if ($property) {
+    //         // Fetch wards from Ward model (you should have a `Ward` model)
+    //         $wards = Ward::pluck('name', 'id'); // This will return an associative array (id => name)
+
+    //         // Return the view with property and wards data
+    //         return response()->json([
+    //             'result' => 1,
+    //             'property' => $property
+    //         ]);
+    //         //dd($property);  // Dumps the entire property data and stops the script
+
+    //     } else {
+    //         return redirect()->route('property.index')->with('error', 'Property not found.');
+    //     }
+    // }
+
+
+
+
 
     public function update(UpdatePropertyRequest $request, Property $property)
+
     {
-        try
-        {
+        // dd($request);
+        try {
             DB::beginTransaction();
-            
+
             $input = $request->validated();
-            
+
+
             $property->update($input);
-            
+
+
             DB::commit();
 
             return response()->json(['success' => 'Property updated successfully!']);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             return response()->json(['error' => 'There was an error updating the property.']);
         }
     }
+
+
+
 
 
     /**
@@ -123,16 +156,13 @@ class PropertyController extends Controller
      */
     public function destroy(Property $property)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
             $property->delete();
             DB::commit();
 
-            return response()->json(['success'=> 'Property deleted successfully!']);
-        }
-        catch(\Exception $e)
-        {
+            return response()->json(['success' => 'Property deleted successfully!']);
+        } catch (\Exception $e) {
             return $this->respondWithAjax($e, 'deleting', 'Property');
         }
     }

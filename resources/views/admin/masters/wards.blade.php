@@ -18,12 +18,12 @@
                             <div class="mb-3 row">
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="name">Ward Name <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="name" name="name" type="text" pattern="[A-Za-z\s]+" placeholder="Enter Ward Name">
+                                    <input class="form-control" id="name" name="name" type="text"  placeholder="Enter Ward Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="initial" name="initial" pattern="[A-Za-z]+" type="text" placeholder="Enter Ward Initial">
+                                    <input class="form-control" id="initial" name="initial"  type="text" placeholder="Enter Ward Initial">
                                     <span class="text-danger is-invalid initial_err"></span>
                                 </div>
                             </div>
@@ -54,12 +54,12 @@
                             <div class="mb-3 row">
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="name">Ward Name <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="name" name="name" pattern="[A-Za-z\s]+" type="text" placeholder="Ward Name">
+                                    <input class="form-control" id="name" name="name"  type="text" placeholder="Ward Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="col-form-label" for="initial">Initial <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="initial" name="initial" pattern="[A-Za-z]+" type="text" placeholder="Enter Ward Initial">
+                                    <input class="form-control" id="initial" name="initial"  type="text" placeholder="Enter Ward Initial">
                                     <span class="text-danger is-invalid initial_err"></span>
                                 </div>
                             </div>

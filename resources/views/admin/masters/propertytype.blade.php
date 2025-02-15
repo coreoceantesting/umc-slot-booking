@@ -17,7 +17,7 @@
                         <div class="card-body">
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="name">PropertyType Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="name">PropertyType<span class="text-danger">*</span></label>
                                     <input class="form-control" id="name" name="name"  pattern="[A-Za-z\s]+" type="text" placeholder="Enter PropertyType Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
@@ -53,7 +53,7 @@
                             <input type="hidden" id="edit_model_id" name="edit_model_id" value="">
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="name">PropertyType Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="name">PropertyType<span class="text-danger">*</span></label>
                                     <input class="form-control" id="name" name="name" type="text" pattern="[A-Za-z\s]+" placeholder="PropertyType Name">
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>

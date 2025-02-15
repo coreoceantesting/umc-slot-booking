@@ -66,16 +66,18 @@
                                 <a href="{{ route('propertytype.index') }}" class="nav-link" data-key="t-horizontal">PropertyTypes</a>
                             </li>
                             @endcan
-                            @can('property.view')
-                            <li class="nav-item-sub {{ request()->routeIs('property.index') ? 'active' : '' }}">
-                                <a href="{{ route('property.index') }}" class="nav-link" data-key="t-horizontal">Property</a>
-                            </li>
-                            @endcan
+                            
                             @can('wards.view')
                             <li class="nav-item-sub {{ request()->routeIs('wards.index') ? 'active' : '' }}">
                                 <a href="{{ route('wards.index') }}" class="nav-link" data-key="t-horizontal">Wards</a>
                             </li>
                             @endcan
+                            @can('property.view')
+                            <li class="nav-item-sub {{ request()->routeIs('property.index') ? 'active' : '' }}">
+                                <a href="{{ route('property.index') }}" class="nav-link" data-key="t-horizontal">Property</a>
+                            </li>
+                            @endcan
+                            
                             @can('slot.view')
                             <li class="nav-item-sub {{ request()->routeIs('slot.index') ? 'active' : '' }}">
                                 <a href="{{ route('slot.index') }}" class="nav-link" data-key="t-horizontal">Slots</a>

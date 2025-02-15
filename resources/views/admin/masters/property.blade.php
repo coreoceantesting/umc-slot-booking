@@ -17,7 +17,7 @@
                             <div class="mb-3 row">
                                 <!-- Property Type Name -->
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="propertytypename">Property Type Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="propertytypename">Property Type  <span class="text-danger">*</span></label>
                                     <select class="form-control" name="propertytypename" id="propertytypename" required>
                                         <option value="">--Select Property Type--</option>
                                         @foreach ($propertytype as $property)
@@ -33,13 +33,27 @@
                                     <input class="form-control" id="name" name="name" pattern="[A-Za-z\s]+" type="text" placeholder="Enter Property Name" required>
                                     <span class="text-danger is-invalid name_err"></span>
                                 </div>
+
+                             
                     
                                 <!-- Address -->
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="address">Address <span class="text-danger">*</span></label>
+                                    <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
                                     <input class="form-control" id="address" name="address" type="text"  placeholder="Enter Property Address" required>
                                     <span class="text-danger is-invalid address_err"></span>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="wardtype">Ward<span class="text-danger">*</span></label>
+                                    <select id="wardtype" name="wardtype" class="form-select">
+                                        <option value="">--Select Ward--</option>
+                                        @foreach($wards as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger is-invalid address_err"></span>
+                                </div>
+                                
                             </div>
                         </div>
                     
@@ -70,8 +84,8 @@
                         <div class="card-body py-2">
                             <div class="mb-3 row">
                                 <div class="col-md-4">
-                                    <label class="col-form-label" for="propertytypename">Property Type Name <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="propertytypename" id="propertytypename" required>
+                                    <label class="col-form-label" for="propertytypename">Property Type  <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="propertytypename" id="propertytypename" required>
                                         <option value="">--Select Property Type--</option>
                                         @foreach ($propertytype as $property)
                                             <option value="{{ $property->id }}">{{ $property->name }}</option>
@@ -89,6 +103,20 @@
                                     <input class="form-control" id="address" name="address" type="text" placeholder="Enter Property Address" required>
                                     <span class="text-danger is-invalid address_err"></span>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-form-label" for="wardtype">Ward<span class="text-danger">*</span></label>
+                                    <select id="edit_wardtype" name="wardtype" class="form-select">
+                                        <option value="">--Select Ward--</option>
+                                        @foreach($wards as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                  
+                                    <span class="text-danger is-invalid wardtype_err"></span>
+                                </div>
+                                
+                                
                             </div>
                         </div>
                         <div class="card-footer">
@@ -162,6 +190,7 @@
         $("#addSubmit").prop('disabled', true);
 
         var formdata = new FormData(this);
+      
         $.ajax({
             url: '{{ route('property.store') }}',
             type: 'POST',
@@ -212,10 +241,12 @@
         success: function(data, textStatus, jqXHR) {
             editFormBehaviour(); 
             if (!data.error) {
+               
                 $("#editForm input[name='edit_model_id']").val(data.property.id);
                 $("#editForm select[name='propertytypename']").val(data.property.propertytypename); 
                 $("#editForm input[name='name']").val(data.property.name);
                 $("#editForm input[name='address']").val(data.property.address);
+                $("#editForm select[name='wardtype']").val(data.property.wardtype);
                 $('#editContainer').show(); 
             } else {
                 alert(data.error);
@@ -238,7 +269,6 @@
         $("#editSubmit").prop('disabled', true);
         var formdata = new FormData(this);
         formdata.append('_method', 'PUT');  
-
         var model_id = $('#edit_model_id').val();
         var url = "{{ route('property.update', ':model_id') }}";
         

@@ -35,7 +35,7 @@ Route::middleware(['guest', 'PreventBackHistory', 'firewall.all'])->group(functi
 Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(function () {
 
     // Auth Routes
-    Route::get('home', fn () => redirect()->route('dashboard'))->name('home');
+    Route::get('home', fn() => redirect()->route('dashboard'))->name('home');
     Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::post('logout', [App\Http\Controllers\Admin\AuthController::class, 'Logout'])->name('logout');
     Route::get('change-theme-mode', [App\Http\Controllers\Admin\DashboardController::class, 'changeThemeMode'])->name('change-theme-mode');
@@ -50,8 +50,8 @@ Route::middleware(['auth', 'PreventBackHistory', 'firewall.all'])->group(functio
     Route::resource('property', App\Http\Controllers\Admin\Masters\PropertyController::class);
     Route::resource('department', App\Http\Controllers\Admin\Masters\DepartmentController::class);
     Route::resource('slot', App\Http\Controllers\Admin\Masters\SlotController::class);
-    Route::resource('propertydetails',App\Http\Controllers\Admin\Masters\PropertyDetailsController::class);
-    Route::resource('adhaardetail',App\Http\Controllers\Admin\Masters\AdhaarDetailsController::class);
+    Route::resource('propertydetails', App\Http\Controllers\Admin\Masters\PropertyDetailsController::class);
+    Route::resource('adhaardetail', App\Http\Controllers\Admin\Masters\AdhaarDetailsController::class);
 
     // Slot Booking
     Route::resource('slotbooking', App\Http\Controllers\Admin\SlotBookingController::class);
